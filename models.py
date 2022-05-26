@@ -472,6 +472,7 @@ class SEIRSModel():
                         ylim=ylim, xlim=xlim, legend=legend, title=title, side_title=side_title, plot_percentages=plot_percentages)
 
         if(show):
+            pyplot.savefig("output/chart1.png") #saves the chart in the output folder
             pyplot.show()
 
         return fig, ax
@@ -509,6 +510,7 @@ class SEIRSModel():
                         ylim=ylim, xlim=xlim, legend=legend, title=title, side_title=side_title, plot_percentages=plot_percentages)
 
         if(show):
+            pyplot.savefig("output/chart2.png") #saves the chart in the output folder
             pyplot.show()
 
         return fig, ax
@@ -1608,6 +1610,7 @@ class SEIRSNetworkModel():
                         ylim=ylim, xlim=xlim, legend=legend, title=title, side_title=side_title, plot_percentages=plot_percentages)
 
         if(show):
+            pyplot.savefig("output/chart3.png") #saves the chart in the output folder
             pyplot.show()
 
         return fig, ax
@@ -1645,6 +1648,7 @@ class SEIRSNetworkModel():
                         ylim=ylim, xlim=xlim, legend=legend, title=title, side_title=side_title, plot_percentages=plot_percentages)
 
         if(show):
+            pyplot.savefig("output/chart4.png") #saves the chart in the output folder
             pyplot.show()
 
         return fig, ax
@@ -3165,6 +3169,7 @@ class ExtSEIRSNetworkModel():
                         ylim=ylim, xlim=xlim, legend=legend, title=title, side_title=side_title, plot_percentages=plot_percentages)
 
         if(show):
+            pyplot.savefig("output/chart5.png") #saves the chart in the output folder
             pyplot.show()
 
         return fig, ax
@@ -3212,6 +3217,7 @@ class ExtSEIRSNetworkModel():
                         ylim=ylim, xlim=xlim, legend=legend, title=title, side_title=side_title, plot_percentages=plot_percentages)
 
         if(show):
+            pyplot.savefig("output/chart6.png") #saves the chart in the output folder
             pyplot.show()
 
         return fig, ax
