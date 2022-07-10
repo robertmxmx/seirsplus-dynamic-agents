@@ -1,9 +1,11 @@
 from __future__ import division
 
 #new lists to hold data
-compliance_list_yes = [] #added
-compliance_list_no = [] #added
 day_list = [] #added
+numPositive_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+compliance_list_yes = []
+compliance_list_no = []
+agent_base_compliance = []
 
 import pickle
 import numpy
@@ -25,8 +27,23 @@ def run_tti_sim(model, T, max_dt=None,
                 isolation_compliance_positive_contact=[None], isolation_compliance_positive_contactgroupmate=[None],
                 isolation_lag_symptomatic=1, isolation_lag_positive=1, isolation_lag_contact=0, isolation_groups=None,
                 cadence_testing_days=None, cadence_cycle_length=28, temporal_falseneg_rates=None,
-                backlog_skipped_intervals=False):
+                backlog_skipped_intervals=False, base_testing_compliance_rate_symptomatic = 0, base_testing_compliance_rate_traced = 0, base_testing_compliance_rate_random = 0,
+                base_tracing_compliance_rate = 0, base_isolation_compliance_rate_symptomatic_individual = 0, base_isolation_compliance_rate_symptomatic_groupmate = 0, base_isolation_compliance_rate_positive_individual = 0,
+                base_isolation_compliance_rate_positive_groupmate = 0, base_isolation_compliance_rate_positive_contact = 0, base_isolation_compliance_rate_positive_contactgroupmate = 0
+                ):
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    N = len(model.G)
+    agent_base_compliance = numpy.random.rand(N)
+    testing_compliance_symptomatic = (agent_base_compliance < base_testing_compliance_rate_symptomatic)
+    testing_compliance_traced = (agent_base_compliance < base_testing_compliance_rate_traced)
+    testing_compliance_random = (agent_base_compliance < base_testing_compliance_rate_random)
+    tracing_compliance = (agent_base_compliance < base_tracing_compliance_rate)
+    isolation_compliance_symptomatic_individual = (agent_base_compliance < base_isolation_compliance_rate_symptomatic_individual)
+    isolation_compliance_symptomatic_groupmate = (agent_base_compliance < base_isolation_compliance_rate_symptomatic_groupmate)
+    isolation_compliance_positive_individual = (agent_base_compliance < base_isolation_compliance_rate_positive_individual)
+    isolation_compliance_positive_groupmate = (agent_base_compliance < base_isolation_compliance_rate_positive_groupmate)
+    isolation_compliance_positive_contact = (agent_base_compliance < base_isolation_compliance_rate_positive_contact)
+    isolation_compliance_positive_contactgroupmate = (agent_base_compliance < base_isolation_compliance_rate_positive_contactgroupmate)
 
     # Testing cadences involve a repeating 28 day cycle starting on a Monday
     # (0:Mon, 1:Tue, 2:Wed, 3:Thu, 4:Fri, 5:Sat, 6:Sun, 7:Mon, 8:Tues, ...)
@@ -94,8 +111,62 @@ def run_tti_sim(model, T, max_dt=None,
 
     model.tmax = T
     running = True
-    numPositive_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     while running:
+
+        def addition():
+            # our addition starts here
+            print(str(sum(numPositive_list[-14:]) / N * 100) + "% cummulative 2 week positive test")
+            print(numPositive_list)
+            new_testing_compliance_symptomatic = (numpy.random.rand(N) < min(1, 0.3 + (sum(numPositive_list[-14:]) / N * 3)))
+            #print(str(min(1, 0.3 + (sum(numPositive_list[-14:]) / N * 3))) + "aaaaa")
+            new_testing_compliance_rate_traced = base_testing_compliance_rate_traced
+            new_testing_compliance_random = (numpy.random.rand(N) < min(1, 0.3 + (sum(numPositive_list[-14:]) / N * 3)))
+            new_tracing_compliance_rate = base_tracing_compliance_rate
+            new_isolation_compliance_rate_symptomatic_individual = base_isolation_compliance_rate_symptomatic_individual
+            new_isolation_compliance_rate_symptomatic_groupmate = base_isolation_compliance_rate_symptomatic_groupmate
+            new_isolation_compliance_rate_positive_individual = base_isolation_compliance_rate_positive_individual
+            new_isolation_compliance_rate_positive_groupmate = base_isolation_compliance_rate_positive_groupmate
+            new_isolation_compliance_rate_positive_contact = base_isolation_compliance_rate_positive_contact
+            new_isolation_compliance_rate_positive_contactgroupmate = base_isolation_compliance_rate_positive_contactgroupmate
+
+            for i in range(len(agent_base_compliance)):
+                testing_compliance_symptomatic = (agent_base_compliance < new_testing_compliance_symptomatic)
+                testing_compliance_traced = (agent_base_compliance < new_testing_compliance_rate_traced)
+                testing_compliance_random = (agent_base_compliance < new_testing_compliance_random)
+                tracing_compliance = (agent_base_compliance < new_tracing_compliance_rate)
+                isolation_compliance_symptomatic_individual = (agent_base_compliance < new_isolation_compliance_rate_symptomatic_individual)
+                isolation_compliance_symptomatic_groupmate = (agent_base_compliance < new_isolation_compliance_rate_symptomatic_groupmate)
+                isolation_compliance_positive_individual = (agent_base_compliance < new_isolation_compliance_rate_positive_individual)
+                isolation_compliance_positive_groupmate = (agent_base_compliance < new_isolation_compliance_rate_positive_groupmate)
+                isolation_compliance_positive_contact = (agent_base_compliance < new_isolation_compliance_rate_positive_contact)
+                isolation_compliance_positive_contactgroupmate = (agent_base_compliance < new_isolation_compliance_rate_positive_contactgroupmate)
+
+
+            #for agent in range(N):
+            #    for edge in model.G.edges(agent):
+            #        if model.X[edge[1]] >= 11:  # in isolation
+            #            testing_compliance_random[agent] = 1
+                    # for edge_of_edge in model.G.edges(edge[1]):
+                    #    if model.X[edge_of_edge[1]] >= 11:  # in isolation
+                    #       testing_compliance_random[agent] = 1
+
+            #for i in range(N):
+            #    if numpy.random.rand() < testing_compliance_random[i]:
+            #        testing_compliance_random[i] = 1
+            #    else:
+            #        testing_compliance_random[i] = 0
+
+            # for agent in range(N):
+            #     testing_compliance_random[agent] = 0
+            #     for edge in model.G.edges(agent):
+            #         if model.X[edge[1]] >= 11:  # in isolation
+            #             testing_compliance_random[agent] = 1
+            # our addition ends here
+            record_model(model, model.t)
+            compliance_list_yes.append(numpy.count_nonzero(testing_compliance_random == 1))
+            compliance_list_no.append(numpy.count_nonzero(testing_compliance_random == 0))
+            day_list.append(int(model.t))
+
 
         running = model.run_iteration(max_dt=max_dt)
 
@@ -119,6 +190,8 @@ def run_tti_sim(model, T, max_dt=None,
 
         if (int(model.t) != int(timeOfLastIntervention)):
 
+            addition() #run additions here
+
             cadenceDayNumbers = [int(model.t % cadence_cycle_length)]
 
             if (backlog_skipped_intervals):
@@ -138,52 +211,6 @@ def run_tti_sim(model, T, max_dt=None,
                     interventionStartTime = model.t
 
                 if (interventionOn):
-
-                    # our addition starts here
-                    N = len(model.G)
-                    print(str(sum(numPositive_list[-14:]) / N * 100) + "% cummulative 2 week positive test")
-                    print(numPositive_list)
-
-                    # isolation_compliance_positive_individual
-                    # testing_compliance_random
-
-                    # testing_compliance_symptomatic = (numpy.random.rand(N) < min(0.5, 0.01 + sum(numPositive_list[-14:]) / N * 20))
-                    # testing_compliance_symptomatic = (numpy.random.rand(N) < 0.3)
-                    # testing_compliance_random n= (umpy.random.rand(N) < min(1, sum(numPositive_list[-14:]) / N * 20))
-                    # testing_compliance_random = (numpy.random.rand(N) < 1)
-
-                    # testing_compliance_symptomatic = (numpy.random.rand(N) < 0.3)
-                    # testing_compliance_symptomatic = (numpy.random.rand(N) > 1)
-                    # print(testing_compliance_symptomatic)
-
-                    # testing_compliance_symptomatic = (numpy.random.rand(N) < 0.2)
-                    testing_compliance_random = (numpy.random.rand(N) < 0)
-
-                    # for agent in range(N):
-                    #     for edge in model.G.edges(agent):
-                    #         if model.X[edge[1]] >= 11:  # in isolation
-                    #             testing_compliance_random[agent] = 0
-                    #         for edge_of_edge in model.G.edges(edge[1]):
-                    #             if model.X[edge_of_edge[1]] >= 11:  # in isolation
-                    #                 testing_compliance_random[agent] = 0
-
-                    # for i in range(N):
-                    #    if numpy.random.rand() < testing_compliance_random[i]:
-                    #        testing_compliance_random[i] = 1
-                    #    else:
-                    #        testing_compliance_random[i] = 0
-
-                    # for agent in range(N):
-                    #     testing_compliance_random[agent] = 0
-                    #     for edge in model.G.edges(agent):
-                    #         if model.X[edge[1]] >= 11:  # in isolation
-                    #             testing_compliance_random[agent] = 1
-
-                    record_model(model, model.t)
-                    compliance_list_yes.append(numpy.count_nonzero(testing_compliance_random == 1))
-                    compliance_list_no.append(numpy.count_nonzero(testing_compliance_random == 0))
-                    day_list.append(int(model.t))
-                    # our addition ends here
 
                     print("[INTERVENTIONS @ t = %.2f (%d (%.2f%%) infected)]" % (
                     model.t, currentNumInfected, currentPctInfected * 100))
@@ -404,7 +431,8 @@ def run_tti_sim(model, T, max_dt=None,
                                 # The tested node has returned a positive test
                                 # +++++++++++++++++++++++++++++++++++++++++++++
                                 numPositive += 1
-                                numPositive_list.append(numPositive)
+                                numPositive_list.append(numPositive) #addition here
+
                                 if (i < len(symptomaticSelection)):
                                     numPositive_symptomatic += 1
                                 elif (i < len(symptomaticSelection) + len(tracingSelection)):
@@ -504,7 +532,7 @@ def run_tti_sim(model, T, max_dt=None,
 
     interventionInterval = (interventionStartTime, model.t)
 
-    # our additios start here again
+    # our additions start here again
     yes = numpy.array(compliance_list_yes)
     no = numpy.array(compliance_list_no)
     total = yes + no

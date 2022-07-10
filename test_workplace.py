@@ -5,7 +5,7 @@ from utilities import *
 import networkx
 import matplotlib.pyplot as pyplot
 
-NUM_COHORTS              = 1
+NUM_COHORTS              = 10
 NUM_NODES_PER_COHORT     = 30
 NUM_TEAMS_PER_COHORT     = 2
 
@@ -59,7 +59,7 @@ PCT_ASYMPTOMATIC = 0.25
 PCT_HOSPITALIZED = 0.035
 PCT_FATALITY = 0.08
 
-R0_mean     = 2.0
+R0_mean     = 3.0
 R0_coeffvar = 0.2
 
 R0 = gamma_dist(R0_mean, R0_coeffvar, N)
@@ -90,9 +90,7 @@ ISOLATION_LAG_CONTACT           = 0             # number of days between a conta
 TESTING_COMPLIANCE_RATE_SYMPTOMATIC                  = 0.3
 TESTING_COMPLIANCE_RATE_TRACED                       = 0.0
 TESTING_COMPLIANCE_RATE_RANDOM                       = 0.3  # Assume employee testing is mandatory, so 100% compliance
-
 TRACING_COMPLIANCE_RATE                              = 0.0
-
 ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL     = 0.0
 ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_GROUPMATE      = 0.0
 ISOLATION_COMPLIANCE_RATE_POSITIVE_INDIVIDUAL        = 1
@@ -100,18 +98,7 @@ ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE         = 0.0  # Isolate teams with
 ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT           = 0.0
 ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE  = 0.0
 
-TESTING_COMPLIANCE_RANDOM                        = (numpy.random.rand(N) < TESTING_COMPLIANCE_RATE_RANDOM)
-TESTING_COMPLIANCE_TRACED                        = (numpy.random.rand(N) < TESTING_COMPLIANCE_RATE_TRACED)
-TESTING_COMPLIANCE_SYMPTOMATIC                   = (numpy.random.rand(N) < TESTING_COMPLIANCE_RATE_SYMPTOMATIC)
-
-TRACING_COMPLIANCE                               = (numpy.random.rand(N) < TRACING_COMPLIANCE_RATE)
-
-ISOLATION_COMPLIANCE_SYMPTOMATIC_INDIVIDUAL      = (numpy.random.rand(N) < ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL)
-ISOLATION_COMPLIANCE_SYMPTOMATIC_GROUPMATE       = (numpy.random.rand(N) < ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_GROUPMATE)
-ISOLATION_COMPLIANCE_POSITIVE_INDIVIDUAL         = (numpy.random.rand(N) < ISOLATION_COMPLIANCE_RATE_POSITIVE_INDIVIDUAL)
-ISOLATION_COMPLIANCE_POSITIVE_GROUPMATE          = (numpy.random.rand(N) < ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE)
-ISOLATION_COMPLIANCE_POSITIVE_CONTACT            = (numpy.random.rand(N) < ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT)
-ISOLATION_COMPLIANCE_POSITIVE_CONTACTGROUPMATE   = (numpy.random.rand(N) < ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE)
+#TESTING_COMPLIANCE_SYMPTOMATIC                   = (numpy.random.rand(N) < TESTING_COMPLIANCE_RATE_SYMPTOMATIC)
 
 
 model = ExtSEIRSNetworkModel(G=G_baseline, p=P_GLOBALINTXN,
@@ -122,19 +109,16 @@ model = ExtSEIRSNetworkModel(G=G_baseline, p=P_GLOBALINTXN,
                               initE=INIT_EXPOSED)
 
 T = 500
+isolation_groups = list(teams.values())
 
 run_tti_sim(model, T,
             intervention_start_pct_infected=INTERVENTION_START_PCT_INFECTED, average_introductions_per_day=AVERAGE_INTRODUCTIONS_PER_DAY,
-            testing_cadence=TESTING_CADENCE, pct_tested_per_day=PCT_TESTED_PER_DAY, test_falseneg_rate=TEST_FALSENEG_RATE,
-            testing_compliance_symptomatic=TESTING_COMPLIANCE_SYMPTOMATIC, max_pct_tests_for_symptomatics=MAX_PCT_TESTS_FOR_SYMPTOMATICS,
-            testing_compliance_traced=TESTING_COMPLIANCE_TRACED, max_pct_tests_for_traces=MAX_PCT_TESTS_FOR_TRACES,
-            testing_compliance_random=TESTING_COMPLIANCE_RANDOM, random_testing_degree_bias=RANDOM_TESTING_DEGREE_BIAS,
-            tracing_compliance=TRACING_COMPLIANCE, pct_contacts_to_trace=PCT_CONTACTS_TO_TRACE, tracing_lag=TRACING_LAG,
-            isolation_compliance_symptomatic_individual=ISOLATION_COMPLIANCE_SYMPTOMATIC_INDIVIDUAL, isolation_compliance_symptomatic_groupmate=ISOLATION_COMPLIANCE_SYMPTOMATIC_GROUPMATE,
-            isolation_compliance_positive_individual=ISOLATION_COMPLIANCE_POSITIVE_INDIVIDUAL, isolation_compliance_positive_groupmate=ISOLATION_COMPLIANCE_POSITIVE_GROUPMATE,
-            isolation_compliance_positive_contact=ISOLATION_COMPLIANCE_POSITIVE_CONTACT, isolation_compliance_positive_contactgroupmate=ISOLATION_COMPLIANCE_POSITIVE_CONTACTGROUPMATE,
+            testing_cadence=TESTING_CADENCE, pct_tested_per_day=PCT_TESTED_PER_DAY, test_falseneg_rate=TEST_FALSENEG_RATE, max_pct_tests_for_symptomatics=MAX_PCT_TESTS_FOR_SYMPTOMATICS, max_pct_tests_for_traces=MAX_PCT_TESTS_FOR_TRACES,
+            random_testing_degree_bias=RANDOM_TESTING_DEGREE_BIAS, pct_contacts_to_trace=PCT_CONTACTS_TO_TRACE, tracing_lag=TRACING_LAG,
             isolation_lag_symptomatic=ISOLATION_LAG_SYMPTOMATIC, isolation_lag_positive=ISOLATION_LAG_POSITIVE,
-            isolation_groups=list(teams.values()))
+            isolation_groups=list(teams.values()), base_testing_compliance_rate_symptomatic = TESTING_COMPLIANCE_RATE_SYMPTOMATIC, base_testing_compliance_rate_traced = TESTING_COMPLIANCE_RATE_TRACED, base_testing_compliance_rate_random = TESTING_COMPLIANCE_RATE_RANDOM,
+                base_tracing_compliance_rate = TRACING_COMPLIANCE_RATE, base_isolation_compliance_rate_symptomatic_individual = ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL, base_isolation_compliance_rate_symptomatic_groupmate = ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_GROUPMATE, base_isolation_compliance_rate_positive_individual = ISOLATION_COMPLIANCE_RATE_POSITIVE_INDIVIDUAL,
+                base_isolation_compliance_rate_positive_groupmate = ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE, base_isolation_compliance_rate_positive_contact = ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT, base_isolation_compliance_rate_positive_contactgroupmate = ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE)
 
 
 #ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE                       = 0  # Assume employee testing is mandatory, so 100% compliance
