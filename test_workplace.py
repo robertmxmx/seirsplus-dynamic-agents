@@ -89,7 +89,7 @@ ISOLATION_LAG_CONTACT           = 0             # number of days between a conta
 
 TESTING_COMPLIANCE_RATE_SYMPTOMATIC                  = 0.3
 TESTING_COMPLIANCE_RATE_TRACED                       = 0.0
-TESTING_COMPLIANCE_RATE_RANDOM                       = 0.3  # Assume employee testing is mandatory, so 100% compliance
+TESTING_COMPLIANCE_RATE_RANDOM                       = 0.8  # Assume employee testing is mandatory, so 100% compliance
 TRACING_COMPLIANCE_RATE                              = 0.0
 ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL     = 0.0
 ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_GROUPMATE      = 0.0
