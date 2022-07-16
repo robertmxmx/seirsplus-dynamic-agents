@@ -130,16 +130,16 @@ def run_tti_sim(model, T, max_dt=None,
             new_isolation_compliance_rate_positive_contactgroupmate = base_isolation_compliance_rate_positive_contactgroupmate
 
             for i in range(len(agent_base_compliance)):
-                testing_compliance_symptomatic = (agent_base_compliance < new_testing_compliance_symptomatic)
-                testing_compliance_traced = (agent_base_compliance < new_testing_compliance_rate_traced)
-                testing_compliance_random = (agent_base_compliance < new_testing_compliance_random)
-                tracing_compliance = (agent_base_compliance < new_tracing_compliance_rate)
-                isolation_compliance_symptomatic_individual = (agent_base_compliance < new_isolation_compliance_rate_symptomatic_individual)
-                isolation_compliance_symptomatic_groupmate = (agent_base_compliance < new_isolation_compliance_rate_symptomatic_groupmate)
-                isolation_compliance_positive_individual = (agent_base_compliance < new_isolation_compliance_rate_positive_individual)
-                isolation_compliance_positive_groupmate = (agent_base_compliance < new_isolation_compliance_rate_positive_groupmate)
-                isolation_compliance_positive_contact = (agent_base_compliance < new_isolation_compliance_rate_positive_contact)
-                isolation_compliance_positive_contactgroupmate = (agent_base_compliance < new_isolation_compliance_rate_positive_contactgroupmate)
+                testing_compliance_symptomatic = (agent_base_compliance <= new_testing_compliance_symptomatic)
+                testing_compliance_traced = (agent_base_compliance <= new_testing_compliance_rate_traced)
+                testing_compliance_random = (agent_base_compliance <= new_testing_compliance_random)
+                tracing_compliance = (agent_base_compliance <= new_tracing_compliance_rate)
+                isolation_compliance_symptomatic_individual = (agent_base_compliance <= new_isolation_compliance_rate_symptomatic_individual)
+                isolation_compliance_symptomatic_groupmate = (agent_base_compliance <= new_isolation_compliance_rate_symptomatic_groupmate)
+                isolation_compliance_positive_individual = (agent_base_compliance <= new_isolation_compliance_rate_positive_individual)
+                isolation_compliance_positive_groupmate = (agent_base_compliance <= new_isolation_compliance_rate_positive_groupmate)
+                isolation_compliance_positive_contact = (agent_base_compliance <= new_isolation_compliance_rate_positive_contact)
+                isolation_compliance_positive_contactgroupmate = (agent_base_compliance <= new_isolation_compliance_rate_positive_contactgroupmate)
 
 
             #for agent in range(N):
