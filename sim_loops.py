@@ -29,7 +29,7 @@ def run_tti_sim(model, T, max_dt=None,
                 cadence_testing_days=None, cadence_cycle_length=28, temporal_falseneg_rates=None,
                 backlog_skipped_intervals=False, base_testing_compliance_rate_symptomatic = 0, base_testing_compliance_rate_traced = 0, base_testing_compliance_rate_random = 0,
                 base_tracing_compliance_rate = 0, base_isolation_compliance_rate_symptomatic_individual = 0, base_isolation_compliance_rate_symptomatic_groupmate = 0, base_isolation_compliance_rate_positive_individual = 0,
-                base_isolation_compliance_rate_positive_groupmate = 0, base_isolation_compliance_rate_positive_contact = 0, base_isolation_compliance_rate_positive_contactgroupmate = 0
+                base_isolation_compliance_rate_positive_groupmate = 0, base_isolation_compliance_rate_positive_contact = 0, base_isolation_compliance_rate_positive_contactgroupmate = 0, produce_image = False
                 ):
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     N = len(model.G)
@@ -117,14 +117,14 @@ def run_tti_sim(model, T, max_dt=None,
             # our addition starts here
             print(str(sum(numPositive_list[-14:]) / N * 100) + "% cummulative 2 week positive test")
             print(numPositive_list)
-            new_testing_compliance_symptomatic = (numpy.random.rand(N) < min(1, 0.3 + (sum(numPositive_list[-14:]) / N * 3)))
+            new_testing_compliance_symptomatic = (numpy.random.rand(N) < min(1, 0.5 + ((1 - 0.5) * (sum(numPositive_list[-14:]) / N * 2))))
             #print(str(min(1, 0.3 + (sum(numPositive_list[-14:]) / N * 3))) + "aaaaa")
             new_testing_compliance_rate_traced = base_testing_compliance_rate_traced
-            new_testing_compliance_random = (numpy.random.rand(N) < min(1, 0.8 + (sum(numPositive_list[-14:]) / N * 1)))
+            new_testing_compliance_random = (numpy.random.rand(N) < min(1, 0.5 + ((1 - 0.5) * (sum(numPositive_list[-14:]) / N * 2))))
             new_tracing_compliance_rate = base_tracing_compliance_rate
             new_isolation_compliance_rate_symptomatic_individual = base_isolation_compliance_rate_symptomatic_individual
             new_isolation_compliance_rate_symptomatic_groupmate = base_isolation_compliance_rate_symptomatic_groupmate
-            new_isolation_compliance_rate_positive_individual = (numpy.random.rand(N) < min(1, 0.8 + (sum(numPositive_list[-14:]) / N * 1)))
+            new_isolation_compliance_rate_positive_individual = (numpy.random.rand(N) < min(1, 0.8 + ((1 - 0.8) * (sum(numPositive_list[-14:]) / N * 2))))
             new_isolation_compliance_rate_positive_groupmate = base_isolation_compliance_rate_positive_groupmate
             new_isolation_compliance_rate_positive_contact = base_isolation_compliance_rate_positive_contact
             new_isolation_compliance_rate_positive_contactgroupmate = base_isolation_compliance_rate_positive_contactgroupmate
@@ -162,7 +162,8 @@ def run_tti_sim(model, T, max_dt=None,
             #         if model.X[edge[1]] >= 11:  # in isolation
             #             testing_compliance_random[agent] = 1
             # our addition ends here
-            record_model(model, model.t)
+            if produce_image:
+                record_model(model, model.t)
             compliance_list_yes.append(numpy.count_nonzero(testing_compliance_random == 1))
             compliance_list_no.append(numpy.count_nonzero(testing_compliance_random == 0))
             day_list.append(int(model.t))
@@ -527,8 +528,15 @@ def run_tti_sim(model, T, max_dt=None,
                     print("\t" + str(numIsolated) + " entered isolation")
 
                 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+        old_t = model.t
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #new addition
+    print("days till finish :" + str( int(old_t)+1))
+    Susceptible = 0
+    for i in range(len(model.G.nodes)):
+        if model.X[i] == 1 or model.X[i] == 11:
+            Susceptible +=1
+    print("percentage of agents that were infected: " + str(int(len(model.G.nodes)-Susceptible*100/len(model.G.nodes))) + "%")
 
     interventionInterval = (interventionStartTime, model.t)
 

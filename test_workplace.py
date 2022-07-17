@@ -5,8 +5,8 @@ from utilities import *
 import networkx
 import matplotlib.pyplot as pyplot
 
-NUM_COHORTS              = 10
-NUM_NODES_PER_COHORT     = 30
+NUM_COHORTS              = 5
+NUM_NODES_PER_COHORT     = 20
 NUM_TEAMS_PER_COHORT     = 2
 
 MEAN_INTRACOHORT_DEGREE  = 6
@@ -73,7 +73,7 @@ P_GLOBALINTXN = 0.4
 INTERVENTION_START_PCT_INFECTED = 0/100
 AVERAGE_INTRODUCTIONS_PER_DAY   = 0         # expected number of new exogenous exposures per day
 
-TESTING_CADENCE                 = 'workday'      # how often to do testing (other than self-reporting symptomatics who can get tested any day)
+TESTING_CADENCE                 = 'semiweekly'      # how often to do testing (other than self-reporting symptomatics who can get tested any day)
 PCT_TESTED_PER_DAY              = 1.0           # max daily test allotment defined as a percent of population size
 TEST_FALSENEG_RATE              = 'temporal'    # test false negative rate, will use FN rate that varies with disease time
 MAX_PCT_TESTS_FOR_SYMPTOMATICS  = 1.0           # max percent of daily test allotment to use on self-reporting symptomatics
@@ -93,7 +93,7 @@ TESTING_COMPLIANCE_RATE_RANDOM                       = 0.8  # Assume employee te
 TRACING_COMPLIANCE_RATE                              = 0.0
 ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL     = 0.0
 ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_GROUPMATE      = 0.0
-ISOLATION_COMPLIANCE_RATE_POSITIVE_INDIVIDUAL        = 1
+ISOLATION_COMPLIANCE_RATE_POSITIVE_INDIVIDUAL        = 0.8
 ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE         = 0.0  # Isolate teams with a positive member, but suppose 20% of employees are essential workforce
 ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT           = 0.0
 ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE  = 0.0
@@ -111,6 +111,8 @@ model = ExtSEIRSNetworkModel(G=G_baseline, p=P_GLOBALINTXN,
 T = 500
 isolation_groups = list(teams.values())
 
+bool_produce_image = True
+
 run_tti_sim(model, T,
             intervention_start_pct_infected=INTERVENTION_START_PCT_INFECTED, average_introductions_per_day=AVERAGE_INTRODUCTIONS_PER_DAY,
             testing_cadence=TESTING_CADENCE, pct_tested_per_day=PCT_TESTED_PER_DAY, test_falseneg_rate=TEST_FALSENEG_RATE, max_pct_tests_for_symptomatics=MAX_PCT_TESTS_FOR_SYMPTOMATICS, max_pct_tests_for_traces=MAX_PCT_TESTS_FOR_TRACES,
@@ -118,7 +120,7 @@ run_tti_sim(model, T,
             isolation_lag_symptomatic=ISOLATION_LAG_SYMPTOMATIC, isolation_lag_positive=ISOLATION_LAG_POSITIVE,
             isolation_groups=list(teams.values()), base_testing_compliance_rate_symptomatic = TESTING_COMPLIANCE_RATE_SYMPTOMATIC, base_testing_compliance_rate_traced = TESTING_COMPLIANCE_RATE_TRACED, base_testing_compliance_rate_random = TESTING_COMPLIANCE_RATE_RANDOM,
                 base_tracing_compliance_rate = TRACING_COMPLIANCE_RATE, base_isolation_compliance_rate_symptomatic_individual = ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL, base_isolation_compliance_rate_symptomatic_groupmate = ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_GROUPMATE, base_isolation_compliance_rate_positive_individual = ISOLATION_COMPLIANCE_RATE_POSITIVE_INDIVIDUAL,
-                base_isolation_compliance_rate_positive_groupmate = ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE, base_isolation_compliance_rate_positive_contact = ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT, base_isolation_compliance_rate_positive_contactgroupmate = ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE)
+                base_isolation_compliance_rate_positive_groupmate = ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE, base_isolation_compliance_rate_positive_contact = ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT, base_isolation_compliance_rate_positive_contactgroupmate = ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE, produce_image = bool_produce_image)
 
 
 #ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE                       = 0  # Assume employee testing is mandatory, so 100% compliance
