@@ -5,9 +5,9 @@ from utilities import *
 import networkx
 import matplotlib.pyplot as pyplot
 
-NUM_COHORTS              = 5
-NUM_NODES_PER_COHORT     = 20
-NUM_TEAMS_PER_COHORT     = 2
+NUM_COHORTS              = 3 #faculty
+NUM_NODES_PER_COHORT     = 50 #people
+NUM_TEAMS_PER_COHORT     = 2 #classes
 
 MEAN_INTRACOHORT_DEGREE  = 6
 PCT_CONTACTS_INTERCOHORT = 0.1
