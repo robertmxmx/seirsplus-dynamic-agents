@@ -29,7 +29,7 @@ def run_tti_sim(model, T, max_dt=None,
                 cadence_testing_days=None, cadence_cycle_length=28, temporal_falseneg_rates=None,
                 backlog_skipped_intervals=False, base_testing_compliance_rate_symptomatic = 0, base_testing_compliance_rate_traced = 0, base_testing_compliance_rate_random = 0,
                 base_tracing_compliance_rate = 0, base_isolation_compliance_rate_symptomatic_individual = 0, base_isolation_compliance_rate_symptomatic_groupmate = 0, base_isolation_compliance_rate_positive_individual = 0,
-                base_isolation_compliance_rate_positive_groupmate = 0, base_isolation_compliance_rate_positive_contact = 0, base_isolation_compliance_rate_positive_contactgroupmate = 0, produce_image = False
+                base_isolation_compliance_rate_positive_groupmate = 0, base_isolation_compliance_rate_positive_contact = 0, base_isolation_compliance_rate_positive_contactgroupmate = 0, produce_image = False, save_folder = None
                 ):
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     N = len(model.G)
@@ -163,7 +163,7 @@ def run_tti_sim(model, T, max_dt=None,
             #             testing_compliance_random[agent] = 1
             # our addition ends here
             if produce_image:
-                record_model(model, model.t)
+                record_model(model, model.t, save_folder)
             compliance_list_yes.append(numpy.count_nonzero(testing_compliance_random == 1))
             compliance_list_no.append(numpy.count_nonzero(testing_compliance_random == 0))
             day_list.append(int(model.t))
@@ -552,14 +552,14 @@ def run_tti_sim(model, T, max_dt=None,
     matplotlib.pyplot.ylabel("agents")
     matplotlib.pyplot.xlabel("day")
 
-    matplotlib.pyplot.savefig("output/compliance.png")
+    matplotlib.pyplot.savefig(save_folder + "/compliance.png")
 
     matplotlib.pyplot.show()
 
     return interventionInterval
 
 
-def record_model(model, time):
+def record_model(model, time, save_folder):
     colour_map = []
     label_list = []
 
@@ -605,7 +605,7 @@ def record_model(model, time):
     G = 1
 
     matplotlib.pyplot.legend(scatterpoints=1)
-    matplotlib.pyplot.savefig("output/"+str(time) + ".png")
+    matplotlib.pyplot.savefig(save_folder + "/"+str(time) + ".png")
     matplotlib.pyplot.cla()
     # matplotlib.pyplot.show()
     # print(model.G.nodes)

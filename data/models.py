@@ -3169,7 +3169,7 @@ class ExtSEIRSNetworkModel():
                         ylim=ylim, xlim=xlim, legend=legend, title=title, side_title=side_title, plot_percentages=plot_percentages)
 
         if(show):
-            pyplot.savefig("output/chart5.png") #saves the chart in the output folder
+            pyplot.savefig("result/chart5.png") #saves the chart in the output folder
             pyplot.show()
 
         return fig, ax
@@ -3191,7 +3191,7 @@ class ExtSEIRSNetworkModel():
                                 shaded_reference_results=None, shaded_reference_label='reference', 
                                 vlines=[], vline_colors=[], vline_styles=[], vline_labels=[],
                                 ylim=None, xlim=None, legend=True, title=None, side_title=None, plot_percentages=True,
-                                figsize=(12,8), use_seaborn=True, show=True):
+                                figsize=(12,8), use_seaborn=True, show=True, save_folder = None):
 
         import matplotlib.pyplot as pyplot
 
@@ -3217,7 +3217,7 @@ class ExtSEIRSNetworkModel():
                         ylim=ylim, xlim=xlim, legend=legend, title=title, side_title=side_title, plot_percentages=plot_percentages)
 
         if(show):
-            pyplot.savefig("output/chart6.png") #saves the chart in the output folder
+            pyplot.savefig(save_folder + "\chart6.png") #saves the chart in the output folder
             pyplot.show()
 
         return fig, ax

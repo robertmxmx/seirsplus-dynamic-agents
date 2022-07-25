@@ -3,10 +3,12 @@ from networks import *
 from sim_loops import *
 from utilities import *
 import networkx
+import os
+import datetime
 import matplotlib.pyplot as pyplot
 
 NUM_COHORTS              = 3 #faculty
-NUM_NODES_PER_COHORT     = 50 #people
+NUM_NODES_PER_COHORT     = 20 #people
 NUM_TEAMS_PER_COHORT     = 2 #classes
 
 MEAN_INTRACOHORT_DEGREE  = 6
@@ -113,6 +115,18 @@ isolation_groups = list(teams.values())
 
 bool_produce_image = True
 
+date_time = str(datetime.datetime.today())
+date_time = date_time.replace(" ","-")
+date_time = date_time.replace(":","-")
+date_time = date_time.split(".")[0]
+
+save_folder = os.path.dirname(__file__)
+save_folder = save_folder.split("data")[0]
+save_folder += "\output_results\."
+save_folder = save_folder[:-1]
+save_folder += date_time
+os.makedirs(save_folder)
+
 run_tti_sim(model, T,
             intervention_start_pct_infected=INTERVENTION_START_PCT_INFECTED, average_introductions_per_day=AVERAGE_INTRODUCTIONS_PER_DAY,
             testing_cadence=TESTING_CADENCE, pct_tested_per_day=PCT_TESTED_PER_DAY, test_falseneg_rate=TEST_FALSENEG_RATE, max_pct_tests_for_symptomatics=MAX_PCT_TESTS_FOR_SYMPTOMATICS, max_pct_tests_for_traces=MAX_PCT_TESTS_FOR_TRACES,
@@ -120,7 +134,7 @@ run_tti_sim(model, T,
             isolation_lag_symptomatic=ISOLATION_LAG_SYMPTOMATIC, isolation_lag_positive=ISOLATION_LAG_POSITIVE,
             isolation_groups=list(teams.values()), base_testing_compliance_rate_symptomatic = TESTING_COMPLIANCE_RATE_SYMPTOMATIC, base_testing_compliance_rate_traced = TESTING_COMPLIANCE_RATE_TRACED, base_testing_compliance_rate_random = TESTING_COMPLIANCE_RATE_RANDOM,
                 base_tracing_compliance_rate = TRACING_COMPLIANCE_RATE, base_isolation_compliance_rate_symptomatic_individual = ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL, base_isolation_compliance_rate_symptomatic_groupmate = ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_GROUPMATE, base_isolation_compliance_rate_positive_individual = ISOLATION_COMPLIANCE_RATE_POSITIVE_INDIVIDUAL,
-                base_isolation_compliance_rate_positive_groupmate = ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE, base_isolation_compliance_rate_positive_contact = ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT, base_isolation_compliance_rate_positive_contactgroupmate = ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE, produce_image = bool_produce_image)
+                base_isolation_compliance_rate_positive_groupmate = ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE, base_isolation_compliance_rate_positive_contact = ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT, base_isolation_compliance_rate_positive_contactgroupmate = ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE, produce_image = bool_produce_image, save_folder = save_folder)
 
 
 #ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE                       = 0  # Assume employee testing is mandatory, so 100% compliance
@@ -137,4 +151,4 @@ run_tti_sim(model, T,
 results_summary(model)
 
 #fig, ax = model.figure_infections(vlines=checkpoints['t'],combine_Q_infected=False, plot_Q_R='stacked', plot_Q_S='stacked')
-fig, ax = model.figure_infections(combine_Q_infected=False, plot_Q_R='stacked', plot_Q_S='stacked')
+fig, ax = model.figure_infections(combine_Q_infected=False, plot_Q_R='stacked', plot_Q_S='stacked', save_folder = save_folder)
