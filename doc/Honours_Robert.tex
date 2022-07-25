@@ -1,0 +1,138 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Agent-based models of non-pharmaceutical interventions for epidemic control}
+\author{Robert Brian Milligan}
+\date{7 July 2022}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+\section{Description of Model}
+The model has two structures agents can be arranged in , one which uses a one single connected network designed to simulate a workplace, the other has a group of age segregated connected networks as well as small networks each agent is a part of that represents the household they are in. These large networks are made up of a number of cohorts which are loosely connected and each of these has a number of subgroups which are highly connected.
+
+The network is set up before the simulation begins and does not change throughout the simulations run. 80\% of transmission spread between agents occurs along the edges connecting them, while 20\% of transmission is at  random
+
+Each day agents will be asked to do a test if their day has come up on a surveillance testing schedule, they show symptoms or have been contacted that they are a close contact.
+
+During the day agents can spread the contagion to each other and can progress though the stages of the disease if they have it. They additionally have the choice to participate in contact tracing.
+
+Agents will also be asked to isolate for one of six reasons. They or a group member develop a symptomatic case, returns a positive test or is told they are a close contact though using contact tracing
+
+These systems can effectively be disabled by overriding the compliance for them to be 0, for example compliance with contact tracing.
+\section{Description of Model Parameters}
+The Current Modifications of the model relate to allowing 10 of the Model Parameters that relate to Compliance to be dynamically updated each day dependent on a given rule. The 5 most relevent of these being.
+\begin{itemize}
+\item TESTING\_COMPLIANCE\_RATE\_SYMPTOMATIC (what proportion of agents take a test immediately as a result of having symptoms)
+\item TESTING\_COMPLIANCE\_RATE\_RANDOM  (what proportion of agents will do surveillance)
+\item ISOLATION\_COMPLIANCE\_RATE\_SYMPTOMATIC\_INDIVIDUAL (what proportion of agents will isolate given they have a symptomatic case)
+\item ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_INDIVIDUAL (what proportion of agents will isolate given a positive result from a test)
+\item ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_GROUPMATE (what proportion of agents in a group isolate given one of them has a positive result from a test)
+\end{itemize}
+
+A simple model might only use a few of these compliance parameters such as 
+\begin{itemize}
+\item TESTING\_COMPLIANCE\_RATE\_SYMPTOMATIC = 0.8\
+\item TESTING\_COMPLIANCE\_RATE\_RANDOM = 0.3
+\item ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_INDIVIDUAL = 0.8
+\end{itemize}
+
+so in this model 80\% of agents comply with surveillance testing 
+30\% of agents will take a test if they develop a symptomatic case and 80\% of agents will isolate given they have a positive test
+
+The idea of a global state is added to the world based on facts all agents would know one example being the number of agents in the network that have had a positive test within the last 2 weeks (a simplification of "active cases" which we will call it from now on)
+
+The model may incorporate 2 types of agent based characteristics to make these rates non-static, they can be split into global states impacting a parameters value and individual agents situation impacting their compliance 
+An example of global states impacting parameter values following on on from the previous example might be
+
+\begin{itemize}
+\item TESTING\_COMPLIANCE\_RATE\_SYMPTOMATIC = 0.8 + proportion of active cases\
+\item TESTING\_COMPLIANCE\_RATE\_RANDOM = 0.3 + (proportion of active cases * 5)\
+\item ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_INDIVIDUAL = 0.8 + proportion of active cases
+\end{itemize}
+
+	so if at a particular time 7\% of the network was an active case then 
+    
+\begin{itemize}
+\item TESTING\_COMPLIANCE\_RATE\_SYMPTOMATIC = 0.8 + 0.07 = 0.87\
+\item TESTING\_COMPLIANCE\_RATE\_RANDOM = 0.3 + 0.35 = 0.70 \
+\item ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_INDIVIDUAL = 0.8 + 0.07 = 0.87
+\end{itemize}
+
+
+An example of individual agents situations impacting their compliance may relate to the network itself and an agents close contacts.
+For example TESTING\_COMPLIANCE\_RATE\_SYMPTOMATIC may be overwritten to follow a certain rule such as 0.8 OR 1 if the particular agent has at least one close contact in isolation 
+
+In the first case we assume agents act mostly based on the global situation and in the latter case they act based on their own individual situation, It is possible to combine both approaches
+
+The model assigns compliance by giving each agent an initial compliance score that judges their behavior for example in a model with 10 agents one possible generation could be [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] . But currently the compliance scores are randomly uniformly generated between 0 and 1. Let us continue this example and show the agents behavior under a couple situations
+firstly when 0\% of the network has an active case 
+
+\begin{itemize}
+\item TESTING\_COMPLIANCE\_RATE\_SYMPTOMATIC = .80\
+\item TESTING\_COMPLIANCE\_RATE\_RANDOM = 0.30 \
+\item ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_INDIVIDUAL = 0.80
+\end{itemize}
+to see if an agent is compliant with a given action we see if if their compliance value is less than the current value for that parameter for example agents 1 though 8 will test if they have a symptomatic case and will isolate given a positive test, and agents 1 though 3 will comply with regular surveillance testing
+
+secondly lets assume later on one agent returns a positive test this means 10\% of the population has an active case
+\begin{itemize}
+\item TESTING\_COMPLIANCE\_RATE\_SYMPTOMATIC = 1\
+\item TESTING\_COMPLIANCE\_RATE\_RANDOM = 0.8 \
+\item ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_INDIVIDUAL = 1
+\end{itemize}
+now agents 1 though 10 will test if they have a symptomatic case and will isolate given a positive test, and agents 1 though 8 will comply with regular surveillance testing
+
+\section{How to Judge The Effect Parameters Have on A Model?}
+On average, what percentage of the population caught the contagion
+
+On average, how many days did it take for the outbreak to stop with 0 active cases
+
+\section{Analysis of Testing Compliance}
+We can analyse compliance by comparing the effect varying levels have on the length a contagion actively spreads and what proportion of the population becomes infected. Firstly a baseline can be set to explore the parameter space, then further tests done to see the effect having compliance change as a result of the current known spread of the contagion in the network.
+
+\section{Benchmark Results}
+reasonable parameters 
+
+\section{Idea for tasks to do by next week}
+\begin{itemize}
+\item work out what key parts of the final result of the model I should be using to judge the parameter effect
+\item write a script to be able to run the simulation multiple times and produce a report, maybe something like a csv, row of data with the parameter values and the effect values 
+\item add some tests, benchmark runs that they can be compared to
+\item set parameters for the model to mirror that of Monash
+\item move over to latex windows instead of overleaf
+\end{itemize}
+
+\section{Done}
+\begin{itemize}
+\item Look up paper , redo structure of documents for repo https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424
+
+\item see if Monash has any case numbers published - Case numbers are shown for the past 14 days at all campuses, these numbers will be misleading currently as many students will not be on campus yet.  
+\item If monash was replicated, parkville campus with 1,200 agents takes 50 seconds to run 1 day. 2,000 agents take 3 minutes, 10,000 agents stopped after 30 minutes
+
+\item find out what effect teams has? - teams are more concentrated parts of the cohort and used for isolation and other parameters
+\end{itemize}
+\section{Idea for tasks to do by few weeks}
+\begin{itemize}
+\item have a parameter set for the network that can deal with individual agents making decisions based on their local situation
+\item extend the current model to that of the "society network" i.e. that one with age segregated main networks and home networks, currently I have just been using the single connected network version 
+\end{itemize}
+
+
+\section{Appendix Section}
+
+Removed parameter secion
+TRACING\_COMPLIANCE\_RATE (what proportion of agents comply with contact tracing)
+ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_CONTACT (what proportion of agents isolate given they are a close contact)
+
+TESTING\_COMPLIANCE\_RATE\_TRACED (what proportion of agents take a test immediately as a result of being informed they are a close contact)
+
+
+\item ISOLATION\_COMPLIANCE\_RATE\_SYMPTOMATIC\_GROUPMATE (what proportion of agents will isolate given one of their group mates has a symptomatic case)
+
+\item ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_CONTACTGROUPMATE (what proportion of agents in a group isolate given one of them is a close contact)
+
+\end{document}
