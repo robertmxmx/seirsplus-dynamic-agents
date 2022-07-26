@@ -7,8 +7,8 @@ import os
 import datetime
 import matplotlib.pyplot as pyplot
 
-NUM_COHORTS              = 3 #faculty
-NUM_NODES_PER_COHORT     = 20 #people
+NUM_COHORTS              = 5 #faculty
+NUM_NODES_PER_COHORT     = 40 #people
 NUM_TEAMS_PER_COHORT     = 2 #classes
 
 MEAN_INTRACOHORT_DEGREE  = 6
@@ -61,7 +61,7 @@ PCT_ASYMPTOMATIC = 0.25
 PCT_HOSPITALIZED = 0.035
 PCT_FATALITY = 0.08
 
-R0_mean     = 3.0
+R0_mean     = 2.0
 R0_coeffvar = 0.2
 
 R0 = gamma_dist(R0_mean, R0_coeffvar, N)
@@ -89,13 +89,13 @@ ISOLATION_LAG_SYMPTOMATIC       = 1             # number of days between onset o
 ISOLATION_LAG_POSITIVE          = 0             # test turn-around time (TAT): number of days between administration of test and isolation of positive cases
 ISOLATION_LAG_CONTACT           = 0             # number of days between a contact being traced and that contact self-isolating
 
-TESTING_COMPLIANCE_RATE_SYMPTOMATIC                  = 0.3
+TESTING_COMPLIANCE_RATE_SYMPTOMATIC                  = 0.15
 TESTING_COMPLIANCE_RATE_TRACED                       = 0.0
-TESTING_COMPLIANCE_RATE_RANDOM                       = 0.8  # Assume employee testing is mandatory, so 100% compliance
+TESTING_COMPLIANCE_RATE_RANDOM                       = 0.55  # Assume employee testing is mandatory, so 100% compliance
 TRACING_COMPLIANCE_RATE                              = 0.0
 ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL     = 0.0
 ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_GROUPMATE      = 0.0
-ISOLATION_COMPLIANCE_RATE_POSITIVE_INDIVIDUAL        = 0.8
+ISOLATION_COMPLIANCE_RATE_POSITIVE_INDIVIDUAL        = 0.55
 ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE         = 0.0  # Isolate teams with a positive member, but suppose 20% of employees are essential workforce
 ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT           = 0.0
 ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE  = 0.0

@@ -126,14 +126,17 @@ def run_tti_sim(model, T, max_dt=None,
             # our addition starts here
             print(str(sum(numPositive_list[-14:]) / N * 100) + "% cummulative 2 week positive test")
             print(numPositive_list)
-            new_testing_compliance_symptomatic = (numpy.random.rand(N) < min(1, 0.5 + ((1 - 0.5) * (sum(numPositive_list[-14:]) / N * 2))))
+            new_testing_compliance_symptomatic = (numpy.random.rand(N) < min(1, base_testing_compliance_rate_symptomatic + (sum(numPositive_list[-14:]) / N * 5)))
+            #new_testing_compliance_symptomatic = base_testing_compliance_rate_symptomatic
             # print(str(min(1, 0.3 + (sum(numPositive_list[-14:]) / N * 3))) + "aaaaa")
             new_testing_compliance_rate_traced = base_testing_compliance_rate_traced
-            new_testing_compliance_random = (numpy.random.rand(N) < min(1, 0.5 + ((1 - 0.5) * (sum(numPositive_list[-14:]) / N * 2))))
+            new_testing_compliance_random = (numpy.random.rand(N) < min(1, base_testing_compliance_rate_random + (sum(numPositive_list[-14:]) / N * 5)))
+            #new_testing_compliance_random = base_testing_compliance_rate_random
             new_tracing_compliance_rate = base_tracing_compliance_rate
             new_isolation_compliance_rate_symptomatic_individual = base_isolation_compliance_rate_symptomatic_individual
             new_isolation_compliance_rate_symptomatic_groupmate = base_isolation_compliance_rate_symptomatic_groupmate
-            new_isolation_compliance_rate_positive_individual = (numpy.random.rand(N) < min(1, 0.8 + ((1 - 0.8) * (sum(numPositive_list[-14:]) / N * 2))))
+            new_isolation_compliance_rate_positive_individual = (numpy.random.rand(N) < min(1, base_isolation_compliance_rate_positive_individual + (sum(numPositive_list[-14:]) / N * 5)))
+            #new_isolation_compliance_rate_positive_individual = base_isolation_compliance_rate_positive_individual
             new_isolation_compliance_rate_positive_groupmate = base_isolation_compliance_rate_positive_groupmate
             new_isolation_compliance_rate_positive_contact = base_isolation_compliance_rate_positive_contact
             new_isolation_compliance_rate_positive_contactgroupmate = base_isolation_compliance_rate_positive_contactgroupmate
