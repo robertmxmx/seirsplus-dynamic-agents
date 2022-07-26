@@ -1,7 +1,7 @@
 from __future__ import division
 
-#new lists to hold data
-day_list = [] #added
+# new lists to hold data
+day_list = []  # added
 numPositive_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 compliance_list_yes = []
 compliance_list_no = []
@@ -27,9 +27,13 @@ def run_tti_sim(model, T, max_dt=None,
                 isolation_compliance_positive_contact=[None], isolation_compliance_positive_contactgroupmate=[None],
                 isolation_lag_symptomatic=1, isolation_lag_positive=1, isolation_lag_contact=0, isolation_groups=None,
                 cadence_testing_days=None, cadence_cycle_length=28, temporal_falseneg_rates=None,
-                backlog_skipped_intervals=False, base_testing_compliance_rate_symptomatic = 0, base_testing_compliance_rate_traced = 0, base_testing_compliance_rate_random = 0,
-                base_tracing_compliance_rate = 0, base_isolation_compliance_rate_symptomatic_individual = 0, base_isolation_compliance_rate_symptomatic_groupmate = 0, base_isolation_compliance_rate_positive_individual = 0,
-                base_isolation_compliance_rate_positive_groupmate = 0, base_isolation_compliance_rate_positive_contact = 0, base_isolation_compliance_rate_positive_contactgroupmate = 0, produce_image = False, save_folder = None
+                backlog_skipped_intervals=False, base_testing_compliance_rate_symptomatic=0,
+                base_testing_compliance_rate_traced=0, base_testing_compliance_rate_random=0,
+                base_tracing_compliance_rate=0, base_isolation_compliance_rate_symptomatic_individual=0,
+                base_isolation_compliance_rate_symptomatic_groupmate=0,
+                base_isolation_compliance_rate_positive_individual=0,
+                base_isolation_compliance_rate_positive_groupmate=0, base_isolation_compliance_rate_positive_contact=0,
+                base_isolation_compliance_rate_positive_contactgroupmate=0, produce_image=False, save_folder=None
                 ):
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     N = len(model.G)
@@ -38,12 +42,17 @@ def run_tti_sim(model, T, max_dt=None,
     testing_compliance_traced = (agent_base_compliance < base_testing_compliance_rate_traced)
     testing_compliance_random = (agent_base_compliance < base_testing_compliance_rate_random)
     tracing_compliance = (agent_base_compliance < base_tracing_compliance_rate)
-    isolation_compliance_symptomatic_individual = (agent_base_compliance < base_isolation_compliance_rate_symptomatic_individual)
-    isolation_compliance_symptomatic_groupmate = (agent_base_compliance < base_isolation_compliance_rate_symptomatic_groupmate)
-    isolation_compliance_positive_individual = (agent_base_compliance < base_isolation_compliance_rate_positive_individual)
-    isolation_compliance_positive_groupmate = (agent_base_compliance < base_isolation_compliance_rate_positive_groupmate)
+    isolation_compliance_symptomatic_individual = (
+                agent_base_compliance < base_isolation_compliance_rate_symptomatic_individual)
+    isolation_compliance_symptomatic_groupmate = (
+                agent_base_compliance < base_isolation_compliance_rate_symptomatic_groupmate)
+    isolation_compliance_positive_individual = (
+                agent_base_compliance < base_isolation_compliance_rate_positive_individual)
+    isolation_compliance_positive_groupmate = (
+                agent_base_compliance < base_isolation_compliance_rate_positive_groupmate)
     isolation_compliance_positive_contact = (agent_base_compliance < base_isolation_compliance_rate_positive_contact)
-    isolation_compliance_positive_contactgroupmate = (agent_base_compliance < base_isolation_compliance_rate_positive_contactgroupmate)
+    isolation_compliance_positive_contactgroupmate = (
+                agent_base_compliance < base_isolation_compliance_rate_positive_contactgroupmate)
 
     # Testing cadences involve a repeating 28 day cycle starting on a Monday
     # (0:Mon, 1:Tue, 2:Wed, 3:Thu, 4:Fri, 5:Sat, 6:Sun, 7:Mon, 8:Tues, ...)
@@ -118,7 +127,7 @@ def run_tti_sim(model, T, max_dt=None,
             print(str(sum(numPositive_list[-14:]) / N * 100) + "% cummulative 2 week positive test")
             print(numPositive_list)
             new_testing_compliance_symptomatic = (numpy.random.rand(N) < min(1, 0.5 + ((1 - 0.5) * (sum(numPositive_list[-14:]) / N * 2))))
-            #print(str(min(1, 0.3 + (sum(numPositive_list[-14:]) / N * 3))) + "aaaaa")
+            # print(str(min(1, 0.3 + (sum(numPositive_list[-14:]) / N * 3))) + "aaaaa")
             new_testing_compliance_rate_traced = base_testing_compliance_rate_traced
             new_testing_compliance_random = (numpy.random.rand(N) < min(1, 0.5 + ((1 - 0.5) * (sum(numPositive_list[-14:]) / N * 2))))
             new_tracing_compliance_rate = base_tracing_compliance_rate
@@ -134,23 +143,28 @@ def run_tti_sim(model, T, max_dt=None,
                 testing_compliance_traced = (agent_base_compliance <= new_testing_compliance_rate_traced)
                 testing_compliance_random = (agent_base_compliance <= new_testing_compliance_random)
                 tracing_compliance = (agent_base_compliance <= new_tracing_compliance_rate)
-                isolation_compliance_symptomatic_individual = (agent_base_compliance <= new_isolation_compliance_rate_symptomatic_individual)
-                isolation_compliance_symptomatic_groupmate = (agent_base_compliance <= new_isolation_compliance_rate_symptomatic_groupmate)
-                isolation_compliance_positive_individual = (agent_base_compliance <= new_isolation_compliance_rate_positive_individual)
-                isolation_compliance_positive_groupmate = (agent_base_compliance <= new_isolation_compliance_rate_positive_groupmate)
-                isolation_compliance_positive_contact = (agent_base_compliance <= new_isolation_compliance_rate_positive_contact)
-                isolation_compliance_positive_contactgroupmate = (agent_base_compliance <= new_isolation_compliance_rate_positive_contactgroupmate)
+                isolation_compliance_symptomatic_individual = (
+                            agent_base_compliance <= new_isolation_compliance_rate_symptomatic_individual)
+                isolation_compliance_symptomatic_groupmate = (
+                            agent_base_compliance <= new_isolation_compliance_rate_symptomatic_groupmate)
+                isolation_compliance_positive_individual = (
+                            agent_base_compliance <= new_isolation_compliance_rate_positive_individual)
+                isolation_compliance_positive_groupmate = (
+                            agent_base_compliance <= new_isolation_compliance_rate_positive_groupmate)
+                isolation_compliance_positive_contact = (
+                            agent_base_compliance <= new_isolation_compliance_rate_positive_contact)
+                isolation_compliance_positive_contactgroupmate = (
+                            agent_base_compliance <= new_isolation_compliance_rate_positive_contactgroupmate)
 
-
-            #for agent in range(N):
+            # for agent in range(N):
             #    for edge in model.G.edges(agent):
             #        if model.X[edge[1]] >= 11:  # in isolation
             #            testing_compliance_random[agent] = 1
-                    # for edge_of_edge in model.G.edges(edge[1]):
-                    #    if model.X[edge_of_edge[1]] >= 11:  # in isolation
-                    #       testing_compliance_random[agent] = 1
+            # for edge_of_edge in model.G.edges(edge[1]):
+            #    if model.X[edge_of_edge[1]] >= 11:  # in isolation
+            #       testing_compliance_random[agent] = 1
 
-            #for i in range(N):
+            # for i in range(N):
             #    if numpy.random.rand() < testing_compliance_random[i]:
             #        testing_compliance_random[i] = 1
             #    else:
@@ -166,8 +180,8 @@ def run_tti_sim(model, T, max_dt=None,
                 record_model(model, model.t, save_folder)
             compliance_list_yes.append(numpy.count_nonzero(testing_compliance_random == 1))
             compliance_list_no.append(numpy.count_nonzero(testing_compliance_random == 0))
-            day_list.append(int(model.t))
 
+            day_list.append(int(model.t))
 
         running = model.run_iteration(max_dt=max_dt)
 
@@ -191,7 +205,7 @@ def run_tti_sim(model, T, max_dt=None,
 
         if (int(model.t) != int(timeOfLastIntervention)):
 
-            addition() #run additions here
+            addition()  # run additions here
 
             cadenceDayNumbers = [int(model.t % cadence_cycle_length)]
 
@@ -214,7 +228,7 @@ def run_tti_sim(model, T, max_dt=None,
                 if (interventionOn):
 
                     print("[INTERVENTIONS @ t = %.2f (%d (%.2f%%) infected)]" % (
-                    model.t, currentNumInfected, currentPctInfected * 100))
+                        model.t, currentNumInfected, currentPctInfected * 100))
 
                     nodeStates = model.X.flatten()
                     nodeTestedStatuses = model.tested.flatten()
@@ -375,7 +389,8 @@ def run_tti_sim(model, T, max_dt=None,
                     # Perform the tests on the selected individuals:
                     # ----------------------------------------
 
-                    selectedToTest = numpy.concatenate((symptomaticSelection, tracingSelection, randomSelection)).astype(int)
+                    selectedToTest = numpy.concatenate(
+                        (symptomaticSelection, tracingSelection, randomSelection)).astype(int)
 
                     numTested = 0
                     numTested_random = 0
@@ -432,7 +447,7 @@ def run_tti_sim(model, T, max_dt=None,
                                 # The tested node has returned a positive test
                                 # +++++++++++++++++++++++++++++++++++++++++++++
                                 numPositive += 1
-                                numPositive_list.append(numPositive) #addition here
+                                numPositive_list.append(numPositive)  # addition here
 
                                 if (i < len(symptomaticSelection)):
                                     numPositive_symptomatic += 1
@@ -530,13 +545,19 @@ def run_tti_sim(model, T, max_dt=None,
                 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         old_t = model.t
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    #new addition
-    print("days till finish :" + str( int(old_t)+1))
+    # new addition
+    print("days till finish :" + str(int(old_t) + 1))
     Susceptible = 0
     for i in range(len(model.G.nodes)):
         if model.X[i] == 1 or model.X[i] == 11:
-            Susceptible +=1
-    print("percentage of agents that were infected: " + str(int(len(model.G.nodes)-Susceptible*100/len(model.G.nodes))) + "%")
+            Susceptible += 1
+    print("percentage of agents that were infected: " + str(int(((len(model.G.nodes) - Susceptible) / len(model.G.nodes) * 100))) + "%")
+
+    file = open(save_folder + "\parameters_and_results.txt", "w+")
+    file.writelines(["days till no active cases:", str(int(old_t) + 1),"\n"])
+    file.writelines(["percentage of agents that were infected:",
+                     str(int(((len(model.G.nodes) - Susceptible) / len(model.G.nodes) * 100)))])
+    file.close()
 
     interventionInterval = (interventionStartTime, model.t)
 
@@ -605,7 +626,7 @@ def record_model(model, time, save_folder):
     G = 1
 
     matplotlib.pyplot.legend(scatterpoints=1)
-    matplotlib.pyplot.savefig(save_folder + "/"+str(time) + ".png")
+    matplotlib.pyplot.savefig(save_folder + "/" + str(time) + ".png")
     matplotlib.pyplot.cla()
     # matplotlib.pyplot.show()
     # print(model.G.nodes)

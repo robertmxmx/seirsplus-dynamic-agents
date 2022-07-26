@@ -76,7 +76,7 @@ INTERVENTION_START_PCT_INFECTED = 0/100
 AVERAGE_INTRODUCTIONS_PER_DAY   = 0         # expected number of new exogenous exposures per day
 
 TESTING_CADENCE                 = 'semiweekly'      # how often to do testing (other than self-reporting symptomatics who can get tested any day)
-PCT_TESTED_PER_DAY              = 1.0           # max daily test allotment defined as a percent of population size
+PCT_TESTED_PER_DAY              = 0.85           # max daily test allotment defined as a percent of population size
 TEST_FALSENEG_RATE              = 'temporal'    # test false negative rate, will use FN rate that varies with disease time
 MAX_PCT_TESTS_FOR_SYMPTOMATICS  = 1.0           # max percent of daily test allotment to use on self-reporting symptomatics
 MAX_PCT_TESTS_FOR_TRACES        = 0.0           # max percent of daily test allotment to use on contact traces
@@ -86,7 +86,7 @@ PCT_CONTACTS_TO_TRACE           = 0.0           # percentage of primary cases' c
 TRACING_LAG                     = 2             # number of cadence testing days between primary tests and tracing tests
 
 ISOLATION_LAG_SYMPTOMATIC       = 1             # number of days between onset of symptoms and self-isolation of symptomatics
-ISOLATION_LAG_POSITIVE          = 2             # test turn-around time (TAT): number of days between administration of test and isolation of positive cases
+ISOLATION_LAG_POSITIVE          = 0             # test turn-around time (TAT): number of days between administration of test and isolation of positive cases
 ISOLATION_LAG_CONTACT           = 0             # number of days between a contact being traced and that contact self-isolating
 
 TESTING_COMPLIANCE_RATE_SYMPTOMATIC                  = 0.3
