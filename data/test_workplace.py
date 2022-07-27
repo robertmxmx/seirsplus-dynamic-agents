@@ -7,9 +7,9 @@ import os
 import datetime
 import matplotlib.pyplot as pyplot
 
-NUM_COHORTS              = 5 #faculty
-NUM_NODES_PER_COHORT     = 40 #people
-NUM_TEAMS_PER_COHORT     = 2 #classes
+NUM_COHORTS              = 4 #faculty
+NUM_NODES_PER_COHORT     = 20 #people
+NUM_TEAMS_PER_COHORT     = 1 #classes
 
 MEAN_INTRACOHORT_DEGREE  = 6
 PCT_CONTACTS_INTERCOHORT = 0.1
