@@ -133,7 +133,7 @@ file.writelines(["\tTest False Negative Rate: ", str(TEST_FALSENEG_RATE) , "\n"]
 file.writelines(["\tPercentage of tests offered to Symtomatic: ", str() , "\n"])
 file.writelines(["\tIsolation Lag Symptomatic: ", str(ISOLATION_LAG_SYMPTOMATIC) , "\n"])
 file.writelines(["\tIsolation Lag Days Positive: ", str(ISOLATION_LAG_POSITIVE) , "\n"])
-file.writelines(["Compliance Parameters", str() , "\n"])
+file.writelines(["Compliance Parameters", "\n"])
 file.writelines(["\tTESTING_COMPLIANCE_RATE_SYMPTOMATIC: ", str(TESTING_COMPLIANCE_RATE_SYMPTOMATIC) , "\n"])
 file.writelines(["\tTESTING_COMPLIANCE_RATE_RANDOM: ", str(TESTING_COMPLIANCE_RATE_RANDOM) , "\n"])
 file.writelines(["\tISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL: ", str(ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL) , "\n"])
