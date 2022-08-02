@@ -556,9 +556,10 @@ def run_tti_sim(model, T, max_dt=None,
             Susceptible += 1
     print("percentage of agents that were infected: " + str(int(((len(model.G.nodes) - Susceptible) / len(model.G.nodes) * 100))) + "%")
 
-    file = open(save_folder + "\parameters_and_results.txt", "w+")
-    file.writelines(["days till no active cases:", str(int(old_t) + 1),"\n"])
-    file.writelines(["percentage of agents that were infected:",
+    file = open(save_folder + "\parameters_and_results.txt", "a")
+    file.writelines(["Run Key Statistics", str(), "\n"])
+    file.writelines(["\tdays till no active cases: ", str(int(old_t) + 1),"\n"])
+    file.writelines(["\tpercentage of agents that were infected: ",
                      str(int(((len(model.G.nodes) - Susceptible) / len(model.G.nodes) * 100)))])
     file.close()
 
