@@ -7,8 +7,8 @@ import os
 import datetime
 import matplotlib.pyplot as pyplot
 
-NUM_COHORTS              = 5 #faculty
-NUM_NODES_PER_COHORT     = 20 #people
+NUM_COHORTS              = 3 #faculty
+NUM_NODES_PER_COHORT     = 30 #people
 NUM_TEAMS_PER_COHORT     = 1 #classes
 
 MEAN_INTRACOHORT_DEGREE  = 6
@@ -64,7 +64,7 @@ AVERAGE_INTRODUCTIONS_PER_DAY   = 0         # expected number of new exogenous e
 TESTING_CADENCE                 = 'semiweekly'      # how often to do testing (other than self-reporting symptomatics who can get tested any day)
 PCT_TESTED_PER_DAY              = 1.0          # max daily test allotment defined as a percent of population size
 #TEST_FALSENEG_RATE              = 'temporal'    # test false negative rate, will use FN rate that varies with disease time
-TEST_FALSENEG_RATE              = 0.2    # test false negative rate, will use FN rate that varies with disease time
+TEST_FALSENEG_RATE              = 0.2
 MAX_PCT_TESTS_FOR_SYMPTOMATICS  = 1.0           # max percent of daily test allotment to use on self-reporting symptomatics
 MAX_PCT_TESTS_FOR_TRACES        = 0.0           # max percent of daily test allotment to use on contact traces
 RANDOM_TESTING_DEGREE_BIAS      = 0             # magnitude of degree bias in random selections for testing, none here
@@ -76,16 +76,22 @@ ISOLATION_LAG_SYMPTOMATIC       = 1             # number of days between onset o
 ISOLATION_LAG_POSITIVE          = 0             # test turn-around time (TAT): number of days between administration of test and isolation of positive cases
 ISOLATION_LAG_CONTACT           = 0             # number of days between a contact being traced and that contact self-isolating
 
-TESTING_COMPLIANCE_RATE_SYMPTOMATIC                  = 0.15
+TESTING_COMPLIANCE_RATE_SYMPTOMATIC                  = 0.3
 TESTING_COMPLIANCE_RATE_TRACED                       = 0.0
-TESTING_COMPLIANCE_RATE_RANDOM                       = 0.55
+TESTING_COMPLIANCE_RATE_RANDOM                       = 0.6
 TRACING_COMPLIANCE_RATE                              = 0.0
-ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL     = 0.0
+ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL     = 0.2
 ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_GROUPMATE      = 0.0
-ISOLATION_COMPLIANCE_RATE_POSITIVE_INDIVIDUAL        = 0.55
+ISOLATION_COMPLIANCE_RATE_POSITIVE_INDIVIDUAL        = 0.5
 ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE         = 0.0
 ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT           = 0.0
 ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE  = 0.0
+
+Use_Behavioural_Model_Bool = True
+random_factor_range = 0.3
+
+
+
 
 model = ExtSEIRSNetworkModel(G=G_baseline, p=P_GLOBALINTXN,
                               beta=BETA, sigma=SIGMA, lamda=LAMDA, gamma=GAMMA,
@@ -110,6 +116,8 @@ save_folder += "\output_results\."
 save_folder = save_folder[:-1]
 save_folder += date_time
 os.makedirs(save_folder)
+os.makedirs(save_folder + "\plot_reduced")
+os.makedirs(save_folder + "\plot_normal")
 
 file = open(save_folder + "\parameters_and_results.txt", "w+")
 file.writelines(["Network Parameters", "\n"])
@@ -150,7 +158,8 @@ run_tti_sim(model, T,
             isolation_lag_symptomatic=ISOLATION_LAG_SYMPTOMATIC, isolation_lag_positive=ISOLATION_LAG_POSITIVE,
             isolation_groups=list(teams.values()), base_testing_compliance_rate_symptomatic = TESTING_COMPLIANCE_RATE_SYMPTOMATIC, base_testing_compliance_rate_traced = TESTING_COMPLIANCE_RATE_TRACED, base_testing_compliance_rate_random = TESTING_COMPLIANCE_RATE_RANDOM,
                 base_tracing_compliance_rate = TRACING_COMPLIANCE_RATE, base_isolation_compliance_rate_symptomatic_individual = ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL, base_isolation_compliance_rate_symptomatic_groupmate = ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_GROUPMATE, base_isolation_compliance_rate_positive_individual = ISOLATION_COMPLIANCE_RATE_POSITIVE_INDIVIDUAL,
-                base_isolation_compliance_rate_positive_groupmate = ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE, base_isolation_compliance_rate_positive_contact = ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT, base_isolation_compliance_rate_positive_contactgroupmate = ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE, produce_image = bool_produce_image, save_folder = save_folder)
+                base_isolation_compliance_rate_positive_groupmate = ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE, base_isolation_compliance_rate_positive_contact = ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT, base_isolation_compliance_rate_positive_contactgroupmate = ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE, produce_image = bool_produce_image, save_folder = save_folder,
+            random_factor_range_behavioural = random_factor_range, Use_Behavioural_Model_bool = Use_Behavioural_Model_Bool)
 
 
 #ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE                       = 0  # Assume employee testing is mandatory, so 100% compliance
