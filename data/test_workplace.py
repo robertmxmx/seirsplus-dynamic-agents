@@ -1,3 +1,5 @@
+import numpy.random
+
 from models import *
 from networks import *
 from sim_loops import *
@@ -7,14 +9,14 @@ import os
 import datetime
 import matplotlib.pyplot as pyplot
 
-NUM_COHORTS              = 3 #faculty
-NUM_NODES_PER_COHORT     = 30 #people
+NUM_COHORTS              = 5 #faculty
+NUM_NODES_PER_COHORT     = 20 #people
 NUM_TEAMS_PER_COHORT     = 1 #classes
 
 MEAN_INTRACOHORT_DEGREE  = 6
 PCT_CONTACTS_INTERCOHORT = 0.15
 N = NUM_NODES_PER_COHORT*NUM_COHORTS
-INIT_EXPOSED = 3
+INIT_EXPOSED = 2
 
 
 G_baseline, cohorts, teams = generate_workplace_contact_network(
@@ -52,7 +54,7 @@ PCT_ASYMPTOMATIC = 0.25
 PCT_HOSPITALIZED = 0.035
 PCT_FATALITY = 0.01
 
-R0_mean     = 3.0
+R0_mean     = 5.4 # 9.5 is omicron  , 5.4 is delta,
 R0_coeffvar = 0.2
 R0 = gamma_dist(R0_mean, R0_coeffvar, N)
 
@@ -64,7 +66,7 @@ AVERAGE_INTRODUCTIONS_PER_DAY   = 0         # expected number of new exogenous e
 TESTING_CADENCE                 = 'semiweekly'      # how often to do testing (other than self-reporting symptomatics who can get tested any day)
 PCT_TESTED_PER_DAY              = 1.0          # max daily test allotment defined as a percent of population size
 #TEST_FALSENEG_RATE              = 'temporal'    # test false negative rate, will use FN rate that varies with disease time
-TEST_FALSENEG_RATE              = 0.2
+TEST_FALSENEG_RATE              = 0.36  #https://www.abc.net.au/news/2022-02-05/staff-children-preschool-childcare-protected-covid-national-plan/100805610
 MAX_PCT_TESTS_FOR_SYMPTOMATICS  = 1.0           # max percent of daily test allotment to use on self-reporting symptomatics
 MAX_PCT_TESTS_FOR_TRACES        = 0.0           # max percent of daily test allotment to use on contact traces
 RANDOM_TESTING_DEGREE_BIAS      = 0             # magnitude of degree bias in random selections for testing, none here
@@ -76,19 +78,19 @@ ISOLATION_LAG_SYMPTOMATIC       = 1             # number of days between onset o
 ISOLATION_LAG_POSITIVE          = 0             # test turn-around time (TAT): number of days between administration of test and isolation of positive cases
 ISOLATION_LAG_CONTACT           = 0             # number of days between a contact being traced and that contact self-isolating
 
-TESTING_COMPLIANCE_RATE_SYMPTOMATIC                  = 0.3
-TESTING_COMPLIANCE_RATE_TRACED                       = 0.0
-TESTING_COMPLIANCE_RATE_RANDOM                       = 0.6
-TRACING_COMPLIANCE_RATE                              = 0.0
-ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL     = 0.2
-ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_GROUPMATE      = 0.0
-ISOLATION_COMPLIANCE_RATE_POSITIVE_INDIVIDUAL        = 0.5
-ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE         = 0.0
-ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT           = 0.0
-ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE  = 0.0
+TESTING_COMPLIANCE_RATE_SYMPTOMATIC                  = 0.5
+TESTING_COMPLIANCE_RATE_TRACED                       = -10
+TESTING_COMPLIANCE_RATE_RANDOM                       = 0.5
+TRACING_COMPLIANCE_RATE                              = -10
+ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL     = -10
+ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_GROUPMATE      = -10
+ISOLATION_COMPLIANCE_RATE_POSITIVE_INDIVIDUAL        = 10
+ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE         = 0.5
+ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT           = -10
+ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE  = -10
 
 Use_Behavioural_Model_Bool = True
-random_factor_range = 0.3
+random_factor_range = 0.5
 
 
 
@@ -103,7 +105,7 @@ model = ExtSEIRSNetworkModel(G=G_baseline, p=P_GLOBALINTXN,
 T = 500
 isolation_groups = list(teams.values())
 
-bool_produce_image = True
+bool_produce_image = False
 
 date_time = str(datetime.datetime.today())
 date_time = date_time.replace(" ","-")

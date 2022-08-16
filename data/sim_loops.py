@@ -11,7 +11,6 @@ agent_base_compliance = []
 agent_base_behavioural_random_list = []
 agent_behavioural_cost = []
 agent_behavioural_reward = []
-
 density_list = []
 average_connectivity = []
 
@@ -63,6 +62,7 @@ def run_tti_sim(model, T, max_dt=None,
                 ):
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     N = len(model.G)
+    numPositive = 0
     agent_base_compliance = numpy.random.rand(N)
     agent_base_behavioural_random_list = numpy.random.rand(N)
     agent_behavioural_cost = [0] * N
@@ -158,8 +158,9 @@ def run_tti_sim(model, T, max_dt=None,
     running = True
     while running:
 
-        def addition():
+        def addition(numPositive):
             # our addition starts here
+            numPositive_list.append(numPositive)  # addition here
 
 
             print(str(sum(numPositive_list[-14:]) / N * 100) + "% cummulative 2 week positive test")
@@ -171,31 +172,23 @@ def run_tti_sim(model, T, max_dt=None,
                     agent_behavioural_reward[agent_num] = 0
                     agent_behavioural_cost[agent_num] = 0
 
-                    for j in range(len(model.G.nodes)):
-                        contact_list_state = []
+                    contact_list_state = []
+                    for k in model.G.edges(agent_num):
                         try:
-                            for k in model.G.edges(j):
-                                contact_list_state.append(int(model.X[[k[1]]]))
+                            contact_list_state.append(int(model.X[[k[1]]]))
                         except:
-                            contact_list_state = []
+                            pass
 
                     if len(contact_list_state) > 0:
-                        agent_behavioural_reward[agent_num] += contact_list_state.count(4)/len(contact_list_state) * 2
-                        # being in contact with a symtomatic agent makes the agent increase reward from compliance #Symtomatic
 
-                        agent_behavioural_cost[agent_num] += ( contact_list_state.count(1)+ contact_list_state.count(2)+ contact_list_state.count(3)+ contact_list_state.count(5)+contact_list_state.count(7))/len(contact_list_state) * 0.6
-                        # having more agents one is in contact with increases cost of isolating #Susceptible,Exposed,pre symtomatic,asymtomatic
-
-                        agent_behavioural_reward[agent_num] += (contact_list_state.count(6) + contact_list_state.count(8)) / len(contact_list_state) * 5
-                        # having a contact as hospitalised or fatality massivly increases reward
-
-                        agent_behavioural_reward[agent_num] += ( contact_list_state.count(12)+ contact_list_state.count(12)+ contact_list_state.count(13)+ contact_list_state.count(14)+contact_list_state.count(15)+ contact_list_state.count(16)+contact_list_state.count(17))/len(contact_list_state) * 2
+                        agent_behavioural_reward[agent_num] += (contact_list_state.count(6) + contact_list_state.count(8)+ contact_list_state.count(12)+ contact_list_state.count(12)+ contact_list_state.count(13)+ contact_list_state.count(14)+contact_list_state.count(15)+ contact_list_state.count(16)+contact_list_state.count(17))/len(contact_list_state) * 5
                         #having a contact as isolated would make agents more likely to be compliant as they think they may have been infected
 
-                        agent_behavioural_reward[agent_num] += sum(numPositive_list[-14:]) / N
+                        agent_behavioural_reward[agent_num] += sum(numPositive_list[-14:]) / N * 4
+                        # average case numbers
 
-                    agent_base_compliance[agent_num] =  agent_behavioural_cost[agent_num] - agent_behavioural_reward[agent_num] + agent_base_behavioural_random_list[agent_num]
-
+                    agent_base_compliance[agent_num] = 0.5 - agent_behavioural_reward[agent_num] + agent_base_behavioural_random_list[agent_num]
+                print(agent_behavioural_reward)
                 new_testing_compliance_symptomatic = base_testing_compliance_rate_symptomatic
                 new_testing_compliance_rate_traced = base_testing_compliance_rate_traced
                 new_testing_compliance_random = base_testing_compliance_rate_random
@@ -208,10 +201,10 @@ def run_tti_sim(model, T, max_dt=None,
                 new_isolation_compliance_rate_positive_contactgroupmate = base_isolation_compliance_rate_positive_contactgroupmate
 
 
+
             else:
                 #new_testing_compliance_symptomatic = (numpy.random.rand(N) < min(1, base_testing_compliance_rate_symptomatic + (sum(numPositive_list[-14:]) / N * 5)))
                 new_testing_compliance_symptomatic = base_testing_compliance_rate_symptomatic
-                # print(str(min(1, 0.3 + (sum(numPositive_list[-14:]) / N * 3))) + "aaaaa")
                 new_testing_compliance_rate_traced = base_testing_compliance_rate_traced
                 #new_testing_compliance_random = (numpy.random.rand(N) < min(1, base_testing_compliance_rate_random + (sum(numPositive_list[-14:]) / N * 5)))
                 new_testing_compliance_random = base_testing_compliance_rate_random
@@ -334,7 +327,7 @@ def run_tti_sim(model, T, max_dt=None,
 
         if (int(model.t) != int(timeOfLastIntervention)):
 
-            addition()  # run additions here
+            addition(numPositive)  # run additions here
 
             cadenceDayNumbers = [int(model.t % cadence_cycle_length)]
 
@@ -576,7 +569,6 @@ def run_tti_sim(model, T, max_dt=None,
                                 # The tested node has returned a positive test
                                 # +++++++++++++++++++++++++++++++++++++++++++++
                                 numPositive += 1
-                                numPositive_list.append(numPositive)  # addition here
 
                                 if (i < len(symptomaticSelection)):
                                     numPositive_symptomatic += 1
@@ -688,7 +680,7 @@ def run_tti_sim(model, T, max_dt=None,
     file.writelines(["\tpercentage of agents that were infected: ",
                      str(int(((len(model.G.nodes) - Susceptible) / len(model.G.nodes) * 100))),"\n"])
     file.writelines(["\tday list: ",str(day_list),"\n"])
-    file.writelines(["\tnumber of components: ",str(average_connectivity),"\n"])
+    file.writelines(["\taverage_connectivity: ",str(average_connectivity),"\n"])
     file.writelines(["\tdensity: ",str(density_list),"\n"])
     file.writelines(["Node State History", str(), "\n"])
     file.writelines(["\tday list: ",str(day_list),"\n"])
