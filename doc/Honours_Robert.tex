@@ -91,21 +91,28 @@ On average, what percentage of the population caught the contagion
 On average, how many days did it take for the outbreak to stop with 0 active cases
 
 
-\pagebreak[1]
-\section{Sample Results}
-\begin{table}[]
-\begin{tabular}{llllll}
-                           & low  & med  & high & variable low         & variable high        \\
-symtomatic test compliance & 0.15 & 0.3  & 0.45 & 0.15 + 0.15 per 5\%  & 0.15 + 0.25 per 5\%  \\
-regular test compliance    & 0.55 & 0.7  & 0.85 & 0.55 + 0.15 per 5\%  & 0.55  + 0.25 per 5\% \\
-isolation compliance       & 0.55 & 0.7  & 0.85 & 0.55  + 0.15 per 5\% & 0.55  + 0.25 per 5\% \\
-days of spread             & 78.7 & 56.4 & 64.6 & 80.8                 & 64.2                 \\
-percentage infected        & 29.4 & 12.7 & 12.4 & 30                   & 21.2                
-\end{tabular}
-\end{table}
-
 \section{Analysis of Testing Compliance}
 We can analyse compliance by comparing the effect varying levels have on the length a contagion actively spreads and what proportion of the population becomes infected. Firstly a baseline can be set to explore the parameter space, then further tests done to see the effect having compliance change as a result of the current known spread of the contagion in the network.
+
+
+\section{Childcare Model}
+
+\begin{itemize}
+
+
+
+\item Parameter justification
+\item test false negative rate 0.36 https://www.abc.net.au/news/2022-02-05/staff-children-preschool-childcare-protected-covid-national-plan/100805610
+\item R0 mean of Omicron is 9.5, delta is 5.4  https://www1.racgp.org.au/newsgp/clinical/what-to-expect-from-a-third-omicron-wave-in-austra https://academic.oup.com/jtm/article/29/3/taac037/6545354
+\item base compliance for behaviour is set t 0.5
+\item 100 agents in model split into 5 groups with high interconnectedness within the group and low connections between groups
+
+\item compliance increases for 3 actions , symtomatic test, regular interval test, isolate if positive case in group
+\item cost is fixed
+\item reward is based on if connecting agents are isolated, hospitalised or a fatality
+
+\item from looking at early results since only 2-3 tests a week there is a delay and the higher the r0 the fewer chances they can have to change their mind about compliance 
+\end{itemize}
 
 \section{Idea for tasks to do by next week}
 \begin{itemize}
@@ -113,7 +120,7 @@ We can analyse compliance by comparing the effect varying levels have on the len
 \item how often to test?
 \item 10 bab 3 educators in one group
 \item about 15\% of intercohort agent interaction - done
-\add add all parameters 
+\item add all parameters 
 \item look into can a single random seed be used - not likely
 \item test if seed works and is reproducable - no it is not
 
@@ -157,14 +164,16 @@ We can analyse compliance by comparing the effect varying levels have on the len
 \section{Appendix Section}
 
 Removed parameter section
-TRACING\_COMPLIANCE\_RATE (what proportion of agents comply with contact tracing)
-ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_CONTACT (what proportion of agents isolate given they are a close contact)
+\begin{itemize}
+\item TRACING\_COMPLIANCE\_RATE (what proportion of agents comply with contact tracing)
+\item ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_CONTACT (what proportion of agents isolate given they are a close contact) 
 
-TESTING\_COMPLIANCE\_RATE\_TRACED (what proportion of agents take a test immediately as a result of being informed they are a close contact)
+\item TESTING\_COMPLIANCE\_RATE\_TRACED (what proportion of agents take a test immediately as a result of being informed they are a close contact)
 
 
 \item ISOLATION\_COMPLIANCE\_RATE\_SYMPTOMATIC\_GROUPMATE (what proportion of agents will isolate given one of their group mates has a symptomatic case)
 
 \item ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_CONTACTGROUPMATE (what proportion of agents in a group isolate given one of them is a close contact)
+\end{itemize}
 
 \end{document}
