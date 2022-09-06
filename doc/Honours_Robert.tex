@@ -15,7 +15,7 @@
 \maketitle
 
 \section{Introduction}
-This paper investigates the modificaiton of an existing model diease spread produced by Ryan McGee and used a part of various peer reviewed research articles. I have looked at applying the model to the situation of COVID-19 in childcare and involves creating both a non stategic and strategic behavoioural models. The Behaviour realtes to compliance to various actions the agent can choose to do such as doing an additional COVID rapid antigent test if they have symtoms of the virus.
+This paper investigates the modificaiton of an existing model diease spread produced by Ryan McGee and used a part of various peer reviewed research articles. I have looked at applying the model to the situation of COVID-19 in childcare and involves creating both a non stategic and strategic behavoioural models. The Behaviour relates to compliance to various actions the agent can choose to do such as doing an additional COVID rapid antigent test if they have symtoms of the virus.
 
 \section{Description of Model}
 \subsection{Description of purpose of the network in the model}
@@ -31,12 +31,17 @@ Agents will also be asked to isolate for one of six reasons. They or a group mem
 
 These systems can effectively be disabled by overriding the compliance for them to be a large negative number, for example compliance with contact tracing can be set to -10 to disable the use of that system.
 
+The model has a variety of limitations including 
+\begin{itemize}
+\item Having all agents always test on the same day, so if semiweekly is chosen, all agents will be asked to test on Monday and Thursday
+\item the network itself is unchanging, but this is not necessarily bad
+\end{itemize}
+
 \begin{figure}
   \centering
       \includegraphics[width=\textwidth]{network}
   \caption{An Example Netowrk}
 \end{figure}
-
 
 
 Example of the network of 100 agents
@@ -63,6 +68,13 @@ A simple model might only use a few of these compliance parameters such as  and 
 
 
 \subsection{Compliance}
+Compliance can be set a variety of ways in the modified model but in this paper 3 are used
+\begin{itemize}
+\item The default setting where agents are given an inital value for compliance and is unchanging e.g. 50\% are set to comply and will always do so
+\item The non stategic model where agents are given an inital compliance and can become more compliant depending on the network situation , their local situation or a mix
+\item The stategic model where agents utilise knowledge of the amount of agents in the network who will comply to make a decision to comply or not
+\end{itemize}
+
 
 
 \section{Childcare Model and Benchmark}
@@ -80,7 +92,7 @@ A simple model might only use a few of these compliance parameters such as  and 
 
 \item from looking at early results since only 2-3 tests a week there is a delay and the higher the r0 the fewer chances they can have to change their mind about compliance 
 
-\item the R0 of 9.5 or 5.4 may be too high as it assumes children spread the disease at the same rate as the general population as well as all disease spread occuring in childcare which it probably is not. Therefore 2 other R0 cases of 3 and 2 are used 
+\item the R0 of 9.5 or 5.4 may be too high as it assumes children spread the disease at the same rate as the general population as well as all disease spread occuring in childcare which it probably is not. Therefore 2 other R0 cases of 3 and 2 are used as they may more accuratley capture a real world scenario where not all transmision is though the 1 childcare setting
 \end{itemize}
 
 \begin{figure}
