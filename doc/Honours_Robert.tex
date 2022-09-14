@@ -67,7 +67,7 @@ A simple model might only use a few of these compliance parameters such as  and 
 \end{itemize}
 
 
-\subsection{Compliance}
+\subsection{Description of Compliance In the Model}
 Compliance can be set a variety of ways in the modified model but in this paper 3 are used
 \begin{itemize}
 \item The default setting where agents are given an inital value for compliance and is unchanging e.g. 50\% are set to comply and will always do so
@@ -77,7 +77,7 @@ Compliance can be set a variety of ways in the modified model but in this paper 
 
 
 
-\section{Childcare Model and Benchmark}
+\section{Childcare Model and Benchmark Tests}
 
 \begin{itemize}
 
@@ -152,20 +152,21 @@ On average, how many days did it take for the outbreak to stop with 0 active cas
 We can analyse compliance by comparing the effect varying levels have on the length a contagion actively spreads and what proportion of the population becomes infected. Firstly a baseline can be set to explore the parameter space, then further tests done to see the effect having compliance change as a result of the current known spread of the contagion in the network.
 
 
-
-Over 3 R0 virus base reproduction rate was the model run with the most important find being the non-strategic behavioural model providing the most improvement over a base static level of compliance as the R0 is reduced, from a -2\% improvement with an R0 of 9.5 to a 28\% improvement with an R0 of 2. This is probably due to one of the aspects the model relating to the 14 day known positive cases recorded. With a low R0 in the system there are more chances for agents to test themselves before they pass on the disease and these reported cases incentivise even more agents to do symptomatic and surveillance testing. With extremely high R0 numbers it is observed that the non-strategic behavioural model has little effect on the total number infected. Across all cases it can be seen that the amount of time the simulation runs for is tied with how many agents get infected. Both the static values of compliance and non-strategic behavioural model follow this trend. 
+Over 4 different R0 virus base reproduction rate was the model run with, over the different R0 levels the reducion in total cases reduced from a -2\% improvement with an R0 of 9.5 to a 28\% improvement with an R0 of 2. This is probably due to one of the aspects the model relating to the 14 day known positive cases recorded. With a low R0 in the system there are more chances for agents to test themselves before they pass on the disease and these reported cases incentivise even more agents to do symptomatic and surveillance testing. With extremely high R0 numbers it is observed that the non-strategic behavioural model has little effect on the total number infected. Across all cases it can be seen that the amount of time the simulation runs for is tied with how many agents get infected. Both the static values of compliance and non-strategic behavioural model follow this trend. 
 
 
 
 \section{Strategic Model}
-The view of benefit and cost can be grouped into 3 categories
+The view of benefit and cost can be grouped into 3 categories.
+There is a level at which people will not contribute as they find the act pointless as they know near no agents  will comply 
 \begin{itemize}
 \item1. Global Situation of the model e.g. changes over time but is idential across all agents
-e.g. number of active cases or rate of change in spread rate
+e.g. number of active cases or rate of change in spread rate , could place 2 infections in first week and compare each week to the last week, rate of change week on week
+[0,0,0,0,0,0,2]  if the next week 4 cases are spread, the rate would be 2
 \item2. Structural Layout of the model, identical over time but varies between each agents
-e.g. number of close contacts or number of agents one can reach in 2 steps 
+e.g. number of close contacts or number of agents one can reach in 1 step , or could be 2 steps, the more agents one is in contact with the greater the benefit 
 \item3. Structual Situation of the model, changes over time and varies for each agent
-e.g. number of close contacts in a particular state or group of states like hospitalised, fatality, isolated etc.
+e.g. number of close contacts in a particular state or group of states like hospitalised, fatality, isolated etc, if a close contact is in one of those states the benefit to compliance is greater
 \end{itemize}
 
 for the following tests these can be used to create a personal benefit for each agent 
