@@ -14,8 +14,12 @@
 \begin{document}
 
 
-
 \maketitle
+
+\begin{abstract}
+	Include abstract.
+\end{abstract}
+
 
 
 \tableofcontents
@@ -23,11 +27,36 @@
 \newpage 
 
 \section{Introduction}
-This paper investigates the modificaiton of an existing model diease spread produced by Ryan McGee and used a part of various peer reviewed research articles ~\cite{mcgee_homburger_williams_bergstrom_zhou_2021} ~\cite{mcgee_homburger_williams_bergstrom_zhou_2021_2}. I have looked at applying the model to the situation of COVID-19 in childcare and involves creating both a non stategic and strategic behavoioural models. The Behaviour relates to compliance to various actions the agent can choose to do such as doing an additional COVID rapid antigent test if they have symtoms of the virus. The non strategic model looks at giving agents a fixed cost of complying with requested actions with a reward based on a mix of local situations such as if they are in close contact with an agent who is in isolation and a global situation such as the percentage of the group that reported a positivie test within the last 2 weeks. The strategic model looks at agents where they know how all other agents will act and use this information to decide if it in their interest to comply.
 
-\section{Description of Model}
-\subsection{Description of purpose of the network in the model}
-The model has two structures agents can be arranged in , one which uses a one single connected network designed to simulate a workplace, the other has a group of age segregated connected networks as well as small networks each agent is a part of that represents the household they are in. These large networks are made up of a number of cohorts which are loosely connected and each of these has a number of subgroups which are highly connected. The one single connected network is the one which is used in this paper.
+Mathematical and Computational models are important in preparing policies to deal with pandemics.
+These models typically ignore or have very simple ways to incorporate behaviour.
+
+Cite a few examples and explain them. 
+
+This paper investigates the modification of an existing model diease spread produced by Ryan McGee and used a part of various peer reviewed research articles ~\cite{mcgee_homburger_williams_bergstrom_zhou_2021} ~\cite{mcgee_homburger_williams_bergstrom_zhou_2021_2}. 
+I have looked at applying the model to the situation of COVID-19 in childcare and involves creating both a non stategic and strategic behavoioural models. 
+The Behaviour relates to compliance to various actions the agent can choose to do such as doing an additional COVID rapid antigent test if they have symtoms of the virus. The non strategic model looks at giving agents a fixed cost of complying with requested actions with a reward based on a mix of local situations such as if they are in close contact with an agent who is in isolation and a global situation such as the percentage of the group that reported a positivie test within the last 2 weeks. The strategic model looks at agents where they know how all other agents will act and use this information to decide if it in their interest to comply.
+
+Add a few more paraggraphs: go slowly.
+
+
+The rest of this paper is organised as follows. Section \ref{description} describes the basic model, Section....
+
+
+
+\section{Description of Model \label{description}}
+
+
+Describe the model at large, what compartments, say it is an agent based model, etc.... cite the paper and explain how they use their model.
+
+
+
+
+\subsection{Using networks to model contacts}
+
+The version of the model we use considers a simple network.... The model has two structures agents can be arranged in , one which uses a one single connected network designed to simulate a workplace, the other has a group of age segregated connected networks as well as small networks each agent is a part of that represents the household they are in. 
+
+These large networks are made up of a number of cohorts which are loosely connected and each of these has a number of subgroups which are highly connected. The one single connected network is the one which is used in this paper.
 
 some important aspects about the model include
 \begin{itemize}
