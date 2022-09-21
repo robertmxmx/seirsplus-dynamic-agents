@@ -1,7 +1,10 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+\usepackage{cite}
 \graphicspath{ {./images/} }
+
+
 
 \title{Agent-based models of non-pharmaceutical interventions for epidemic control}
 \author{Robert Brian Milligan and Supervised by Julian Garcia Gallego \& Buser Say}
@@ -10,26 +13,38 @@
 
 \begin{document}
 
-\tableofcontents
+
 
 \maketitle
 
+
+\tableofcontents
+
+\newpage 
+
 \section{Introduction}
-This paper investigates the modificaiton of an existing model diease spread produced by Ryan McGee and used a part of various peer reviewed research articles. I have looked at applying the model to the situation of COVID-19 in childcare and involves creating both a non stategic and strategic behavoioural models. The Behaviour relates to compliance to various actions the agent can choose to do such as doing an additional COVID rapid antigent test if they have symtoms of the virus.
+This paper investigates the modificaiton of an existing model diease spread produced by Ryan McGee and used a part of various peer reviewed research articles ~\cite{mcgee_homburger_williams_bergstrom_zhou_2021} ~\cite{mcgee_homburger_williams_bergstrom_zhou_2021_2}. I have looked at applying the model to the situation of COVID-19 in childcare and involves creating both a non stategic and strategic behavoioural models. The Behaviour relates to compliance to various actions the agent can choose to do such as doing an additional COVID rapid antigent test if they have symtoms of the virus. The non strategic model looks at giving agents a fixed cost of complying with requested actions with a reward based on a mix of local situations such as if they are in close contact with an agent who is in isolation and a global situation such as the percentage of the group that reported a positivie test within the last 2 weeks. The strategic model looks at agents where they know how all other agents will act and use this information to decide if it in their interest to comply.
 
 \section{Description of Model}
 \subsection{Description of purpose of the network in the model}
-The model has two structures agents can be arranged in , one which uses a one single connected network designed to simulate a workplace, the other has a group of age segregated connected networks as well as small networks each agent is a part of that represents the household they are in. These large networks are made up of a number of cohorts which are loosely connected and each of these has a number of subgroups which are highly connected.
+The model has two structures agents can be arranged in , one which uses a one single connected network designed to simulate a workplace, the other has a group of age segregated connected networks as well as small networks each agent is a part of that represents the household they are in. These large networks are made up of a number of cohorts which are loosely connected and each of these has a number of subgroups which are highly connected. The one single connected network is the one which is used in this paper.
 
-The network is set up before the simulation begins and does not change throughout the simulations run. 80\% of transmission spread between agents occurs along the edges connecting them, while 20\% of transmission is at  random
+some important aspects about the model include
+\begin{itemize}
 
-Each day agents will be asked to do a test if their day has come up on a surveillance testing schedule, they show symptoms or have been contacted that they are a close contact.
+\item The network is set up before the simulation begins and does not change throughout the simulations run. 
 
-During the day agents can spread the contagion to each other and can progress though the stages of the disease if they have it. They additionally have the choice to participate in contact tracing.
+\item 80\% of transmission spread between agents occurs along the edges connecting them, while 20\% of transmission is at  random this means those agents who whey share an edge with would be close contacts
 
-Agents will also be asked to isolate for one of six reasons. They or a group member develop a symptomatic case, returns a positive test or is told they are a close contact though using contact tracing
+\item Each day agents will be asked to do a test if their day has come up on a surveillance testing schedule, they show symptoms or have been contacted that they are a close contact.
 
-These systems can effectively be disabled by overriding the compliance for them to be a large negative number, for example compliance with contact tracing can be set to -10 to disable the use of that system.
+\item During the day agents can spread the contagion to each other and can progress though the stages of the disease if they have it. They additionally have the choice to participate in contact tracing.
+
+\item Agents will also be asked to isolate for one of six reasons. They or a group member develop a symptomatic case, returns a positive test or is told they are a close contact though using contact tracing
+
+\item These systems can effectively be disabled by overriding the compliance for them to be a large negative number, for example compliance with contact tracing can be set to -10 to disable the use of that system and this done to limit the model to a smaller amount of variables which complyance can affect.
+\end{itemize}
+
 
 The model has a variety of limitations including 
 \begin{itemize}
@@ -37,12 +52,13 @@ The model has a variety of limitations including
 \item the network itself is unchanging, but this is not necessarily bad
 \end{itemize}
 
+\newpage
+
 \begin{figure}
   \centering
       \includegraphics[width=\textwidth]{network}
   \caption{An Example Netowrk}
 \end{figure}
-
 
 Example of the network of 100 agents
 To simulate the childcare scenario they are split into 5 groups of about 20 agents each with high connectivity inside the group and low connectivity between the groups 
@@ -82,9 +98,9 @@ Compliance can be set a variety of ways in the modified model but in this paper 
 \begin{itemize}
 
 \item Parameter justification
-\item test false negative rate 0.36 https://www.abc.net.au/news/2022-02-05/staff-children-preschool-childcare-protected-covid-national-plan/100805610
-\item R0 mean of Omicron is 9.5, delta is 5.4  https://www1.racgp.org.au/newsgp/clinical/what-to-expect-from-a-third-omicron-wave-in-austra https://academic.oup.com/jtm/article/29/3/taac037/6545354
-\item base compliance for behaviour is set t 0.5
+\item test false negative rate 0.36 ~\cite{van_de_mortel_2022}
+\item R0 mean of Omicron is 9.5, delta is 5.4 ~\cite{liu_rocklov_2022}
+\item base compliance for behaviour is set at levels of  0.5 and 1, to represent 50\% of agents and all agents complying
 \item 100 agents in model split into 5 groups with high interconnectedness within the group and low connections between groups
 
 \item compliance increases for 2 actions,  symtomatic test and regular interva survillencel tests
@@ -97,17 +113,19 @@ Compliance can be set a variety of ways in the modified model but in this paper 
 
 \begin{figure}
   \centering
-      \includegraphics[width=\textwidth]{Figure3}
+      \includegraphics[width=\textwidth]{Figure3}CONTACTGROUPMATE
       \includegraphics[width=\textwidth]{Figure3Net}
   \caption{Benchmark Run with Unchanging Compliance at 50\% for regular twice weekly survilence testing and testing if symtomatic with the resulting final network. 92 of the 100 agents received the infection}
 \end{figure}
 
+The benchmark model is associated with one single large peak of disease spread
+
+\newpage
 
 \section{Non-Strategic Model}
 We have a fixed cost of compliance to an action and varying factors that can raise it. A mix of global and local behavioural factors can be added to make an agent more compliant. In the current build these are the known positive cases in the network in the past 14 days. The proportion of contact agents (those which share an edge) which are a fatality, hospitalised or in isolation. These values are taken away from the base cost and if the result is lower from a specified value the agent will be compliant to that action, otherwise they are not
 
 For a simple example we have a situation for this central agent 
-
 
 \begin{figure}
   \centering
@@ -116,25 +134,31 @@ For a simple example we have a situation for this central agent
 \end{figure}
 
 
-TESTING\_COMPLIANCE\_RATE\_SYMPTOMATIC                  = 0.5
-TESTING\_COMPLIANCE\_RATE\_RANDOM                       = 0.5
 
-14 day positive test rate for network = 0.02 = 2%
-This agent’s base aptitude +0.30 which can range (-0.5,0.5)
-Base cost = 0.5
-Compliance = 0.5 – (5 * 1/10) – (4*0.02) + 0.3 = 0.22
+
+\begin{itemize}
+\item TESTING\_COMPLIANCE\_RATE\_SYMPTOMATIC=0.5 
+\item TESTING\_COMPLIANCE\_RATE\_RANDOM= 0.5
+\item 14 day positive test rate for network = 0.02 = 2\%
+\item This agent’s base aptitude +0.30 which can range (-0.5,0.5), the range size is a parameter but is symetrical around 0 and is uniformly distributed 
+\item Base cost = 0.5
+\item Compliance = 0.5 – (5 * 1/10) – (4*0.02) + 0.3 = 0.22
+\end{itemize}
+
+
 In this case the agent is compliant
-will test if they develop a symptomatic case immediately
-will do surveillance testing 
-if the neighbouring agent that entered hospital returns a positive test, our agent will enter isolation
-
+it will test if they develop a symptomatic case immediately and will do surveillance testing as the compliance is now less than the threshold of 0.5
+if the neighbouring agent that entered hospital returns a positive test, our agent will enter isolation if a positive test is returned 
 the reward for agents can be based on a mix of both a local and global network situation as in the example runs
 
-Of the 10 possible compliance parameters built into the existing mode, 4 are used these are,
-•	immediately testing if the agent has a symptomatic case
-•	using regular surveillance testing
-•	isolating if a positive test is returned
+Of the 10 possible compliance parameters built into the existing mode, 3 are used these are
+\begin{itemize}
+\item immediately testing if the agent has a symptomatic case
+\item using regular surveillance testing
+\item isolating if a positive test is returned - set to always be true
+\end{itemize}
 
+\newpage
 
 \begin{figure}
   \centering
@@ -146,8 +170,11 @@ Of the 10 possible compliance parameters built into the existing mode, 4 are use
 
 \section{Analysis of Testing Compliance}
 
-On average, what percentage of the population caught the contagion
-On average, how many days did it take for the outbreak to stop with 0 active cases
+To evaluate the result of the model we take tghe average of these two values over many runs 
+\begin{itemize}
+\item What percentage of the population caught the contagion?
+\item How many days did it take for the outbreak to stop with 0 actual active cases?
+\end{itemize}
 
 We can analyse compliance by comparing the effect varying levels have on the length a contagion actively spreads and what proportion of the population becomes infected. Firstly a baseline can be set to explore the parameter space, then further tests done to see the effect having compliance change as a result of the current known spread of the contagion in the network.
 
@@ -238,6 +265,7 @@ Growth of disease rate
 
 Removed parameter section
 \begin{itemize}
+
 \item TRACING\_COMPLIANCE\_RATE (what proportion of agents comply with contact tracing)
 \item ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_CONTACT (what proportion of agents isolate given they are a close contact) 
 
@@ -248,5 +276,11 @@ Removed parameter section
 
 \item ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_CONTACTGROUPMATE (what proportion of agents in a group isolate given one of them is a close contact)
 \end{itemize}
+
+\bibliography{bibliography}{}
+\bibliographystyle{plain}
+
+\end{document}
+
 
 \end{document}
