@@ -2,6 +2,7 @@ from __future__ import division
 
 # new lists to hold data
 import networkx as nx
+import csv
 
 day_list = []  # added
 numPositive_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -184,7 +185,7 @@ def run_tti_sim(model, T, max_dt=None,
                         agent_behavioural_reward[agent_num] += (contact_list_state.count(6) + contact_list_state.count(8)+ contact_list_state.count(12)+ contact_list_state.count(12)+ contact_list_state.count(13)+ contact_list_state.count(14)+contact_list_state.count(15)+ contact_list_state.count(16)+contact_list_state.count(17))/len(contact_list_state) * 5
                         #having a contact as isolated would make agents more likely to be compliant as they think they may have been infected
 
-                        agent_behavioural_reward[agent_num] += sum(numPositive_list[-14:]) / N * 4
+                        agent_behavioural_reward[agent_num] += sum(numPositive_list[-14:]) / N * 5
                         # average case numbers
 
                     agent_base_compliance[agent_num] = 0.5 - agent_behavioural_reward[agent_num] + agent_base_behavioural_random_list[agent_num]
@@ -199,8 +200,6 @@ def run_tti_sim(model, T, max_dt=None,
                 new_isolation_compliance_rate_positive_groupmate = base_isolation_compliance_rate_positive_groupmate
                 new_isolation_compliance_rate_positive_contact = base_isolation_compliance_rate_positive_contact
                 new_isolation_compliance_rate_positive_contactgroupmate = base_isolation_compliance_rate_positive_contactgroupmate
-
-
 
             else:
                 #new_testing_compliance_symptomatic = (numpy.random.rand(N) < min(1, base_testing_compliance_rate_symptomatic + (sum(numPositive_list[-14:]) / N * 5)))
@@ -674,11 +673,20 @@ def run_tti_sim(model, T, max_dt=None,
             Susceptible += 1
     print("percentage of agents that were infected: " + str(int(((len(model.G.nodes) - Susceptible) / len(model.G.nodes) * 100))) + "%")
 
+    days_active_case  = str(int(old_t) + 1)
+    percent_infect = str(int(((len(model.G.nodes) - Susceptible) / len(model.G.nodes) * 100)))
+
+    new_save_folder = save_folder[:-19]
+    print(new_save_folder)
+    with open(new_save_folder + "\history_results.csv","a",newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([percent_infect,days_active_case])
+
     file = open(save_folder + "\parameters_and_results.txt", "a")
     file.writelines(["Run Key Statistics", str(), "\n"])
-    file.writelines(["\tdays till no active cases: ", str(int(old_t) + 1),"\n"])
+    file.writelines(["\tdays till no active cases: ", days_active_case,"\n"])
     file.writelines(["\tpercentage of agents that were infected: ",
-                     str(int(((len(model.G.nodes) - Susceptible) / len(model.G.nodes) * 100))),"\n"])
+                     percent_infect,"\n"])
     file.writelines(["\tday list: ",str(day_list),"\n"])
     file.writelines(["\taverage_connectivity: ",str(average_connectivity),"\n"])
     file.writelines(["\tdensity: ",str(density_list),"\n"])

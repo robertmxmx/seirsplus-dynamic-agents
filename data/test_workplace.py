@@ -9,6 +9,7 @@ import os
 import datetime
 import matplotlib.pyplot as pyplot
 
+#for i in range(50):
 NUM_COHORTS              = 5 #faculty
 NUM_NODES_PER_COHORT     = 20 #people
 NUM_TEAMS_PER_COHORT     = 1 #classes
@@ -52,9 +53,9 @@ MU_H    = 1 / gamma_dist(hospitalizationToDeathPeriod_mean, hospitalizationToDea
 
 PCT_ASYMPTOMATIC = 0.25
 PCT_HOSPITALIZED = 0.035
-PCT_FATALITY = 0.01
+PCT_FATALITY = 0.001
 
-R0_mean     = 5.4 # 9.5 is omicron  , 5.4 is delta,
+R0_mean     = 3 # 9.5 is omicron  , 5.4 is delta,
 R0_coeffvar = 0.2
 R0 = gamma_dist(R0_mean, R0_coeffvar, N)
 
@@ -85,15 +86,12 @@ TRACING_COMPLIANCE_RATE                              = -10
 ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_INDIVIDUAL     = -10
 ISOLATION_COMPLIANCE_RATE_SYMPTOMATIC_GROUPMATE      = -10
 ISOLATION_COMPLIANCE_RATE_POSITIVE_INDIVIDUAL        = 10
-ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE         = 0.5
+ISOLATION_COMPLIANCE_RATE_POSITIVE_GROUPMATE         = -10
 ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT           = -10
 ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE  = -10
 
 Use_Behavioural_Model_Bool = True
-random_factor_range = 0.5
-
-
-
+random_factor_range = 0.1
 
 model = ExtSEIRSNetworkModel(G=G_baseline, p=P_GLOBALINTXN,
                               beta=BETA, sigma=SIGMA, lamda=LAMDA, gamma=GAMMA,
@@ -117,9 +115,10 @@ save_folder = save_folder.split("data")[0]
 save_folder += "\output_results\."
 save_folder = save_folder[:-1]
 save_folder += date_time
-os.makedirs(save_folder)
-os.makedirs(save_folder + "\plot_reduced")
-os.makedirs(save_folder + "\plot_normal")
+if (not os.path.exists(save_folder)):
+    os.makedirs(save_folder)
+    os.makedirs(save_folder + "\plot_reduced")
+    os.makedirs(save_folder + "\plot_normal")
 
 file = open(save_folder + "\parameters_and_results.txt", "w+")
 file.writelines(["Network Parameters", "\n"])
@@ -178,4 +177,4 @@ run_tti_sim(model, T,
 results_summary(model)
 
 #fig, ax = model.figure_infections(vlines=checkpoints['t'],combine_Q_infected=False, plot_Q_R='stacked', plot_Q_S='stacked')
-fig, ax = model.figure_infections(combine_Q_infected=False, plot_Q_R='stacked', plot_Q_S='stacked', save_folder = save_folder)
+fig, ax = model.figure_infections(combine_Q_infected=False, plot_Q_R='stacked', plot_Q_S='stacked', save_folder = save_folder, show=bool_produce_image)
