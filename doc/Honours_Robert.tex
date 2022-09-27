@@ -17,7 +17,7 @@
 \maketitle
 
 \begin{abstract}
-	Include abstract.
+	Currently there is much interest in modelling diseases to understanding ways governments, workplaces and other decisions makers may seek to control the spread of COVID-19. Many various computational models of disease spread exist and this paper builds upon an network agent based model and changes the ways in which agents can comply or not compy with various actions. Both non-stategic and strategic methods of agent compliance were looked into and it was found that ..... this suggests that ....
 \end{abstract}
 
 
@@ -29,7 +29,7 @@
 \section{Introduction}
 
 Mathematical and Computational models are important in preparing policies to deal with pandemics.
-These models typically ignore or have very simple ways to incorporate behaviour.
+These models typically do not incorporate behaviour or if they do, do so in simple ways such as compartmental models that incorporate "aggregate states" this was implemented as having 6 diiferent behavioural secenarios which would change based on the time of the simulation or having a certain threshold of positive test, positive cases or deaths per day ~\cite{karaivanov_2020}
 
 Cite a few examples and explain them. 
 
@@ -97,19 +97,22 @@ The agents current state is shown by the nodes colour and the edges are that age
 \subsection{Description of Model Parameters}
 The Current Modifications of the model relate to allowing 10 of the Model Parameters that relate to Compliance to be dynamically updated each day dependent on a given rule. The 5 most relevent of these being.
 \begin{itemize}
-\item TESTING\_COMPLIANCE\_RATE\_SYMPTOMATIC (what proportion of agents take a test immediately as a result of having symptoms)
-\item TESTING\_COMPLIANCE\_RATE\_RANDOM  (what proportion of agents will do surveillance)
-\item ISOLATION\_COMPLIANCE\_RATE\_SYMPTOMATIC\_INDIVIDUAL (what proportion of agents will isolate given they have a symptomatic case)
-\item ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_INDIVIDUAL (what proportion of agents will isolate given a positive result from a test)
-\item ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_GROUPMATE (what proportion of agents in a group isolate given one of them has a positive result from a test)
+\item What proportion of agents take a test immediately as a result of having symptoms
+\item What proportion of agents will do surveillance
+\item What proportion of agents will isolate given they have a symptomatic case
+\item What proportion of agents will isolate given a positive result from a test
+\item What proportion of agents in a group isolate given one of them has a positive result from a test
 \end{itemize}
 
 A simple model might only use a few of these compliance parameters such as  and is how the parameters work in the base model
-\begin{itemize}
-\item TESTING\_COMPLIANCE\_RATE\_SYMPTOMATIC = 0.5\
-\item TESTING\_COMPLIANCE\_RATE\_RANDOM = 0.5
-\item ISOLATION\_COMPLIANCE\_RATE\_POSITIVE\_INDIVIDUAL =1
-\end{itemize}
+
+\begin{table}[h!]
+\begin{tabular}{ll}
+Symtomatic Testing Rate Compliance & 50\% \\
+Surveillance Testing Rate Compliance & 50\% \\
+Isolation from Positive Test Compliance & 100\%
+\end{tabular}
+\end{table}
 
 
 \subsection{Description of Compliance In the Model}
@@ -142,9 +145,15 @@ Compliance can be set a variety of ways in the modified model but in this paper 
 
 \begin{figure}
   \centering
-      \includegraphics[width=\textwidth]{Figure3}CONTACTGROUPMATE
+      \includegraphics[width=\textwidth]{Figure3}
       \includegraphics[width=\textwidth]{Figure3Net}
   \caption{Benchmark Run with Unchanging Compliance at 50\% for regular twice weekly survilence testing and testing if symtomatic with the resulting final network. 92 of the 100 agents received the infection}
+\end{figure}
+
+\begin{figure}
+  \centering
+      \includegraphics[width =150pt]{basicnet}
+  \caption{An Example Simplified Network}
 \end{figure}
 
 The benchmark model is associated with one single large peak of disease spread
@@ -156,23 +165,19 @@ We have a fixed cost of compliance to an action and varying factors that can rai
 
 For a simple example we have a situation for this central agent 
 
-\begin{figure}
-  \centering
-      \includegraphics[width =150pt]{basicnet}
-  \caption{An Example Simplified Network}
-\end{figure}
 
 
+\begin{table}[h!]
+\begin{tabular}{ll}
+Symtomatic Testing Rate Compliance & 50\% \\
+Surveillance Testing Rate Compliance & 50\% \\
+This agent’s base aptitude & uniformly distributed (-0.1,0.1) \\
+Base Cost of Compliance & 0.5 
+\end{tabular}
+\end{table}
 
+Compliance = 0.5 – (5 * 1/10) – (4*0.02) + 0.3 = 0.22
 
-\begin{itemize}
-\item TESTING\_COMPLIANCE\_RATE\_SYMPTOMATIC=0.5 
-\item TESTING\_COMPLIANCE\_RATE\_RANDOM= 0.5
-\item 14 day positive test rate for network = 0.02 = 2\%
-\item This agent’s base aptitude +0.30 which can range (-0.5,0.5), the range size is a parameter but is symetrical around 0 and is uniformly distributed 
-\item Base cost = 0.5
-\item Compliance = 0.5 – (5 * 1/10) – (4*0.02) + 0.3 = 0.22
-\end{itemize}
 
 
 In this case the agent is compliant
@@ -191,10 +196,33 @@ Of the 10 possible compliance parameters built into the existing mode, 3 are use
 
 \begin{figure}
   \centering
-      \includegraphics[width=\textwidth]{basicgraph}
-  \caption{Test Results of a non strategic model}
+      \includegraphics[width=\textwidth]{5}
+  \caption{Test Results over R0 of 9.5}
 \end{figure}
 
+\begin{figure}
+  \centering
+      \includegraphics[width=\textwidth]{4}
+  \caption{Test Results over R0 of 5.4}
+\end{figure}
+
+\begin{figure}
+  \centering
+      \includegraphics[width=\textwidth]{3}
+  \caption{Test Results over R0 of 3}
+\end{figure}
+
+\begin{figure}
+  \centering
+      \includegraphics[width=\textwidth]{2}
+  \caption{Test Results over R0 of 2l}
+\end{figure}
+
+\begin{figure}
+  \centering
+      \includegraphics[width=\textwidth]{1}
+  \caption{Test Results Comparing the Results of R0 values}
+\end{figure}
 
 
 \section{Analysis of Testing Compliance}
@@ -225,6 +253,8 @@ e.g. number of close contacts or number of agents one can reach in 1 step , or c
 e.g. number of close contacts in a particular state or group of states like hospitalised, fatality, isolated etc, if a close contact is in one of those states the benefit to compliance is greater
 \end{itemize}
 
+
+
 for the following tests these can be used to create a personal benefit for each agent 
 
 it could be possible to use of a mix of these siutaitons and in real life that may be the case with peoples decision making process
@@ -245,7 +275,6 @@ one model is exclusivley global, one is excluisley local
 number of infections of those connected to me, 1 or 2 degrees , that are exposed or infectious
 
 number of infections globally
-
 
 
 agents will know the total percent of agents that are compliant and use that to work out how compliant they are
@@ -271,7 +300,6 @@ keep adding to latex doc.
 
 once its a good function integrate it 
 
-Redo table of content
 Childcare first introduces compliance
 Describe the model
  
