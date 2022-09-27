@@ -45,10 +45,20 @@ The rest of this paper is organised as follows. Section \ref{description} descri
 
 
 \section{Description of Model \label{description}}
-
+The model used is an Agent Based model where agents can belong to one of multiple conpartments as well as being in a state of isolation or not in isolation.
+Agents progress though states with the only sink node being Recovered and Fatality
+the states of Sucepitble, Exposed, Pre-Infectious, Infectious-Asymtomatic, Infectious-Symtomatic, Hospitalised, Fatality and Recovered exist. All these except Hospitalised and Fatality can have agents in a miror state where they are also isolated, meaning they cannot aquire the disease or spread it to any other agents in the network.
 
 Describe the model at large, what compartments, say it is an agent based model, etc.... cite the paper and explain how they use their model.
 
+
+\begin{figure}
+  \centering
+      \includegraphics[width=\textwidth]{ExtSEIRS_compartments_quarantine}
+  \caption{a diagram of the existing model replicated from the seirplus repository ~\cite{mcgee_2021}}
+\end{figure}
+
+\newpage
 
 
 
@@ -164,7 +174,6 @@ The benchmark model is associated with one single large peak of disease spread
 We have a fixed cost of compliance to an action and varying factors that can raise it. A mix of global and local behavioural factors can be added to make an agent more compliant. In the current build these are the known positive cases in the network in the past 14 days. The proportion of contact agents (those which share an edge) which are a fatality, hospitalised or in isolation. These values are taken away from the base cost and if the result is lower from a specified value the agent will be compliant to that action, otherwise they are not
 
 For a simple example we have a situation for this central agent 
-
 
 
 \begin{table}[h!]
