@@ -54,8 +54,8 @@ Describe the model at large, what compartments, say it is an agent based model, 
 
 \begin{figure}
   \centering
-      \includegraphics[width=\textwidth]{ExtSEIRS_compartments_quarantine}
-  \caption{a diagram of the existing model replicated from the seirplus repository ~\cite{mcgee_2021}}
+      \includegraphics[width=\textwidth]{SIR}
+  \caption{a diagram of the existing model of seirplus ~\cite{mcgee_2021}}
 \end{figure}
 
 \newpage
@@ -194,60 +194,12 @@ it will test if they develop a symptomatic case immediately and will do surveill
 if the neighbouring agent that entered hospital returns a positive test, our agent will enter isolation if a positive test is returned 
 the reward for agents can be based on a mix of both a local and global network situation as in the example runs
 
-Of the 10 possible compliance parameters built into the existing mode, 3 are used these are
+Of the 10 possible compliance parameters built into the existing mode, 3 are used these which are:
 \begin{itemize}
 \item immediately testing if the agent has a symptomatic case
 \item using regular surveillance testing
 \item isolating if a positive test is returned - set to always be true
 \end{itemize}
-
-\newpage
-
-\begin{figure}
-  \centering
-      \includegraphics[width=\textwidth]{5}
-  \caption{Test Results over R0 of 2}
-\end{figure}
-
-\begin{figure}
-  \centering
-      \includegraphics[width=\textwidth]{4}
-  \caption{Test Results over R0 of 3}
-\end{figure}
-
-\begin{figure}
-  \centering
-      \includegraphics[width=\textwidth]{3}
-  \caption{Test Results over R0 of 5.4}
-\end{figure}
-
-\begin{figure}
-  \centering
-      \includegraphics[width=\textwidth]{2}
-  \caption{Test Results over R0 of 9.5}
-\end{figure}
-
-\begin{figure}
-  \centering
-      \includegraphics[width=\textwidth]{1}
-  \caption{Test Results Comparing the Results of R0 values}
-\end{figure}
-
-
-\section{Analysis of Testing Compliance}
-
-To evaluate the result of the model we take tghe average of these two values over many runs 
-\begin{itemize}
-\item What percentage of the population caught the contagion?
-\item How many days did it take for the outbreak to stop with 0 actual active cases?
-\end{itemize}
-
-We can analyse compliance by comparing the effect varying levels have on the length a contagion actively spreads and what proportion of the population becomes infected. Firstly a baseline can be set to explore the parameter space, then further tests done to see the effect having compliance change as a result of the current known spread of the contagion in the network.
-
-
-Over 4 different R0 virus base reproduction rate was the model run with, over the different R0 levels the reducion in total cases reduced from a -2\% improvement with an R0 of 9.5 to a 28\% improvement with an R0 of 2. This is probably due to one of the aspects the model relating to the 14 day known positive cases recorded. With a low R0 in the system there are more chances for agents to test themselves before they pass on the disease and these reported cases incentivise even more agents to do symptomatic and surveillance testing. With extremely high R0 numbers it is observed that the non-strategic behavioural model has little effect on the total number infected. Across all cases it can be seen that the amount of time the simulation runs for is tied with how many agents get infected. Both the static values of compliance and non-strategic behavioural model follow this trend. 
-
-
 
 \section{Strategic Model}
 The view of benefit and cost can be grouped into 3 categories.
@@ -263,62 +215,54 @@ e.g. number of close contacts in a particular state or group of states like hosp
 \end{itemize}
 
 
-
-for the following tests these can be used to create a personal benefit for each agent 
-
-it could be possible to use of a mix of these siutaitons and in real life that may be the case with peoples decision making process
-
-
-Structural layout of the network, for example number of close contacts an agent has 
-
-global situation for example the number of reported cases in the last 2 weeks , the number of actual cases in the last 2 weeks, the growth of the disease spread rate
-
-local situation for example the number of neighbouring agents that are a fatality, hospitalised or isolated
-
-
-benefit depends on change on rate of disease , number of agents around you that are hospitalised, fatality or isolated
-
-one model is exclusivley global, one is excluisley local
-
-
-number of infections of those connected to me, 1 or 2 degrees , that are exposed or infectious
-
-number of infections globally
-
-
-agents will know the total percent of agents that are compliant and use that to work out how compliant they are
-
-one universal curve for compliance , would this mean it has to be based off global factors ?
-
-do I actually need to mathimatically work out a curve and its intecepts 
-
-every day am I updating this curve? , can agents move to exactly where they want, or is it a slow process, they can only move X amount every day?, a limited amount makes sense as that would match the curves in other papers like thomas?
-Or would you see where the maxima is on that day and instantly assign the end that value?
-
-come up with a equation (payoff function), x parameter to produce a curve like in the papers
-parameters go in , map plot, make it a notebook
-
-does it change based on rate of change or on number of cases - if its global every curve would be the same
-if its local every curve is different for each agent
-
-notebook
-
-how do curves change with infection numbers/rate
-
-keep adding to latex doc.
-
-once its a good function integrate it 
-
-Childcare first introduces compliance
-Describe the model
- 
-When you comply you pay a cost
-
-Growth of disease rate
-
-
-
 \section{Results}
+
+
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=\textwidth]{5}
+  \caption{Test Results over R0 of 2}
+\end{figure}
+
+\newpage
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=\textwidth]{4}
+  \caption{Test Results over R0 of 3}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=\textwidth]{3}
+  \caption{Test Results over R0 of 5.4}
+\end{figure}
+\newpage
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=\textwidth]{2}
+  \caption{Test Results over R0 of 9.5}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=\textwidth]{1}
+  \caption{Test Results Comparing the Results of R0 values}
+\end{figure}
+\newpage
+
+\section{Analysis of Testing Compliance}
+
+To evaluate the result of the model we take tghe average of these two values over many runs 
+\begin{itemize}
+\item What percentage of the population caught the contagion?
+\item How many days did it take for the outbreak to stop with 0 actual active cases?
+\end{itemize}
+
+We can analyse compliance by comparing the effect varying levels have on the length a contagion actively spreads and what proportion of the population becomes infected. Firstly a baseline can be set to explore the parameter space, then further tests done to see the effect having compliance change as a result of the current known spread of the contagion in the network.
+
+
+Over 4 different R0 virus base reproduction rate was the model run with, over the different R0 levels the reducion in total cases reduced from a -2\% improvement with an R0 of 9.5 to a 28\% improvement with an R0 of 2. This is probably due to one of the aspects the model relating to the 14 day known positive cases recorded. With a low R0 in the system there are more chances for agents to test themselves before they pass on the disease and these reported cases incentivise even more agents to do symptomatic and surveillance testing. With extremely high R0 numbers it is observed that the non-strategic behavioural model has little effect on the total number infected. Across all cases it can be seen that the amount of time the simulation runs for is tied with how many agents get infected. Both the static values of compliance and non-strategic behavioural model follow this trend. 
+
 
 \section{Discussion}
 
