@@ -3,6 +3,7 @@ from __future__ import division
 # new lists to hold data
 import networkx as nx
 import csv
+import strategic_models
 
 day_list = []  # added
 numPositive_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -14,6 +15,7 @@ agent_behavioural_cost = []
 agent_behavioural_reward = []
 density_list = []
 average_connectivity = []
+result_dict = {}
 
 S_list = []
 E_list =[]
@@ -59,8 +61,9 @@ def run_tti_sim(model, T, max_dt=None,
                 base_isolation_compliance_rate_symptomatic_groupmate=0,
                 base_isolation_compliance_rate_positive_individual=0,
                 base_isolation_compliance_rate_positive_groupmate=0, base_isolation_compliance_rate_positive_contact=0,
-                base_isolation_compliance_rate_positive_contactgroupmate=0, produce_image=False, save_folder=None, Use_Behavioural_Model_bool = False, random_factor_range_behavioural = 0
+                base_isolation_compliance_rate_positive_contactgroupmate=0, produce_image=False, save_folder=None, Use_Behavioural_Model_bool = False, random_factor_range_behavioural = 0, Use_Structural_Strategic_Bool = False, Use_Global_Rate_Strategic_Bool = False,Use_Global_State_Strategic_Bool = False,Use_Local_State_Strategic_Bool = False
                 ):
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     N = len(model.G)
     numPositive = 0
@@ -182,7 +185,7 @@ def run_tti_sim(model, T, max_dt=None,
 
                     if len(contact_list_state) > 0:
 
-                        agent_behavioural_reward[agent_num] += (contact_list_state.count(6) + contact_list_state.count(8)+ contact_list_state.count(12)+ contact_list_state.count(12)+ contact_list_state.count(13)+ contact_list_state.count(14)+contact_list_state.count(15)+ contact_list_state.count(16)+contact_list_state.count(17))/len(contact_list_state) * 5
+                        agent_behavioural_reward[agent_num] += (contact_list_state.count(6) + contact_list_state.count(8)+ contact_list_state.count(12)+ contact_list_state.count(13)+ contact_list_state.count(14)+contact_list_state.count(15)+ contact_list_state.count(16)+contact_list_state.count(17))/len(contact_list_state) * 5
                         #having a contact as isolated would make agents more likely to be compliant as they think they may have been infected
 
                         agent_behavioural_reward[agent_num] += sum(numPositive_list[-14:]) / N * 5
@@ -197,6 +200,144 @@ def run_tti_sim(model, T, max_dt=None,
                 new_isolation_compliance_rate_symptomatic_individual = base_isolation_compliance_rate_symptomatic_individual
                 new_isolation_compliance_rate_symptomatic_groupmate = base_isolation_compliance_rate_symptomatic_groupmate
                 new_isolation_compliance_rate_positive_individual = base_isolation_compliance_rate_positive_individual
+                new_isolation_compliance_rate_positive_groupmate = base_isolation_compliance_rate_positive_groupmate
+                new_isolation_compliance_rate_positive_contact = base_isolation_compliance_rate_positive_contact
+                new_isolation_compliance_rate_positive_contactgroupmate = base_isolation_compliance_rate_positive_contactgroupmate
+
+            elif Use_Structural_Strategic_Bool:
+
+                c = 1  # cost
+                #F = 120  # benefit to cooperate
+                M = N*0.6  # minimum in group to get payoff
+
+                new_testing_compliance_symptomatic = []
+                new_testing_compliance_random = []
+
+                for agent_num in range(N):
+
+                    contact_list_state = []
+                    for k in model.G.edges(agent_num):
+                        try:
+                            contact_list_state.append(int(model.X[[k[1]]]))
+                        except:
+                            pass
+
+                    F = int (25 * len(contact_list_state) * (1 + agent_base_behavioural_random_list[agent_num]) )
+
+                    if F not in result_dict:
+                        prob = strategic_models.find_probability(c, F, N, M)
+                        result_dict[F] = prob
+
+                    prob = result_dict[F]
+                    new_testing_compliance_symptomatic.append(prob)
+                    new_testing_compliance_random.append(prob)
+
+                new_testing_compliance_rate_traced = base_testing_compliance_rate_traced
+                new_tracing_compliance_rate = base_tracing_compliance_rate
+                new_isolation_compliance_rate_symptomatic_individual = base_isolation_compliance_rate_symptomatic_individual
+                new_isolation_compliance_rate_positive_individual = base_isolation_compliance_rate_positive_individual
+                new_isolation_compliance_rate_symptomatic_groupmate = base_isolation_compliance_rate_symptomatic_groupmate
+                new_isolation_compliance_rate_positive_groupmate = base_isolation_compliance_rate_positive_groupmate
+                new_isolation_compliance_rate_positive_contact = base_isolation_compliance_rate_positive_contact
+                new_isolation_compliance_rate_positive_contactgroupmate = base_isolation_compliance_rate_positive_contactgroupmate
+
+            elif Use_Global_Rate_Strategic_Bool:
+                c = 1  # cost
+                # F = 120  # benefit to cooperate
+                M = N * 0.6  # minimum in group to get payoff
+
+                new_testing_compliance_symptomatic = []
+                new_testing_compliance_random = []
+
+                for agent_num in range(N):
+                    F = int((125 + (2 * sum(numPositive_list[-14:]))) * (1 + agent_base_behavioural_random_list[agent_num]))
+
+                    if F not in result_dict:
+                        prob = strategic_models.find_probability(c, F, N, M)
+                        result_dict[F] = prob
+
+                    prob = result_dict[F]
+                    new_testing_compliance_symptomatic.append(prob)
+                    new_testing_compliance_random.append(prob)
+
+                new_testing_compliance_rate_traced = base_testing_compliance_rate_traced
+                new_tracing_compliance_rate = base_tracing_compliance_rate
+                new_isolation_compliance_rate_symptomatic_individual = base_isolation_compliance_rate_symptomatic_individual
+                new_isolation_compliance_rate_symptomatic_groupmate = base_isolation_compliance_rate_symptomatic_groupmate
+                new_isolation_compliance_rate_positive_individual = base_isolation_compliance_rate_positive_individual
+                new_isolation_compliance_rate_positive_groupmate = base_isolation_compliance_rate_positive_groupmate
+                new_isolation_compliance_rate_positive_contact = base_isolation_compliance_rate_positive_contact
+                new_isolation_compliance_rate_positive_contactgroupmate = base_isolation_compliance_rate_positive_contactgroupmate
+
+            elif Use_Global_State_Strategic_Bool:
+                c = 1  # cost
+                # F = 120  # benefit to cooperate
+                M = N * 0.6  # minimum in group to get payoff
+
+                new_testing_compliance_symptomatic = []
+                new_testing_compliance_random = []
+
+                contact_list_state = []
+                for k in range(N):
+                    contact_list_state.append(int(model.X[k]))
+
+                for agent_num in range(N):
+                    F = int((125 + (2 * (
+                            contact_list_state.count(6) + contact_list_state.count(8) + contact_list_state.count(
+                        12) + contact_list_state.count(13) + contact_list_state.count(14) + contact_list_state.count(
+                        15) + contact_list_state.count(16) + contact_list_state.count(17)))) * (
+                                    1 + agent_base_behavioural_random_list[agent_num]))
+
+                    if F not in result_dict:
+                        prob = strategic_models.find_probability(c, F, N, M)
+                        result_dict[F] = prob
+
+                    prob = result_dict[F]
+                    new_testing_compliance_symptomatic.append(prob)
+                    new_testing_compliance_random.append(prob)
+
+                new_testing_compliance_rate_traced = base_testing_compliance_rate_traced
+                new_tracing_compliance_rate = base_tracing_compliance_rate
+                new_isolation_compliance_rate_symptomatic_individual = base_isolation_compliance_rate_symptomatic_individual
+                new_isolation_compliance_rate_symptomatic_groupmate = base_isolation_compliance_rate_symptomatic_groupmate
+                new_isolation_compliance_rate_positive_individual = base_isolation_compliance_rate_positive_individual
+                new_isolation_compliance_rate_positive_groupmate = base_isolation_compliance_rate_positive_groupmate
+                new_isolation_compliance_rate_positive_contact = base_isolation_compliance_rate_positive_contact
+                new_isolation_compliance_rate_positive_contactgroupmate = base_isolation_compliance_rate_positive_contactgroupmate
+
+            elif Use_Local_State_Strategic_Bool:
+
+                c = 1  # cost
+                #F = 120  # benefit to cooperate
+                M = N*0.6  # minimum in group to get payoff
+
+                new_testing_compliance_symptomatic = []
+                new_testing_compliance_random = []
+
+                for agent_num in range(N):
+
+                    contact_list_state = []
+                    for k in model.G.edges(agent_num):
+                        try:
+                            contact_list_state.append(int(model.X[[k[1]]]))
+                        except:
+                            pass
+
+                    F = int((125 + (30 * (contact_list_state.count(6) + contact_list_state.count(8)+ contact_list_state.count(12)+ contact_list_state.count(13)+ contact_list_state.count(14)+contact_list_state.count(15)+ contact_list_state.count(16)+contact_list_state.count(17)))) * (1 + agent_base_behavioural_random_list[agent_num]) )
+
+                    if F not in result_dict:
+                        prob = strategic_models.find_probability(c, F, N, M)
+                        result_dict[F] = prob
+
+                    prob = result_dict[F]
+                    new_testing_compliance_symptomatic.append(prob)
+                    new_testing_compliance_random.append(prob)
+
+                new_testing_compliance_rate_traced = base_testing_compliance_rate_traced
+                new_tracing_compliance_rate = base_tracing_compliance_rate
+                new_isolation_compliance_rate_symptomatic_individual = base_isolation_compliance_rate_symptomatic_individual
+                new_isolation_compliance_rate_positive_individual = base_isolation_compliance_rate_positive_individual
+                new_isolation_compliance_rate_symptomatic_groupmate = base_isolation_compliance_rate_symptomatic_groupmate
                 new_isolation_compliance_rate_positive_groupmate = base_isolation_compliance_rate_positive_groupmate
                 new_isolation_compliance_rate_positive_contact = base_isolation_compliance_rate_positive_contact
                 new_isolation_compliance_rate_positive_contactgroupmate = base_isolation_compliance_rate_positive_contactgroupmate
