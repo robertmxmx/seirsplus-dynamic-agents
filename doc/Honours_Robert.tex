@@ -17,7 +17,7 @@
 \maketitle
 
 \begin{abstract}
-	Currently there is much interest in modelling diseases to understanding ways governments, workplaces and other decisions makers may seek to control the spread of COVID-19. Many various computational models of disease spread exist and this paper builds upon an network agent based model and changes the ways in which agents can comply or not compy with various actions. Both non-stategic and strategic methods of agent compliance were looked into and it was found that ..... this suggests that ....
+	Currently there is much interest in modelling diseases to understanding ways governments, workplaces and other decisions makers may seek to control the spread of COVID-19. Many various computational models of disease spread exist and this paper builds upon an network agent based model and changes the ways in which agents can comply or not compy with various actions. Both non-stategic and strategic methods of agent compliance were looked into and it was found that the lower the reproduction rate of the disease the better any type of non-pharaceutical intervention was, with high R0 values the best results were found when benefit for compliance related to the number of agents one was in contact with, and with lower R0 values the best results were found when the benefit for compliance related to looking at the number of agents one was in contact with that was either symtomatic, hospitalised, fatality or in quarantine.
 \end{abstract}
 
 
@@ -28,10 +28,8 @@
 
 \section{Introduction}
 
-Mathematical and Computational models are important in preparing policies to deal with pandemics.
+Mathematical and computational models are important in preparing policies to deal with pandemics. Mathemeaickl
 These models typically do not incorporate behaviour or if they do, do so in simple ways such as compartmental models that incorporate "aggregate states" this was implemented as having 6 diiferent behavioural secenarios which would change based on the time of the simulation or having a certain threshold of positive test, positive cases or deaths per day ~\cite{karaivanov_2020}
-
-Cite a few examples and explain them. 
 
 This paper investigates the modification of an existing model diease spread produced by Ryan McGee and used a part of various peer reviewed research articles ~\cite{mcgee_homburger_williams_bergstrom_zhou_2021} ~\cite{mcgee_homburger_williams_bergstrom_zhou_2021_2}. 
 I have looked at applying the model to the situation of COVID-19 in childcare and involves creating both a non stategic and strategic behavoioural models. 
@@ -45,11 +43,15 @@ The rest of this paper is organised as follows. Section \ref{description} descri
 
 
 \section{Description of Model \label{description}}
-The model used is an Agent Based model where agents can belong to one of multiple conpartments as well as being in a state of isolation or not in isolation.
-Agents progress though states with the only sink node being Recovered and Fatality
-the states of Sucepitble, Exposed, Pre-Infectious, Infectious-Asymtomatic, Infectious-Symtomatic, Hospitalised, Fatality and Recovered exist. All these except Hospitalised and Fatality can have agents in a miror state where they are also isolated, meaning they cannot aquire the disease or spread it to any other agents in the network.
+The model that is modified in this paper is an Agent Based Model (ABM). This ABM is one where agents can belong to one and only one compartment representing their state. 
 
-Describe the model at large, what compartments, say it is an agent based model, etc.... cite the paper and explain how they use their model.
+Agents progress though states with the only sink node being Recovered and Fatality
+the states of Susceptible, Exposed, Pre-Infectious, Infectious-Asymptomatic, Infectious-Symptomatic, Hospitalised, Fatality and Recovered exist. All these except Hospitalised and Fatality can have agents in a mirror state where they are also isolated, meaning they cannot acquire the disease or spread it to any other agents in the network.
+
+Once an agent catches the disease they move along the stages of the disease until they are a fatality or recovered, at any point they have the ability to move across to the mirror isolation state. 
+
+
+
 
 
 \begin{figure}
@@ -64,31 +66,27 @@ Describe the model at large, what compartments, say it is an agent based model, 
 
 \subsection{Using networks to model contacts}
 
-The version of the model we use considers a simple network.... The model has two structures agents can be arranged in , one which uses a one single connected network designed to simulate a workplace, the other has a group of age segregated connected networks as well as small networks each agent is a part of that represents the household they are in. 
+The version of the model we use considers a simple network, one which uses a one single connected network designed to simulate a workplace.
 
-These large networks are made up of a number of cohorts which are loosely connected and each of these has a number of subgroups which are highly connected. The one single connected network is the one which is used in this paper.
+These large networks are made up of a number of cohorts which are loosely connected and each of these cohorts can have a number of subgroups which are highly connected.
 
-some important aspects about the model include
-\begin{itemize}
+The network is set up before the simulation begins and is different every time and does not change throughout the simulations run. 
 
-\item The network is set up before the simulation begins and does not change throughout the simulations run. 
+Agents are arranged in a network as nodes and are connected by edges representing which other nodes are their close contacts. 80\% of disease spread is though the close contact edges and 20\% is spread randomly.
 
-\item 80\% of transmission spread between agents occurs along the edges connecting them, while 20\% of transmission is at  random this means those agents who whey share an edge with would be close contacts
+Each day agents will be asked to do a test if their day has come up on a surveillance testing schedule, they show symptoms or have been contacted that they are a close contact. However there is a compliance value to them following through with the requested action
 
-\item Each day agents will be asked to do a test if their day has come up on a surveillance testing schedule, they show symptoms or have been contacted that they are a close contact.
+During the day agents can spread the contagion to each other and can progress though the stages of the disease if they have it. They additionally have the choice to participate in contact tracing.
 
-\item During the day agents can spread the contagion to each other and can progress though the stages of the disease if they have it. They additionally have the choice to participate in contact tracing.
+Agents will also be asked to isolate for one of six reasons. They or a group member develop a symptomatic case, returns a positive test or is told they are a close contact though using contact tracing. Again there is a compliance value to decide if they follow through with the requested action
 
-\item Agents will also be asked to isolate for one of six reasons. They or a group member develop a symptomatic case, returns a positive test or is told they are a close contact though using contact tracing
-
-\item These systems can effectively be disabled by overriding the compliance for them to be a large negative number, for example compliance with contact tracing can be set to -10 to disable the use of that system and this done to limit the model to a smaller amount of variables which complyance can affect.
-\end{itemize}
+These systems can effectively be disabled by overriding the compliance for them to be a large negative number, for example compliance with contact tracing can be set to -10 to disable the use of that system and this done to limit the model to a smaller number of variables which compliance can affect.
 
 
 The model has a variety of limitations including 
 \begin{itemize}
-\item Having all agents always test on the same day, so if semiweekly is chosen, all agents will be asked to test on Monday and Thursday
-\item the network itself is unchanging, but this is not necessarily bad
+\item Having all agents always test on the same day, thus if semiweekly is chosen, all agents will be asked to test on Monday and Thursday
+\item the network itself is unchanging, however this is not necessarily bad as it removes a variable that may change results
 \end{itemize}
 
 \newpage
@@ -216,6 +214,23 @@ e.g. number of close contacts in a particular state or group of states like hosp
 
 
 \section{Results}
+
+In this model two choices of compliance are considered, If an agent is compliant they will perform semi-weekly surveillance testing in addition to testing whenever they develop a symptomatic case of the disease, If they are not compliant they will do neither of these actions.
+
+There are 5 models compared these are
+Baseline 50\% compliance, this is where each agent when generated has a 50\% chance to always or to never comply. 
+
+Baseline 100\% compliance, this is where each agent when generated has a 100\% chance to always comply. 
+
+for the non-strategic model, initially a value is generated for what threshold of compliance they will have and when it is past that set value they become compliant and if it moves back they no longer are. For example the base attitude for an agent might be 0.5, if on a given day the benefit exceeds that they become compliant and less than that, no longer compliant.
+
+Non-Strategic Minimum 50\% , this is where each day the compliance value for an agent is updated and changes based on a combination of the global known positive test cases recorded in the network within the last 14 days as well as the proportion of close contacts of an agent that are either symptomatic, a fatality, hospitalised or in isolation.
+
+For the strategic model a curve is created to model a game theory dilemma on wherever or not the agent should comply given they know the reward for compliance and what every other agent will do, depending on the benefit the likelihood of any one agent complying can vary from 0, to 60-99% to 100%.
+
+Strategic Community Size, this is where the benefit to compliance is based on the number of close contacts the agent has. This is a case where the curve is different for each agent but unchanging over time.
+Strategic Local State, this is where the benefit to compliance is based on the number of close contacts that are either in a state of symptomatic, a fatality, hospitalised or in isolation. This is a case where the curve is different for each agent and unchanging over time.
+Strategic Global State, this is where the benefit to compliance is based on the number of agents in the network that are either in a state of symptomatic, a fatality, hospitalised or in isolation. This is a case where the curve is the same for each agent but changes over time.
 
 
 \begin{figure}[h!]
