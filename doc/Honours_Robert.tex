@@ -28,18 +28,14 @@ Epidemic modelling has proven vital for understanding ways in which governments,
 
 \section{Introduction}
 
-Mathematical and computational models are important in preparing policies to deal with pandemics. Mathematical models exist ~\cite{cooper_mondal_antonopoulos_2020} that assume an infinite population and place proportions of this population into compartments, traditionally this is SIR, (Susceptible, Infectious and Recovered), however over the years additional have been made, some common examples being SEIR, SIS and SIRV. Computational models use computing power to solve these mathematical models or can be used to apply these concepts to other methods of modelling such as agent based models. These models typically have a finite number of agents which interact with either other in some manner. In regards to epidemiology, these models typically do not incorporate behaviour, or if they do, they do it in simple ways such as compartmental models that incorporate "aggregate states". This means that the model implemented six different behavioural scenarios which would change based on the time of the simulation or having a certain threshold of positive test, positive cases or deaths per day ~\cite{karaivanov_2020}.\linebreak
+Mathematical and computational models are important in preparing policies to deal with pandemics. Mathematical models exist ~\cite{cooper_mondal_antonopoulos_2020} that assume an infinite population and place proportions of this population into compartments, traditionally this is SIR, (Susceptible, Infectious and Recovered), however over the years additional have been made, some common examples being SEIR, SIS and SIRV. Computational models use computing power to solve these mathematical models or can be used to apply these concepts to other methods of modelling such as agent based models. These models typically have a finite number of agents which interact with each other in some manner. In regards to epidemiology, these models typically do not incorporate behaviour, or if they do, they do it in simple ways such as compartmental models that incorporate "aggregate states". This means that the model implemented six different behavioural scenarios which would change based on the time of the simulation or having a certain threshold of positive test, positive cases or deaths per day ~\cite{karaivanov_2020}.\linebreak
 
 This paper investigates the modification of an existing model disease spread produced by Ryan McGee and used as a part of various peer reviewed research articles ~\cite{mcgee_homburger_williams_bergstrom_zhou_2021} ~\cite{mcgee_homburger_williams_bergstrom_zhou_2021_2}. 
-I have looked at applying this model to the situation of COVID-19 in a childcare setting and involves creating both non strategic and strategic behavioural choice models. 
+I have looked at applying this model to the situation of COVID-19 in a childcare setting and involves creating both non strategic and strategic behavioural choice models. \newline
 
-Specifically behaviour in this model relates to compliance to various actions the agent can choose to comply with when requested such as doing a COVID rapid antigen test whenever they have symptoms of the virus. The non strategic model looks at giving agents a fixed cost of complying with requested actions with a reward based on a mix of local situations such as if they are in close contact with an agent who has a symptomatic case of the disease, and a global situation such as the percentage of the group that have reported a positive test within the last 2 weeks. The strategic model looks at agents where they know how all other agents will act and use this information to help them decide if it in their interest to comply.
+Specifically behaviour in this model relates to compliance to various actions the agent can choose to comply with when requested such as doing a COVID rapid antigen test whenever they have symptoms of the virus. The non strategic model looks at giving agents a fixed cost of complying with requested actions with a reward based on a mix of local situations such as if they are in close contact with an agent who has a symptomatic case of the disease, and a global situation such as the percentage of the group that have reported a positive test within the last 2 weeks. The strategic model looks at agents where they know how all other agents will act and use this information to help them decide if it in their interest to comply.\newline
 
-
-The rest of this paper is organised as follows. 
-Section 2 describes the basic model, Section 3 describes 
-
-
+The rest of this paper is organised as follows. Section 2 describes the basic model. Section 3 describes the childcare scenario and the benchmark model. Section 4 goes though and introduces the Non-Strategic Model. Section 5 goes though the introduces the Strategic Model. Section 6 goes though the results of running the Models. Section 7 discusses the results and future work.
 
 
 \section{Description of Model \label{description}}
@@ -49,8 +45,6 @@ Agents progress though states with the only sink node being Recovered and Fatali
 the states of Susceptible, Exposed, Pre-Infectious, Infectious-Asymptomatic, Infectious-Symptomatic, Hospitalised, Fatality and Recovered exist. All these except Hospitalised and Fatality can have agents in a mirror state where they are also isolated, meaning they cannot acquire the disease or spread it to any other agents in the network.
 
 Once an agent catches the disease they move along the stages of the disease until they are a fatality or recovered, at any point they have the ability to move across to the mirror isolation state. 
-
-
 
 
 
@@ -128,9 +122,9 @@ This is an example of the network of 100 agents
 To simulate the childcare scenario they are split into 5 groups of about 20 agents each with high connectivity inside the group and low connectivity between the groups 
 The agents current state is shown by the nodes colour and the edges are that agents close contacts which the disease can spread easiest though the population\newline
 
-For the benchmark baseline runs compliance for behaviour is set at levels of 0.5 and 1, to represent 50\% of agents and all agents complying. If agents are compliant, they will perform symptomatic test and regular interval surveillance tests when asked.
+For the benchmark baseline runs compliance for behaviour is set at levels of 0.5 and 1, to represent 50\% of agents and all agents complying. If agents are compliant, they will perform symptomatic test and regular interval surveillance tests when asked.\newline
 
-The R0 (The disease basic replication rate) of 9.5 or 5.4 may be too high as it assumes children spread the disease at the same rate as the general population as well as all disease spread of children occurring in entirely in the childcare location which is probably not the case. Therefore two other R0 cases of 3 and 2 are used as they may more accurately capture a real world scenario where not all transmission is though the childcare setting.
+The R0 (The disease basic replication rate) of 9.5 or 5.4 may be too high as it assumes children spread the disease at the same rate as the general population as well as all disease spread of children occurring in entirely in the childcare location which is probably not the case. Therefore two other R0 cases of 3 and 2 are used as they may more accurately capture a real world scenario where not all transmission is though the childcare setting.\newline
 
 \begin{figure}
 \centering
@@ -174,9 +168,9 @@ Compliance = 0.5 – (5 * 1/8) – (5*0.02) + 0.1 = -0.105
 
 In this case the agent is compliant
 
-for the non-strategic model to give the agents diversity, initially a value is generated that is used in all compliance calculations for them that either biases them to be more or less compliant, for example the base attitude for an agent might be 0.1; meaning the benefit would have to be 0.1 greater than that of a completely neutral agent for them to comply.
+for the non-strategic model to give the agents diversity, initially a value is generated that is used in all compliance calculations for them that either biases them to be more or less compliant, for example the base attitude for an agent might be 0.1; meaning the benefit would have to be 0.1 greater than that of a completely neutral agent for them to comply.\newline
 
-This model is used for one case where the fixed cost is set at 0.5, we call this Non-Strategic Minimum 50\% , and is where each day the compliance value for an agent is updated and changes based on a combination of the global known positive test cases recorded in the network within the last 14 days as well as the proportion of close contacts of an agent that are either symptomatic, a fatality, hospitalised or in isolation.
+This model is used for one case where the fixed cost is set at 0.5, we call this Non-Strategic Minimum 50\% , and is where each day the compliance value for an agent is updated and changes based on a combination of the global known positive test cases recorded in the network within the last 14 days as well as the proportion of close contacts of an agent that are either symptomatic, a fatality, hospitalised or in isolation.\newline
 
 
 \section{Strategic Model}
@@ -193,9 +187,9 @@ Strategic Global State, this is where the benefit to compliance is based on the 
 
 \section{Results}
 
-To evaluate the result of the model, those of the baseline, non-strategic and strategic we look at two key parameters, the percentage of agents that contracted the disease and the number of days that elapsed until zero agents were infectious.
+To evaluate the result of the model, those of the baseline, non-strategic and strategic we look at two key parameters, the percentage of agents that contracted the disease and the number of days that elapsed until zero agents were infectious.\newline
 
-In this model two choices of compliance are considered, If an agent is compliant they will perform semi-weekly surveillance testing in addition to testing whenever they develop a symptomatic case of the disease, If they are not compliant they will do neither of these actions.
+In this model two choices of compliance are considered, If an agent is compliant they will perform semi-weekly surveillance testing in addition to testing whenever they develop a symptomatic case of the disease, If they are not compliant they will do neither of these actions.\newline
 
 
 \begin{figure}[h!]
@@ -238,22 +232,21 @@ In this model two choices of compliance are considered, If an agent is compliant
 \newpage
 
 
-
 \section{Discussion}
 
-Over 4 different R0 virus base reproduction rate numbers the model was run with, for those apart from the 100\% compliance baseline saw a reduction in total cases from a -2\% improvement with an R0 of 9.5 to a 17\% improvement with an R0 of 2. This is probably a result of agents having more time to choose to be compliant, as the disease spreads slower though the system and already compliant agents have a chance to go though a run of surveillance testing and potentially isolate before they have infected many other individuals. With extremely high R0 numbers it is observed that the non-strategic and strategic behavioural model have little effect on the total number infected. Across all cases it can be seen that the amount of time the simulation runs for is tied with how many agents get infected. Both the static values of compliance and non-strategic behavioural model follow this trend. 
+\subsection{Analysis of Percentage of Infected Agents}
 
-The non-strategic model was found to be the most effective in reducing the number of infected agents throughout the R0 values of 3 and 5.4 but by 9.5, the strategic community size model was found to be more effective. This could be a result of the non-strategic model taking into account both the global spread of the disease in the network as well as the current compartment / state of close contacts impacting compliance. In the case of extremely high R0 values the strategic community size model which only considers the number of close contacts an agent has when considering if there are to be compliant or not had the greatest improvement, this could be the case as forces those most central agents to be compliant and therefore are not able to spread the disease far across the network, forcing it to stay more localised where it has the opportunity to die out before it becomes an epidemic in the network.
+Over 4 different R0 virus base reproduction rate numbers the model was run with, for those apart from the 100\% compliance baseline saw a reduction in total cases from a -2\% improvement with an R0 of 9.5 to a 17\% improvement with an R0 of 2. This is probably a result of agents having more time to choose to be compliant, as the disease spreads slower though the system and already compliant agents have a chance to go though a run of surveillance testing and potentially isolate before they have infected many other individuals. With extremely high R0 numbers it is observed that the non-strategic and strategic behavioural model have little effect on the total number infected. Across all cases it can be seen that the amount of time the simulation runs for is tied with how many agents get infected. Both the static values of compliance and non-strategic behavioural model follow this trend.\newline 
 
-Regarding the days the simulation took before disease spread stopped, it was found that the strategic models particularly at the lower R0 values of 2 and 3 saw significant improvement. This is interesting as while similar percentages of agents were infected, the time it took for the disease to die out was less, suggesting the disease spread through the network faster but ultimately had about the same proportion of agents who ended up getting the disease.
+The non-strategic model was found to be the most effective in reducing the number of infected agents throughout the R0 values of 3 and 5.4 but by 9.5, the strategic community size model was found to be more effective. This could be a result of the non-strategic model taking into account both the global spread of the disease in the network as well as the current compartment / state of close contacts impacting compliance. In the case of extremely high R0 values the strategic community size model which only considers the number of close contacts an agent has when considering if there are to be compliant or not had the greatest improvement, this could be the case as forces those most central agents to be compliant and therefore are not able to spread the disease far across the network, forcing it to stay more localised where it has the opportunity to die out before it becomes an epidemic in the network.\newline 
 
-Notably the case of Strategic Local State where agents use the number of agents around them who are in a high risk state to decide if they are compliant fared the worst at a disease R0 value of 9.5 having a 2\% increase in infected agents and it taking 6\% longer for the disease to stop spreading, this would suggest that agents who base decisions about if to test based solely on how their close contacts are faring is not a good approach at reducing the spread of disease and more global measures or measures that rely on how central a person is in their network of close contacts are more effective. 
+\subsection{Analysis of Time Disease Took to Stop spreading}
 
+Regarding the days the simulation took before disease spread stopped, it was found that the strategic models particularly at the lower R0 values of 2 and 3 saw significant improvement. This is interesting as while similar percentages of agents were infected, the time it took for the disease to die out was less, suggesting the disease spread through the network faster but ultimately had about the same proportion of agents who ended up getting the disease.\newline 
 
-\section{Conclusion}
-Overall, in this paper it was found that ...
+Notably the case of Strategic Local State where agents use the number of agents around them who are in a high risk state to decide if they are compliant fared the worst at a disease R0 value of 9.5 having a 2\% increase in infected agents and it taking 6\% longer for the disease to stop spreading, this would suggest that agents who base decisions about if to test based solely on how their close contacts are faring is not a good approach at reducing the spread of disease and more global measures or measures that rely on how central a person is in their network of close contacts are more effective. \newline 
 
-
+future work .....
 
 
 \newpage
