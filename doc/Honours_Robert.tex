@@ -2,9 +2,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{cite}
+\usepackage[margin=0.5in]{geometry}
 \graphicspath{ {./images/} }
-
-
 
 \title{Agent-based models of voluntary compliance in non-pharmaceutical interventions for epidemic control}
 \author{Robert Brian Milligan and Supervised by Julian Garcia Gallego \& Buser Say}
@@ -28,30 +27,24 @@ Epidemic modelling has proven vital for understanding ways in which governments,
 
 \section{Introduction}
 
-Mathematical and computational models are important in preparing policies to deal with pandemics. Mathematical models exist ~\cite{cooper_mondal_antonopoulos_2020} that assume an infinite population and place proportions of this population into compartments, traditionally this is SIR, (Susceptible, Infectious and Recovered), however over the years additional have been made, some common examples being SEIR, SIS and SIRV. Computational models use computing power to solve these mathematical models or can be used to apply these concepts to other methods of modelling such as agent based models. These models typically have a finite number of agents which interact with each other in some manner. In regards to epidemiology, these models typically do not incorporate behaviour, or if they do, they do it in simple ways such as compartmental models that incorporate "aggregate states". This means that the model implemented six different behavioural scenarios which would change based on the time of the simulation or having a certain threshold of positive test, positive cases or deaths per day ~\cite{karaivanov_2020}.\linebreak
+Mathematical and computational models are important in preparing policies to deal with pandemics. Mathematical models exist ~\cite{cooper_mondal_antonopoulos_2020} that assume an infinite population and place proportions of this population into compartments. The traditional compartmental model is known as SIR, (Susceptible, Infectious and Recovered), however over the years additions have been made to add new compartments and flows between them. Some common examples of variations on SIR models are SEIR, SIS and SIRV. Computational models use computing power to solve these mathematical models, or can be used to apply these concepts to other methods of modelling such as agent based models. These models typically have a finite number of agents which interact with each other in some manner. In regards to epidemiology, these models typically do not incorporate behaviour, or if they do, they do it in simple ways such as compartmental models that incorporate "aggregate states". This means that the model~\cite{karaivanov_2020} implemented six different behavioural scenarios which would change based on the time of the simulation or having a certain threshold of positive test, positive cases or deaths per day.\newline
+
 
 This paper investigates the modification of an existing model disease spread produced by Ryan McGee and used as a part of various peer reviewed research articles ~\cite{mcgee_homburger_williams_bergstrom_zhou_2021} ~\cite{mcgee_homburger_williams_bergstrom_zhou_2021_2}. 
-I have looked at applying this model to the situation of COVID-19 in a childcare setting and involves creating both non strategic and strategic behavioural choice models. \newline
+I have looked at applying this model to the situation of COVID-19 in a childcare setting and involves creating both non strategic and strategic behavioural choice models. Specifically behaviour in this model relates to compliance to various actions the agent can choose to comply with when requested such as doing a COVID rapid antigen test whenever they have symptoms of the virus. The non strategic model looks at giving agents a fixed cost of complying with requested actions with a reward based on a mix of local situations such as if they are in close contact with an agent who has a symptomatic case of the disease, and a global situation such as the percentage of the group that have reported a positive test within the last 2 weeks. The strategic model looks at agents where they know how all other agents will act and use this information to help them decide if it in their interest to comply.\newline
 
-Specifically behaviour in this model relates to compliance to various actions the agent can choose to comply with when requested such as doing a COVID rapid antigen test whenever they have symptoms of the virus. The non strategic model looks at giving agents a fixed cost of complying with requested actions with a reward based on a mix of local situations such as if they are in close contact with an agent who has a symptomatic case of the disease, and a global situation such as the percentage of the group that have reported a positive test within the last 2 weeks. The strategic model looks at agents where they know how all other agents will act and use this information to help them decide if it in their interest to comply.\newline
-
-The rest of this paper is organised as follows. Section 2 describes the basic model. Section 3 describes the childcare scenario and the benchmark model. Section 4 goes though and introduces the Non-Strategic Model. Section 5 goes though the introduces the Strategic Model. Section 6 goes though the results of running the Models. Section 7 discusses the results and future work.
+The rest of this paper is organised as follows. Section 2 describes the basic model. Section 3 describes the childcare scenario and the benchmark model. Section 4 goes though and introduces the Non-Strategic Model. Section 5 goes though the introduces the Strategic Model. Section 6 goes though the results of running the models that have been created. Finally, section 7 discusses the results and future work.
 
 
 \section{Description of Model \label{description}}
-The model that is modified in this paper is an Agent Based Model (ABM). This ABM is one where agents can belong to one and only one compartment representing their state. 
-
-Agents progress though states with the only sink node being Recovered and Fatality
-the states of Susceptible, Exposed, Pre-Infectious, Infectious-Asymptomatic, Infectious-Symptomatic, Hospitalised, Fatality and Recovered exist. All these except Hospitalised and Fatality can have agents in a mirror state where they are also isolated, meaning they cannot acquire the disease or spread it to any other agents in the network.
-
-Once an agent catches the disease they move along the stages of the disease until they are a fatality or recovered, at any point they have the ability to move across to the mirror isolation state. 
+The model that is modified in this paper is an Agent Based Model (ABM). This ABM is one where agents can belong to one and only one compartment representing their state. Agents progress though states with the only sink node being Recovered and Fatality. The states of Susceptible, Exposed, Pre-Infectious, Infectious-Asymptomatic, Infectious-Symptomatic, Hospitalised, Fatality and Recovered exist. All these except Hospitalised and Fatality can have agents in a mirror state where they are also isolated, meaning they cannot acquire the disease or spread it to any other agents in the network. Once an agent catches the disease they move along the stages of the disease until they are a fatality or recovered, at any point they have the ability to move across to the mirror isolation state. 
 
 
 
-\begin{figure}
+\begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{SIR}
-\caption{a diagram of the existing model of seirplus ~\cite{mcgee_2021}}
+\caption{A diagram of the existing seirplus model with its various compartments ~\cite{mcgee_2021}}
 \end{figure}
 
 \newpage
@@ -60,76 +53,56 @@ Once an agent catches the disease they move along the stages of the disease unti
 
 \subsection{Using networks to model contacts}
 
-The version of the model we use considers a simple network, one which uses a one single connected network designed to simulate a workplace.
+The version of the model we use considers a simple network, one which uses a one single connected network designed to simulate a workplace. These large networks are made up of a number of cohorts which are loosely connected and each of these cohorts can have a number of subgroups which are highly connected. The network is set up before the simulation begins and is randomly generated every time the simulation is run. Once the network is generated its structure does not change throughout the simulations run.  Agents are arranged in this network as its nodes and are connected by edges representing which other nodes are their close contacts. 80\% of disease spread is though the close contact edges and 20\% is spread randomly.
 
-These large networks are made up of a number of cohorts which are loosely connected and each of these cohorts can have a number of subgroups which are highly connected.
-
-The network is set up before the simulation begins and is different every time and does not change throughout the simulations run. 
-
-Agents are arranged in a network as nodes and are connected by edges representing which other nodes are their close contacts. 80\% of disease spread is though the close contact edges and 20\% is spread randomly.
-
-\subsection{Compliance in the model}
-Each day agents will be asked to do a test if their day has come up on a surveillance testing schedule, they show symptoms or have been contacted that they are a close contact. However there is a compliance value to them following through with the requested action
-
-During the day agents can spread the contagion to each other and can progress though the stages of the disease if they have it. They additionally have the choice to participate in contact tracing.
-
-Agents will also be asked to isolate for one of six reasons. They or a group member develop a symptomatic case, returns a positive test or is told they are a close contact though using contact tracing. Again there is a compliance value to decide if they follow through with the requested action
-
-These systems can effectively be disabled by overriding the compliance for them to be a large negative number, for example compliance with contact tracing can be set to -10 to disable the use of that system and this done to limit the model to a smaller number of variables which compliance can affect.
-
-The Current Modifications of the model relate to allowing 10 of the Model Parameters that relate to Compliance to be dynamically updated each day dependent on a given rule. Those that we use in this paper and dynamically change are the testing if the agent develops a symptomatic case as well as surveillance testing 
-
-Compliance can be set a variety of ways in the modified model.
-\begin{itemize}
-\item The default setting where agents are given an initial value for compliance and is unchanging e.g. 50\% are set to comply and will always do so
-\item The non strategic model where agents are given an initial compliance and can become more compliant depending on the network situation , their local situation or a mix
-\item The strategic model where agents utilise knowledge of the amount of agents in the network who will comply to make a decision to comply or not
-\end{itemize}
-
-Lastly, the model has a variety of limitations including 
-\begin{itemize}
-\item Having all agents always test on the same day, thus if semi-weekly is chosen, all agents will be asked to test on Monday and Thursday
-\item the network itself is unchanging, however this is not necessarily bad as it removes a variable that may change results
-\end{itemize}
 
 \newpage
+
+
+
+\subsection{Compliance in the model}
+The model uses a variety of parameters some of which relate to the compliance of actors to perform certain actions when asked. For this paper those which are relevent are those related to survilence testing, testing if showing symtoms and quarantining if receiving back a postitive test. Each day agents will be asked to do a disease test if their day has come up on a surveillance testing schedule or if they currently have a symtomatic case of the disease. However, there is a compliance value to decide if they go  through with the requested action. The base model uses more than these three compliance parameters, but they are effectivly removed by setting their compliance value to never occour. In the existing model a parameter to set and it sets a proportion of agents to allways comply and another set to never comply. This is set at the start of the simulation and never changes. In the modificiation of seirplus the model is changed so that this value is recalcualted on every day of the simulation. This is done by setting each agent with an inital compliance value in a given range. If the benefit to compliance on that given day is greater than that inital compliance value then they become compliant. \newline
+
+This leads to three systems of compliance which will be disucssed in detail in the latter sections. The default setting where agents are given an initial value for compliance and is unchanging e.g. 50\% are set to comply and they will always do so. The non strategic model where agents are given an initial compliance and can become more compliant depending on the agents view of those other agents around them and network statistics they may have access to. The strategic model where agents utilise knowledge of the amount of agents in the network who will comply to make a decision to comply or not.\newline
+
+It should be noted the model has a few limitations. Having all agents always test on the same day, thus if semi-weekly is chosen, all agents will be asked to test on Monday and Thursday each week. the structure of the network is unchanging and has not ability for agents to join, leave or change who their close contacts are. Additionally, all vaues for the false negative rate for tests, fatality and hospitalisation rates are the same for all agents. This is a result of the exisiting model not having a system where agents can be assigned different ages in the same network and the ability to assign different false negative rate for individual or types of agents.
+
 
 
 
 \newpage
 \section{Childcare Scenario and Benchmark Baseline Model}
 
+A childcare scenario was chosen for a few reasons, among them are that the model works best with networks of a relatively small size of less than 200 agents. The network structure of the model can be used to reflect the dynamics that would be apparent in a child care building and parameters could be chosen to match this specific scenario.\newline
 
-A childcare scenario was chosen for a few reasons, among them are that the model works best with networks of a relatively small size of less than 200 agents, the network structure of the model could be used to reflect the dynamics that would be apparent in a child care building and parameters could be chosen to match this specific scenario.\newline
-
-Parameter justification
-
-\begin{table}[h!]
-\begin{tabular}{ll}
-Test False negative rate & 0.36 ~\cite{van_de_mortel_2022} \\
-R0 mean of Omicron is 9.5 and Delta is 5.4 & ~\cite{liu_rocklov_2022} \\
-Isolation as a result of a Positive Test & 100\%
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Value \\ \hline
+Test False negative rate & 0.36 ~\cite{van_de_mortel_2022} \\ \hline
+R0 &  mean of Omicron is 9.5 and Delta is 5.4~\cite{liu_rocklov_2022} \\ \hline
+Number of Agents & 100\% \\ \hline
+Number of Cohorts & 5 \\ \hline
+Mean Number of Connections Betwee Cohorts  & 6 \\ \hline
+Density of Edges in Cohort Networks  & 0.15 \\ \hline
 \end{tabular}
-\end{table}
+
+
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=\textwidth]{network}
-\caption{An Example Network}
+\includegraphics[width= 12cm]{network}
+\caption{An Example Network of 100 Agents}
 \end{figure}
 
-This is an example of the network of 100 agents
-To simulate the childcare scenario they are split into 5 groups of about 20 agents each with high connectivity inside the group and low connectivity between the groups 
-The agents current state is shown by the nodes colour and the edges are that agents close contacts which the disease can spread easiest though the population\newline
 
-For the benchmark baseline runs compliance for behaviour is set at levels of 0.5 and 1, to represent 50\% of agents and all agents complying. If agents are compliant, they will perform symptomatic test and regular interval surveillance tests when asked.\newline
+To simulate the childcare scenario the 100 agents are split into 5 groups of about 20 agents each with high connectivity inside the group and low connectivity between the groups. The edges in the network represent that particular agent's close contacts which the disease can spread easiest though. For the benchmark baseline, compliance for behaviour is set at levels of 0.5 and 1, to represent 50\% of agents and all agents complying. If agents are compliant, they will perform symptomatic test and regular interval surveillance tests when asked.\newline
 
-The R0 (The disease basic replication rate) of 9.5 or 5.4 may be too high as it assumes children spread the disease at the same rate as the general population as well as all disease spread of children occurring in entirely in the childcare location which is probably not the case. Therefore two other R0 cases of 3 and 2 are used as they may more accurately capture a real world scenario where not all transmission is though the childcare setting.\newline
+The R0 (The disease basic replication rate) of 9.5 or 5.4 may be too high as it assumes children spread the disease at the same rate as the general population as well as all disease spread of children occurring in entirely in the childcare location which is probably not the case. Therefore two other R0 cases of 3 and 2 are used as they may more accurately capture a real world scenario where not all transmission is though the childcare setting. Additionally statisitcs are not currently avalaible for an accurate R0 for young children to other young children, therefore the general population spread rates had to be relied upon. \newline
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{Figure3}
-\includegraphics[width=\textwidth]{Figure3Net}
+\includegraphics[width= 15cm]{Figure3}
+\includegraphics[width= 15cm]{Figure3Net}
 \caption{Benchmark Run with Unchanging Compliance at 50\% for regular twice weekly surveillance testing and testing if symptomatic with the resulting final network. 92 of the 100 agents received the infection}
 \end{figure}
 
@@ -144,27 +117,30 @@ Baseline 100\% compliance, this is where each agent when generated has a 100\% c
 \newpage
 
 \section{Non-Strategic Model}
-With the non-strategic model we have a fixed cost of compliance and can have varying factors that can raise it. A mix of global and local behavioural factors can be added to make an agent more compliant. In the current build these are the known positive cases in the network in the past 14 days. The proportion of contact agents (those which share an edge) which are a fatality, hospitalised or in isolation. These values are taken away from the base cost and if the result is lower from a specified value the agent will be compliant to that action, otherwise they are not
+With the non-strategic model we have a fixed cost of compliance and can have varying factors that can raise it. A mix of global and local behavioural factors can be added to make an agent more compliant. In the current build these are the known positive cases in the network in the past 14 days. The proportion of contact agents (those which share an edge) which are a fatality, hospitalised or in isolation. These values are taken away from the base cost and if the result is lower from a specified value the agent will be compliant to that action, otherwise they are not.\newline
 
-For a simple example we have a situation for this central agent 
+For a simple example we have a situation for this central agent\newline
 
-\begin{figure}[h!]
+\begin{figure}
 \centering
 \includegraphics[width =150pt]{basicnet}
 \caption{An Example Simplified Network}
 \end{figure}
 
 
-\begin{table}[h!]
-\begin{tabular}{ll}
-Symptomatic Testing Rate Compliance & 50\% \\
-Surveillance Testing Rate Compliance & 50\% \\
-This agent’s base aptitude & uniformly distributed (-0.1,0.1) \\
-Base Cost of Compliance & 0.5 
+\begin{tabular}{|c|c|}
+\hline
+Symptomatic Testing Rate Compliance & 50\% \\ \hline
+Surveillance Testing Rate Compliance & 50\% \\ \hline
+This agent’s base aptitude & uniformly distributed (-0.1,0.1) \\ \hline
+Base Cost of Compliance & 0.5 \\ \hline
 \end{tabular}
-\end{table}
 
-Compliance = 0.5 – (5 * 1/8) – (5*0.02) + 0.1 = -0.105
+
+
+\[Compliance = 0.5 – (5 * 1/8) – (5*0.02) + 0.1 = -0.105\]\newline
+
+
 
 In this case the agent is compliant
 
@@ -174,22 +150,13 @@ This model is used for one case where the fixed cost is set at 0.5, we call this
 
 
 \section{Strategic Model}
-The view of benefit and cost can be grouped into 3 categories.
-There is a level at which people will not contribute as they find the act pointless as they know near no agents will comply 
+For the strategic model a curve is created to model a game theory dilemma on wherever or not the agent should comply given they know the cost and reward for compliance and what every other agent will do, depending on the benefit the likelihood of any one agent complying can vary from 0, to 60-99\% to 100\%. There is a level at which people will not contribute as they find the act pointless as they know near no agents will comply. This model is used in three cases and is designed like the non-strategic model to have a baseline of 50\% compliance which grows based on the following rules\newline
 
-For the strategic model a curve is created to model a game theory dilemma on wherever or not the agent should comply given they know the cost and reward for compliance and what every other agent will do, depending on the benefit the likelihood of any one agent complying can vary from 0, to 60-99\% to 100\%.
-
-This model is used in three cases and is designed like the non-strategic model to have a baseline of 50\% compliance which grows based on the following rules:\newline
-
-Strategic Community Size, this is where the benefit to compliance is based on the number of close contacts the agent has. This is a case where the curve is different for each agent but unchanging over time.\newline\newline
-Strategic Local State, this is where the benefit to compliance is based on the number of close contacts that are either in a state of symptomatic, a fatality, hospitalised or in isolation. This is a case where the curve is different for each agent and unchanging over time.\newline\newline
-Strategic Global State, this is where the benefit to compliance is based on the number of agents in the network that are either in a state of symptomatic, a fatality, hospitalised or in isolation. This is a case where the curve is the same for each agent but changes over time.
+The view of benefit and cost can be grouped into 3 categories. Strategic Community Size is where the benefit to compliance is based on the number of close contacts the agent has. This is a case where the curve is different for each agent but unchanging over time. Strategic Local State is where the benefit to compliance is based on the number of close contacts that are either in a state of symptomatic, a fatality, hospitalised or in isolation. This is a case where the curve is different for each agent and unchanging over time. Strategic Global State is where the benefit to compliance is based on the number of agents in the network that are either in a state of symptomatic, a fatality, hospitalised or in isolation. This is a case where the curve is the same for each agent but changes over time.
 
 \section{Results}
 
-To evaluate the result of the model, those of the baseline, non-strategic and strategic we look at two key parameters, the percentage of agents that contracted the disease and the number of days that elapsed until zero agents were infectious.\newline
-
-In this model two choices of compliance are considered, If an agent is compliant they will perform semi-weekly surveillance testing in addition to testing whenever they develop a symptomatic case of the disease, If they are not compliant they will do neither of these actions.\newline
+To evaluate the result of the model, those of the baseline, non-strategic and strategic we look at two key parameters, the percentage of agents that contracted the disease and the number of days that elapsed until zero agents were infectious. In this model two states of compliance are considered, If an agent is compliant they will perform semi-weekly surveillance testing in addition to testing whenever they develop a symptomatic case of the disease, If they are not compliant they will do neither of these actions. All agents will always isolate immediately after receiving a positive test result. \newline
 
 
 \begin{figure}[h!]
@@ -246,7 +213,7 @@ Regarding the days the simulation took before disease spread stopped, it was fou
 
 Notably the case of Strategic Local State where agents use the number of agents around them who are in a high risk state to decide if they are compliant fared the worst at a disease R0 value of 9.5 having a 2\% increase in infected agents and it taking 6\% longer for the disease to stop spreading, this would suggest that agents who base decisions about if to test based solely on how their close contacts are faring is not a good approach at reducing the spread of disease and more global measures or measures that rely on how central a person is in their network of close contacts are more effective. \newline 
 
-future work .....
+There are multiple areas in which future work could be conducted, some areas would include; Modifying the model to allow for vaccinated agents, as this would more accuratly mirror the real world situation we now have with a vaccinated population. Creating a network which assigns the agents relevent ages which would have an impact on various parts of the model such as disease test false negative rates, hospitalision and fatality rates as well as potentially R0 values for the specific agents.
 
 
 \newpage
