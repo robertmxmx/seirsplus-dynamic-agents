@@ -119,35 +119,39 @@ Baseline 100\% compliance, this is where each agent when generated has a 100\% c
 \section{Non-Strategic Model}
 With the non-strategic model we have a fixed cost of compliance and can have varying factors that can raise it. A mix of global and local behavioural factors can be added to make an agent more compliant. In the current build these are the known positive cases in the network in the past 14 days. The proportion of contact agents (those which share an edge) which are a fatality, hospitalised or in isolation. These values are taken away from the base cost and if the result is lower from a specified value the agent will be compliant to that action, otherwise they are not.\newline
 
-For a simple example we have a situation for this central agent\newline
 
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width =150pt]{basicnet}
+\caption{An example simplified network showing a single agent and their close contacts}
+\end{figure}
 
 
 \begin{tabular}{|c|c|}
 \hline
 Symptomatic Testing Rate Compliance & 50\% \\ \hline
 Surveillance Testing Rate Compliance & 50\% \\ \hline
-This agent’s base aptitude & uniformly distributed (-0.1,0.1) \\ \hline
+This agent’s base aptitude & uniformly distributed (-0.1,0.1) set at 0.1 for this agent \\ \hline
 Base Cost of Compliance & 0.5 \\ \hline
 \end{tabular}
+\newline
+
+With a case where 1\% of agents in the full network have reported a positive case in the last two weeks and one of the eight close contacts an agent has are in a high risk category, the calulated compliance would be one where the agent is compliant as the result is under 0.5
+
+\[Compliance = 0.5 – (5 * 1/8) – (5*0.01) + 0.1 = -0.075\]
+\newline
+
+The agent would potentially become uncompliant if the close contact in isolation, recovered and left isolation as the new compliance equation would become one over 0.5 where the agent is no longer compliant.
+\[Compliance = 0.5 – (0 * 1/8) – (5*0.01) + 0.1 = 0.55\]
+\newline
 
 
 
-\[Compliance = 0.5 – (5 * 1/8) – (5*0.02) + 0.1 = -0.105\]\newline
 
 
-In this case the agent is compliant
+Agents are given diversity in the non-strategic model. Initially a value is generated that is used in all compliance calculations for that agent. This either biases them to be more or less compliant, for example the base attitude for an agent might be 0.1; meaning the benefit would have to be 0.1 greater than that of a completely neutral agent for them to comply. This model is used for one case where the fixed cost is set at 0.5, this model is called the Non-Strategic Minimum 50\%.  In this model each day the compliance value for an agent is updated and changes. Factors that change the agents compliance a combination of the global known positive test cases recorded in the network within the last 14 days as well as the proportion of close contacts of an agent that are either symptomatic, a fatality, hospitalised or in isolation.\newline
 
-for the non-strategic model to give the agents diversity, initially a value is generated that is used in all compliance calculations for them that either biases them to be more or less compliant, for example the base attitude for an agent might be 0.1; meaning the benefit would have to be 0.1 greater than that of a completely neutral agent for them to comply.\newline
-
-This model is used for one case where the fixed cost is set at 0.5, we call this Non-Strategic Minimum 50\% , and is where each day the compliance value for an agent is updated and changes based on a combination of the global known positive test cases recorded in the network within the last 14 days as well as the proportion of close contacts of an agent that are either symptomatic, a fatality, hospitalised or in isolation.\newline
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width =150pt]{basicnet}
-\caption{An Example Simplified Network}
-\end{figure}
 
 \newpage
 \section{Strategic Model}
