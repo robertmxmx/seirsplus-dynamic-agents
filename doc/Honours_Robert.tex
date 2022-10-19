@@ -121,11 +121,7 @@ With the non-strategic model we have a fixed cost of compliance and can have var
 
 For a simple example we have a situation for this central agent\newline
 
-\begin{figure}
-\centering
-\includegraphics[width =150pt]{basicnet}
-\caption{An Example Simplified Network}
-\end{figure}
+
 
 
 \begin{tabular}{|c|c|}
@@ -141,22 +137,59 @@ Base Cost of Compliance & 0.5 \\ \hline
 \[Compliance = 0.5 – (5 * 1/8) – (5*0.02) + 0.1 = -0.105\]\newline
 
 
-
 In this case the agent is compliant
 
 for the non-strategic model to give the agents diversity, initially a value is generated that is used in all compliance calculations for them that either biases them to be more or less compliant, for example the base attitude for an agent might be 0.1; meaning the benefit would have to be 0.1 greater than that of a completely neutral agent for them to comply.\newline
 
 This model is used for one case where the fixed cost is set at 0.5, we call this Non-Strategic Minimum 50\% , and is where each day the compliance value for an agent is updated and changes based on a combination of the global known positive test cases recorded in the network within the last 14 days as well as the proportion of close contacts of an agent that are either symptomatic, a fatality, hospitalised or in isolation.\newline
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width =150pt]{basicnet}
+\caption{An Example Simplified Network}
+\end{figure}
 
+\newpage
 \section{Strategic Model}
-For the strategic model a curve is created to model a game theory dilemma on wherever or not the agent should comply given they know the cost and reward for compliance and what every other agent will do, depending on the benefit the likelihood of any one agent complying can vary from 0, to 60-99\% to 100\%. There is a level at which people will not contribute as they find the act pointless as they know near no agents will comply. This model is used in three cases and is designed like the non-strategic model to have a baseline of 50\% compliance which grows based on the following rules\newline
+For the strategic model a strategic stag hunt game is played simmilar to the one explored in this paper~\cite{pacheco_santos_souza_2014}.  A curve is created to model a game theory dilemma on wherever or not each agent should comply, given they know the cost and reward for compliance and what every other agent will do. Depending on the benefit the agent sees for compliance, the likelihood of any one agent complying can vary from 0, to 60-99\% to 100\%. There is a level at which people will not contribute as they find the act pointless as they know near no agents will comply. This model is used in three cases which are discussed later and is designed like the non-strategic model to have a baseline of 50\% compliance. This will then grow based on the situation of each agent.\newline
 
-The view of benefit and cost can be grouped into 3 categories. Strategic Community Size is where the benefit to compliance is based on the number of close contacts the agent has. This is a case where the curve is different for each agent but unchanging over time. Strategic Local State is where the benefit to compliance is based on the number of close contacts that are either in a state of symptomatic, a fatality, hospitalised or in isolation. This is a case where the curve is different for each agent and unchanging over time. Strategic Global State is where the benefit to compliance is based on the number of agents in the network that are either in a state of symptomatic, a fatality, hospitalised or in isolation. This is a case where the curve is the same for each agent but changes over time.
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Value \\ \hline
+Cost of Compliance & 1 \\ \hline
+Overall benefit If action sucsessful & Depends on either a global or local situation\\ \hline
+Minimum number of agents in group complying to see benefit & 60\\ \hline
+Number of agents in group & 100\\ \hline
+\end{tabular}
+\newline
+
+The value benefit  is assigned can be grouped into 3 categories. Strategic Community Size is where the benefit to compliance is based on the number of close contacts the agent has. This is a case where the curve is different for each agent but unchanging over time. Strategic Local State is where the benefit to compliance is based on the number of close contacts that are either in a state of symptomatic, a fatality, hospitalised or in isolation. This is a case where the curve is different for each agent and unchanging over time. Strategic Global State is where the benefit to compliance is based on the number of agents in the network that are either in a state of symptomatic, a fatality, hospitalised or in isolation. This is a case where the curve is the same for each agent but changes over time.
+
+\begin{tabular}{|c|c|c|}
+\hline
+Model & Benefit Curve is different for each agent & Benefit Curve changes over time\\ \hline
+Strategic Community Size & Yes & No \\ \hline
+Strategic Local State & Yes &Yes\\ \hline
+Strategic Global State & No &Yes\\ \hline
+\end{tabular}
+\newline
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=12cm]{strat}
+\caption{Comparison of two extreme examples of compliance curves with a very low (50) and very high (1000) benefit to compliance, the game is run with a cost of 1, 100 agents and 60 must be compliant to see a benefit}
+\end{figure}
+
+In figure 5 the chart on the left has two points of compliance 0 and 0.65, This is because if the agent was between 0 and 0.55 they would see compliance as not worth it as their overall benefit to compliance in the system is negative and move towards a compliance of 0. If the agent was between .55 and 0.65 they would move towards 0.65 as the benefit to compliance is still positive for more agents to comply. Finally if the agent was between 0.65 and 1 they would move towards 0.65 as the benefit to compliance is negative, so the additional compliance is not rewarded. This creates a system with two absorbing states 0 with a weight of 0.65 and 0.65 with a weight of 0.35, in this case the state of 0 is dominant, so this agent would comply 0\% of the time. \newline\newline
+On the other hand, the chart on the right has two points of compliance at 0 and 1. If an agent was between 0 and 0.45 they would see compliance as not worth it as their overall benefit to compliance in the system is negative and move towards a compliance of 0. If the agent was between 0.45 and 1 , benefit is positive for more agents to comply. This creates a system also with two absorbing states, 0 with a weight of 0.45 and 1 with a weight of 0.55, in this case the state of 1 is dominant, thus the agent would comply 100\% of the time.
+\newpage
 
 \section{Results}
 
 To evaluate the result of the model, those of the baseline, non-strategic and strategic we look at two key parameters, the percentage of agents that contracted the disease and the number of days that elapsed until zero agents were infectious. In this model two states of compliance are considered, If an agent is compliant they will perform semi-weekly surveillance testing in addition to testing whenever they develop a symptomatic case of the disease, If they are not compliant they will do neither of these actions. All agents will always isolate immediately after receiving a positive test result. \newline
+
+
 
 
 \begin{figure}[h!]
@@ -165,31 +198,32 @@ To evaluate the result of the model, those of the baseline, non-strategic and st
 \caption{Test Results over R0 of 2}
 \end{figure}
 
-\newpage
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{4}
 \caption{Test Results over R0 of 3}
 \end{figure}
 
+\newpage
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{3}
 \caption{Test Results over R0 of 5.4}
 \end{figure}
-\newpage
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{2}
 \caption{Test Results over R0 of 9.5}
 \end{figure}
+\newpage
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{6}
 \caption{Test Results over all R0 values at 100\% Compliance}
 \end{figure}
-
 
 \begin{figure}[h!]
 \centering
@@ -203,7 +237,7 @@ To evaluate the result of the model, those of the baseline, non-strategic and st
 
 \subsection{Analysis of Percentage of Infected Agents}
 
-Each of the models was run over 4 different R0 virus base reproduction rates. The higher the Disease R0 the more infectious it is. The Improvement the models had over the base 50\% compliance baseline saw an improvement from -5\% at the high R0 values to 17\% at the low R0 values. The non-strategic model was found to be the most effective in reducing the number of infected agents throughout the R0 values of 2 (16\%), 3 (6\%) and 5.4 (0\%) but by 9.5, the strategic community size model was found to be more effective with a 4\% reduction of disease spread (figure 10). This could be a result of the non-strategic model taking into account both the global spread of the disease in the network as well as the current compartment / state of close contacts impacting compliance. In the case of an extremely high R0 values the strategic community size model was most effective.  This model only considers the number of close contacts an agent has when deciding if they are compliant or not. This could be the case as it forces those most central agents to be compliant. Therefore, they are not able to spread the disease far across the network, forcing it to stay more localised where it has the opportunity to die out before it becomes an epidemic in the network.\newline 
+Each of the models was run over 4 different R0 virus base reproduction rates. The higher the Disease R0 the more infectious it is. The Improvement the models had over the base 50\% compliance baseline saw an improvement from -5\% at the high R0 values to 17\% at the low R0 values. The non-strategic model was found to be the most effective in reducing the number of infected agents throughout the R0 values of 2 (16\%), 3 (6\%) and 5.4 (0\%) but by 9.5, the strategic community size model was found to be more effective with a 4\% reduction of disease spread (figure 11). This could be a result of the non-strategic model taking into account both the global spread of the disease in the network as well as the current compartment / state of close contacts impacting compliance. In the case of an extremely high R0 values the strategic community size model was most effective.  This model only considers the number of close contacts an agent has when deciding if they are compliant or not. This could be the case as it forces those most central agents to be compliant. Therefore, they are not able to spread the disease far across the network, forcing it to stay more localised where it has the opportunity to die out before it becomes an epidemic in the network.\newline 
 
 The models were likely more effective on the lower R0 values as the agents have more time to choose to be compliant. As the disease spreads slower though the system, there is more time for compliant agents to go through a run of surveillance testing and potentially isolate before they have infected many other individuals. With extremely high R0 numbers it is observed that the non-strategic and strategic behavioural model have little effect on the total number infected (i.e. all having <5\% improvement). 
 
@@ -212,7 +246,7 @@ The models were likely more effective on the lower R0 values as the agents have 
 
 Regarding the days the simulation took before disease spread stopped, it was found that the strategic models particularly at the lower R0 values of 2 and 3 saw significant improvement over the 50\% baseline tests. This is interesting as while similar percentages of agents were infected, the time it took for the disease to die out was less, suggesting the disease spread through the network faster but ultimately had about the same proportion of agents who ended up getting the disease.\newline 
 
-Notably the case of Strategic Local State where agents use the number of agents around them who are in a high risk state to decide if they are compliant fared the worst at a disease R0 value of 9.5 having a 2\% increase in infected agents and it taking 6\% longer for the disease to stop spreading (figure 10). This would suggest that agents who based decisions about if to test based solely on how their close contacts are faring is not a good approach at reducing the spread of disease and more global measures or measures that rely on how central a person is in their network of close contacts are more effective. \newline 
+Notably the case of Strategic Local State where agents use the number of agents around them who are in a high risk state to decide if they are compliant fared the worst at a disease R0 value of 9.5 having a 2\% increase in infected agents and it taking 6\% longer for the disease to stop spreading (figure 11). This would suggest that agents who based decisions about if to test based solely on how their close contacts are faring is not a good approach at reducing the spread of disease and more global measures or measures that rely on how central a person is in their network of close contacts are more effective. \newline 
 
 There are a few areas in which future work could be conducted, some areas would include; Modifying the model to allow for vaccinated agents, as this would more accurately mirror the real world situation we now have with a vaccinated population. Creating a network which assigns the agents ages which would have an impact on various parts of the model such as disease test false negative rates, hospitalisation and fatality rates as well as potentially R0 values for the specific agents. This would create a more accurate simulation as the false negative rate for rapid tests varies significantly with age and for the purposes of this paper the disease and testing parameters for infants / young children were applied to everyone. Furthermore, the models could be expanded by forcing all or sections of the network to enter quarantine for a period of time under certain conditions, to control spread in the network. This would be able to simulate the day-care closing for a period of time due to a very high spread of the disease.
 
