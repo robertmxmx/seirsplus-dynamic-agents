@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.3) (preloaded format=pdflatex 2022.7.27)  17 AUG 2022 06:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.3) (preloaded format=pdflatex 2022.7.27)  20 OCT 2022 16:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./Honours_Robert.tex
-(Honours_Robert.tex
+**C:/Users/Desktop/honours/seirplus-dynamic-agents/doc/Honours_Robert.tex
+(C:/Users/Desktop/honours/seirplus-dynamic-agents/doc/Honours_Robert.tex
 LaTeX2e <2021-11-15> patch level 1
 L3 programming layer <2022-02-24>
 (C:\Users\granc\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
@@ -28,115 +28,50 @@ Package: inputenc 2021/02/14 v1.3d Input encoding file
 \inpenc@prehook=\toks16
 \inpenc@posthook=\toks17
 )
-(C:\Users\granc\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
-tex.def
-File: l3backend-pdftex.def 2022-02-07 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count193
-\l__pdf_internal_box=\box50
-) (Honours_Robert.aux)
-\openout1 = `Honours_Robert.aux'.
+(C:\Users\granc\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 10.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 10.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 10.
- [1
+(C:\Users\granc\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks18
+)
+(C:\Users\granc\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2021/03/04 v1.4d Standard LaTeX Graphics (DPC,SPQR)
 
-{C:/Users/granc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
-Overfull \hbox (16.344pt too wide) in paragraph at lines 31--32
-[]\OT1/cmr/m/n/10 ISOLATION[]COMPLIANCE[]RATE[]SYMPTOMATIC[]INDIVIDUAL (what
- []
+(C:\Users\granc\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+)
+(C:\Users\granc\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
 
+(C:\Users\granc\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen139
+\Gin@req@width=\dimen140
+)
+(C:\Users\granc\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+Package: hyperref 2022-02-21 v7.00n Hypertext links for LaTeX
 
-Overfull \hbox (7.34398pt too wide) in paragraph at lines 32--33
-[]\OT1/cmr/m/n/10 ISOLATION[]COMPLIANCE[]RATE[]POSITIVE[]INDIVIDUAL (what pro-
- []
+(C:\Users\granc\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+)
+(C:\Users\granc\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+)
+(C:\Users\granc\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds
+.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
 
-
-Overfull \hbox (11.85786pt too wide) in paragraph at lines 33--34
-[]\OT1/cmr/m/n/10 ISOLATION[]COMPLIANCE[]RATE[]POSITIVE[]GROUPMATE (what pro-
- []
-
-[2] [3]
-Overfull \hbox (7.52844pt too wide) in paragraph at lines 105--106
-[]\OT1/cmr/m/n/10 test false neg-a-tive rate 0.36 https://www.abc.net.au/news/2
-022-02-05/staff-
- []
-
-
-Overfull \hbox (66.223pt too wide) in paragraph at lines 106--107
-[]\OT1/cmr/m/n/10 R0 mean of Omi-cron is 9.5, delta is 5.4 https://www1.racgp.o
-rg.au/newsgp/clinical/what-
- []
-
-
-Overfull \hbox (155.52887pt too wide) in paragraph at lines 106--107
-\OT1/cmr/m/n/10 to-expect-from-a-third-omicron-wave-in-austra https://academic.
-oup.com/jtm/article/29/3/taac037/6545354 
- []
-
-[4]
-Overfull \hbox (80.69533pt too wide) in paragraph at lines 131--132
-[]\OT1/cmr/m/n/10 should help with ci-ta-tion https://www.economics.utoronto.ca
-/osborne/latex/BIBTEX.HTM 
- []
-
-
-Overfull \hbox (256.80693pt too wide) in paragraph at lines 139--140
-[]\OT1/cmr/m/n/10 Look up pa-per , redo struc-ture of doc-u-ments for repo http
-s://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424 
- []
-
-[5]
-Overfull \hbox (4.88008pt too wide) in paragraph at lines 168--169
-[]\OT1/cmr/m/n/10 TRACING[]COMPLIANCE[]RATE (what pro-por-tion of agents com-pl
-y with
- []
-
-
-Overfull \hbox (20.85788pt too wide) in paragraph at lines 174--175
-[]\OT1/cmr/m/n/10 ISOLATION[]COMPLIANCE[]RATE[]SYMPTOMATIC[]GROUPMATE (what
- []
-
-
-Overfull \hbox (14.60895pt too wide) in paragraph at lines 176--177
-[]\OT1/cmr/m/n/10 ISOLATION[]COMPLIANCE[]RATE[]POSITIVE[]CONTACTGROUPMATE
- []
-
-[6] (Honours_Robert.aux) ) 
-Here is how much of TeX's memory you used:
- 465 strings out of 478582
- 8942 string characters out of 2844344
- 306863 words of memory out of 3000000
- 18719 multiletter control sequences out of 15000+600000
- 473234 words of font info for 41 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 34i,6n,38p,486b,191s stack positions out of 10000i,1000n,20000p,200000b,80000s
- <C:\Users\granc\AppData\Local\MiKTeX\fonts/pk/ljfour
-/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/granc/AppData/Local/Programs/MiKTeX/f
-onts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/granc/AppData/Local/Programs
-/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/granc/AppData/Local/
-Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/granc/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on Honours_Robert.pdf (6 pages, 81445 bytes).
-PDF statistics:
- 46 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
-
+(C:\Users\granc\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.s
+ty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)

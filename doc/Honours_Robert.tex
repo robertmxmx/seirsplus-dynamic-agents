@@ -3,11 +3,11 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{cite}
-%\usepackage[margin=0.5in]{geometry}
+\usepackage[margin=1.5in]{geometry}
 \graphicspath{ {./images/} }
 
 \title{Agent-based models of voluntary compliance in non-pharmaceutical interventions for epidemic control}
-\author{Robert Brian Milligan and Supervised by Julian Garcia Gallego \& Buser Say}
+\author{Robert Brian Milligan, Supervised by Julian Garcia Gallego \& Buser Say}
 \date{7 July 2022}
 
 
@@ -21,8 +21,9 @@ Epidemic modelling has proven vital for understanding ways in which governments,
 \end{abstract}
 
 
+\newpage 
 
-%\tableofcontents
+\tableofcontents
 
 \newpage 
 
@@ -48,7 +49,7 @@ I have looked at applying this model to the situation of COVID-19 in a childcare
 
 The rest of this paper is organised as follows. Section 2 describes the basic model. Section 3 describes the childcare scenario and the benchmark model. Section 4 goes though and introduces the non-strategic model. Section 5 goes though the introduces the various strategic models. Section 6 goes though the results of running the models that have been created. Finally, section 7 discusses the results and future work.
 
-
+\newpage
 \section{Description of the Basic Model \label{description}}
 
 In this section I describe the basic model, for which extensions are presented. 
@@ -62,7 +63,7 @@ The model considers the states of Susceptible, Exposed, Pre-Infectious, Infectio
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1.3\textwidth]{SIR}
+\includegraphics[width=\textwidth]{SIR}
 \caption{A diagram of the existing seirplus model with its various compartments ~\cite{mcgee_2021}}
 \end{figure}
 
@@ -114,7 +115,7 @@ Density of Edges in Cohort Networks  & $0.15$ \\ \hline
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width= 12cm]{network}
+\includegraphics[width=\textwidth]{network}
 \caption{An Example Network of 100 Agents}
 \end{figure}
 
@@ -125,8 +126,8 @@ The R0 (The disease basic replication rate) of 9.5 or 5.4 may be too high as it 
 
 \begin{figure}
 \centering
-\includegraphics[width= 15cm]{Figure3}
-\includegraphics[width= 15cm]{Figure3Net}
+\includegraphics[width=\textwidth]{Figure3}
+\includegraphics[width=\textwidth]{Figure3Net}
 \caption{Benchmark Run with Unchanging Compliance at 50\% for regular twice weekly surveillance testing and testing if symptomatic with the resulting final network. 92 of the 100 agents received the infection}
 \end{figure}
 
@@ -140,9 +141,9 @@ Baseline 100\% compliance, this is where each agent when generated has a 100\% c
 
 \newpage
 
+
 \section{A Non-Strategic Behavioural Model}
 With the non-strategic model we have a fixed cost of compliance and can have varying factors that can raise it. A mix of global and local behavioural factors can be added to make an agent more compliant. In the current build these are the known positive cases in the network in the past 14 days. The proportion of contact agents (those which share an edge) which are a fatality, hospitalised or in isolation. These values are taken away from the base cost and if the result is lower from a specified value the agent will be compliant to that action, otherwise they are not.\newline
-
 
 
 \begin{figure}[h!]
@@ -151,15 +152,6 @@ With the non-strategic model we have a fixed cost of compliance and can have var
 \caption{An example simplified network showing a single agent and their close contacts}
 \end{figure}
 
-
-\begin{tabular}{|c|c|}
-\hline
-Symptomatic Testing Rate Compliance & 50\% \\ \hline
-Surveillance Testing Rate Compliance & 50\% \\ \hline
-This agent’s base aptitude & uniformly distributed (-0.1,0.1) set at 0.1 for this agent \\ \hline
-Base Cost of Compliance & 0.5 \\ \hline
-\end{tabular}
-\newline
 
 With a case where 1\% of agents in the full network have reported a positive case in the last two weeks and one of the eight close contacts an agent has are in a high risk category, the calulated compliance would be one where the agent is compliant as the result is under 0.5
 
@@ -171,10 +163,16 @@ The agent would potentially become uncompliant if the close contact in isolation
 \newline
 
 
-
-
-
 Agents are given diversity in the non-strategic model. Initially a value is generated that is used in all compliance calculations for that agent. This either biases them to be more or less compliant, for example the base attitude for an agent might be 0.1; meaning the benefit would have to be 0.1 greater than that of a completely neutral agent for them to comply. This model is used for one case where the fixed cost is set at 0.5, this model is called the Non-Strategic Minimum 50\%.  In this model each day the compliance value for an agent is updated and changes. Factors that change the agents compliance a combination of the global known positive test cases recorded in the network within the last 14 days as well as the proportion of close contacts of an agent that are either symptomatic, a fatality, hospitalised or in isolation.\newline
+
+\begin{tabular}{|c|c|}
+\hline
+Symptomatic Testing Rate Compliance & 50\% \\ \hline
+Surveillance Testing Rate Compliance & 50\% \\ \hline
+This agent’s base aptitude & uniformly distributed (-0.1,0.1) set at 0.1 for this agent \\ \hline
+Base Cost of Compliance & 0.5 \\ \hline
+\end{tabular}
+\newline
 
 
 \newpage
