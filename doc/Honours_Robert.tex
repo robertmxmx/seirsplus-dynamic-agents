@@ -53,8 +53,10 @@ The rest of this paper is organised as follows. Section 2 describes the basic mo
 
 In this section I describe the basic model, for which extensions are presented. 
 This model is an Agent Based Model (ABM). 
+The model was specifically designed to evaluate the effects of surveillance testing and partial vaccination for COVID-19.
 Agents can belong to one and only one compartment representing their state. 
-When an Agent becomes infected they progress though states ending up either in the Recovered or Fatality. The states of Susceptible, Exposed, Pre-Infectious, Infectious-Asymptomatic, Infectious-Symptomatic, Hospitalised, Fatality and Recovered exist. All these except Hospitalised and Fatality can have agents in a mirror state where they are also isolated, meaning they cannot acquire the disease or spread it to any other agents in the network. Once an agent catches the disease they move along the stages of the disease until they are a fatality or recovered, at any point they have the ability to move across to the mirror isolation state. Agents who are hospitalised, fatality or in a Quarantined state cannot pass on the disease to anyone else in the network.
+When an Agent becomes infected they progress though states ending up either in the Recovered or Fatality. 
+The model considers the states of Susceptible, Exposed, Pre-Infectious, Infectious-Asymptomatic, Infectious-Symptomatic, Hospitalised, Fatality and Recovered. All these except Hospitalised and Fatality can have agents in a mirror state where they are also isolated, meaning they cannot acquire the disease or spread it to any other agents in the network. Once an agent catches the disease they move along the stages of the disease until they are a fatality or recovered, at any point they have the ability to move across to the mirror isolation state. Agents who are hospitalised, fatality or in a Quarantined state cannot pass on the disease to anyone else in the network.
 
 
 
@@ -77,7 +79,7 @@ The version of the model we use considers a simple network, one which uses a one
 
 
 
-\subsection{Compliance in the model}
+\subsection{Compliance}
 The model uses a variety of parameters some of which relate to the compliance of actors to perform certain actions when asked. For this paper those which are relevent are those related to survilence testing, testing if showing symtoms and quarantining if receiving back a postitive test. Each day agents will be asked to do a disease test if their day has come up on a surveillance testing schedule or if they currently have a symtomatic case of the disease. However, there is a compliance value to decide if they go  through with the requested action. The base model uses more than these three compliance parameters, but they are effectivly removed by setting their compliance value to never occour. In the existing model a parameter to set and it sets a proportion of agents to allways comply and another set to never comply. This is set at the start of the simulation and never changes. In the modificiation of seirplus the model is changed so that this value is recalcualted on every day of the simulation. This is done by setting each agent with an inital compliance value in a given range. If the benefit to compliance on that given day is greater than that inital compliance value then they become compliant. \newline
 
 This leads to three systems of compliance which will be disucssed in detail in the latter sections. The default setting where agents are given an initial value for compliance and is unchanging e.g. 50\% are set to comply and they will always do so. The non strategic model where agents are given an initial compliance and can become more compliant depending on the agents view of those other agents around them and network statistics they may have access to. The strategic model where agents utilise knowledge of the amount of agents in the network who will comply to make a decision to comply or not.\newline
@@ -90,17 +92,22 @@ It should be noted the model has a few limitations. Having all agents always tes
 \newpage
 \section{Benchmark Baseline Model}
 
-A childcare scenario was chosen for a few reasons, among them are that the model works best with networks of a relatively small size of less than 200 agents. The network structure of the model can be used to reflect the dynamics that would be apparent in a child care building and parameters could be chosen to match this specific scenario.\newline
+We choose to create our benchmarks around COVID spread in childcare settings. 
+This is an interesting case, because we focus on voluntary surveillance testing, and this is exactly how the Victorian government chose to do surveillance in childcare scenarios, by providing free antigen tests for free, but allowing the community to decide whether to test or not \footnote{See more at \url{https://www.premier.vic.gov.au/supporting-families-free-rats-school}}.  
+In addition, this allows us to consider networks of relatively small size, which implies we do not need massive computational infrastructure to produce results. 
+
+
+The network structure of the model can be used to reflect the dynamics that would be apparent in a child care building and parameters could be chosen to match this specific scenario.\newline
 
 \begin{tabular}{|c|c|}
 \hline
-Parameter & Value \\ \hline
-Test False negative rate & 0.36 ~\cite{van_de_mortel_2022} \\ \hline
-R0 &  mean of Omicron is 9.5 and Delta is 5.4~\cite{liu_rocklov_2022} \\ \hline
-Number of Agents & 100\% \\ \hline
-Number of Cohorts & 5 \\ \hline
-Mean Number of Connections Betwee Cohorts  & 6 \\ \hline
-Density of Edges in Cohort Networks  & 0.15 \\ \hline
+\textbf{Parameter} & \textbf{Value} \\ \hline
+Test False negative rate (RAT) & $0.36$ as per~\cite{van_de_mortel_2022} \\ \hline
+R0 &  $9.5$ or $5.4$ as per Omicron and Delta variants respectively~\cite{liu_rocklov_2022} \\ \hline
+Number of Agents & $100$\% \\ \hline
+Number of Cohorts & $5$, typical number of rooms in a childcare setting \\ \hline
+Mean Number of Connections Between Cohorts  & $6$ \\ \hline
+Density of Edges in Cohort Networks  & $0.15$ \\ \hline
 \end{tabular}
 
 
@@ -256,14 +263,14 @@ To evaluate the result of the model, those of the baseline, non-strategic and st
 
 \section{Discussion}
 
-\subsection{Analysis of Percentage of Infected Agents}
+\subsection{Analysis of total infection size}
 
 Each of the models was run over 4 different R0 virus base reproduction rates. The higher the Disease R0 the more infectious it is. The Improvement the models had over the base 50\% compliance baseline saw an improvement from -5\% at the high R0 values to 17\% at the low R0 values. The non-strategic model was found to be the most effective in reducing the number of infected agents throughout the R0 values of 2 (16\%), 3 (6\%) and 5.4 (0\%) but by 9.5, the strategic community size model was found to be more effective with a 4\% reduction of disease spread (figure 11). This could be a result of the non-strategic model taking into account both the global spread of the disease in the network as well as the current compartment / state of close contacts impacting compliance. In the case of an extremely high R0 values the strategic community size model was most effective.  This model only considers the number of close contacts an agent has when deciding if they are compliant or not. This could be the case as it forces those most central agents to be compliant. Therefore, they are not able to spread the disease far across the network, forcing it to stay more localised where it has the opportunity to die out before it becomes an epidemic in the network.\newline 
 
-The models were likely more effective on the lower R0 values as the agents have more time to choose to be compliant. As the disease spreads slower though the system, there is more time for compliant agents to go through a run of surveillance testing and potentially isolate before they have infected many other individuals. With extremely high R0 numbers it is observed that the non-strategic and strategic behavioural model have little effect on the total number infected (i.e. all having <5\% improvement). 
+The models were likely more effective on the lower R0 values as the agents have more time to choose to be compliant. As the disease spreads slower though the system, there is more time for compliant agents to go through a run of surveillance testing and potentially isolate before they have infected many other individuals. With extremely high R0 numbers it is observed that the non-strategic and strategic behavioural model have little effect on the total number infected (i.e. all having $< 5$\% improvement). 
 
 
-\subsection{Analysis of Time Disease Took to Stop spreading}
+\subsection{Analysis of Epidemic Duration}
 
 Regarding the days the simulation took before disease spread stopped, it was found that the strategic models particularly at the lower R0 values of 2 and 3 saw significant improvement over the 50\% baseline tests. This is interesting as while similar percentages of agents were infected, the time it took for the disease to die out was less, suggesting the disease spread through the network faster but ultimately had about the same proportion of agents who ended up getting the disease.\newline 
 
