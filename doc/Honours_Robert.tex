@@ -3,7 +3,7 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{cite}
-\usepackage[margin=1.4in]{geometry}
+\usepackage[margin=1.35in]{geometry}
 \graphicspath{ {./images/} }
 
 \title{Agent-based models of voluntary compliance in non-pharmaceutical interventions for epidemic control}
@@ -17,8 +17,9 @@
 \maketitle
 
 \begin{abstract}
-Epidemic modelling has proven vital for understanding ways in which governments, workplaces and other decisions makers seek to control the spread of COVID-19. Although many computational models of disease spread exist, few consider human behaviour explicitly. In this paper, we extend an agent based network model to account for ways in which agents can comply with voluntary non-pharmaceutical interventions. We investigate non-strategic and strategic models of agent compliance and find that the lower the natural reproduction rate of the disease, the higher the chance of achieving success with voluntary non-pharmaceutical interventions. For high R0 values, the best results were found when the choice of compliance is based on the number of close contacts an individual has. Whereas for lower R0 values, the best results were found when choice of compliance related to agents considering the number of higher risk close contacts they have. Higher risk in his case referred to agents who were symptomatic, hospitalised, fatality or in quarantine. In short, voluntary non-pharmaceutical interventions work best when R0 is relatively low.
+Epidemic modelling has proven vital for understanding ways in which governments, workplaces and other decisions makers seek to control the spread of COVID-19. Although many computational models of disease spread exist, few consider human behaviour explicitly. In this paper, we extend an agent based network model to account for ways in which agents can comply with voluntary non-pharmaceutical interventions. We investigate non-strategic and strategic models of agent compliance and find that the lower the natural reproduction rate of the disease, the higher the chance of achieving success with voluntary non-pharmaceutical interventions. For high R0 values, the best results found were when the choice of compliance is based on the number of close contacts an individual has. Whereas for lower R0 values, the best found results were when choice of compliance related to agents considering the number of higher risk close contacts they have. Higher risk in his case referred to agents who were symptomatic, hospitalised, fatality or in quarantine. In short, voluntary non-pharmaceutical interventions work best when R0 is relatively low.
 \end{abstract}
+
 
 
 
@@ -43,15 +44,15 @@ When solving these models mathematically, numerical solutions can be found with 
 When agent heterogeneity is important, as it is the case in this paper, agent based models are a popular choice. 
 These models typically have a finite number of agents which interact with each other in some manner and can add greater granularity to the model.
 Moreover, these models can allow for agents to be heterogeneous with their personal attributes.\newline
+
 Most epidemiological models do not incorporate behavioural elements, or if they do, they do it in simple ways such as compartmental models that incorporate "aggregate states". One such example is Karaivanov 2020 ~\cite{karaivanov_2020}. This paper considers six different behavioural scenarios that would change based on the time of the simulation or having a certain threshold of positive test, positive cases or deaths per day.\newline
 
 This paper investigates the extension of an existing model disease spread produced by Ryan McGee and used as a part of various peer reviewed research articles ~\cite{mcgee_homburger_williams_bergstrom_zhou_2021,mcgee_homburger_williams_bergstrom_zhou_2021_2}. 
-We have applied this model to simulate COVID-19 in a childcare setting and extended this model with the addition compliance of agents to be controlled with non strategic and strategic behavioural choice models. Specifically, we model the behaviour of agents in terms of their compliance to the voluntary surveillance testing and additional testing if an agent shows symptoms. \newline
+We have applied this model to simulate COVID-19 in a childcare setting and extended this model with the addition that the compliance of agents is controlled with non strategic and strategic behavioural choice models. Specifically, we model the behaviour of agents in terms of their compliance to the voluntary surveillance testing and additional testing if an agent shows symptoms. \newline
 
-The non strategic model gives agents a fixed cost of compliance to perform requested actions with each individual calculating a perceived reward. This reward is based on a mix of local conditions such as if they are in close contact with an agent who has a symptomatic case of the disease, and a global situation such as the percentage of the group that have reported a positive test within the last two weeks. The strategic model considers agents which know how all other agents will act and use this information to help them decide if it in their interest to comply. This incorporates a cost of compliance, a reward as well as a minimum number of agents who need to be compliant to see a reward for the group. Both these models are compared to a baseline model and ran over a series of four different R0 values (The disease basic replication rate).  \newline
+The non strategic model gives agents a fixed cost of compliance to perform requested actions with each individual calculating a perceived reward. A mix of local conditions determine the reward such as if the agent has a close contact who has a symptomatic case of the disease, and a global situation such as the percentage of the group that have reported a positive test within the last two weeks. The strategic model considers agents which know how all other agents will act and use this information to help them decide if it in their interest to comply. This incorporates a cost of compliance, a reward as well as a minimum number of agents who need to be compliant to see a reward for the group. Both these models are compared to a baseline model and ran over a series of four different R0 values (The disease basic replication rate). \newline
 
-The rest of this paper is organised as follows. Section 2 describes the basic model. Section 3 describes the base benchmark model. Section 4 introduces the non-strategic model. Section 5 introduces the various strategic models. Section 6 shows the results of running the models. Finally, section 7 discusses the results and future work.
-
+The rest of this paper is organised as follows. Section 2 describes the base model. Section 3 describes the base benchmark model. Section 4 introduces the non-strategic model. Section 5 introduces the various strategic models. Section 6 shows the results of running the models. Finally, section 7 discusses the results and future work.
 
 
 
@@ -184,8 +185,7 @@ Agents are given diversity in the non-strategic model. Initially a value is gene
 \hline
 Symptomatic Testing Rate Compliance & 50\% \\ \hline
 Surveillance Testing Rate Compliance & 50\% \\ \hline
-This agent’s base aptitude & uniformly distributed (-0.1,0.1) \\ 
-&  set at 0.1 for this agent\\ \hline
+This agent’s base aptitude & 0.1, and is uniformly distributed from (-0.1,0.1) \\ \hline
 Base Cost of Compliance & 0.5 \\ \hline
 \end{tabular}
 \newline
@@ -231,22 +231,35 @@ On the other hand, the chart on the right has two points of compliance at 0 and 
 
 \section{Results}
 
-To evaluate the result of the three broad model types, we look at two key parameters, the percentage of agents that contracted the disease and the number of days that elapsed until zero agents were infectious.  In this model two states of compliance are considered, If an agent is compliant they will perform semi-weekly surveillance testing in addition to testing whenever they develop a symptomatic case of the disease, If they are not compliant they will do neither of these actions. All agents will always isolate immediately after receiving a positive test result. The results of these models are computed from 50 separate runs for each, model/R0 combination. \newline
+In this section, we report the results of our computational experiments where we evaluate the effect of the three broad model types. We investigate the models effect on two key measures, the percentage of agents that contracted the disease and the number of days that elapsed until zero agents were infectious.  In this model two states of compliance are considered. If an agent is compliant they will perform semi-weekly surveillance testing in addition to testing whenever they develop a symptomatic case of the disease. If the agent is not compliant they will do neither of these actions. All agents will always isolate immediately after receiving a positive test result. The results of these models are computed from 50 separate runs for each, model and R0 combination. \newline
 
-Six models are compared made up of three broad types, these include the two baselines, one non-strategic and three strategic models. The baselines are where agents have a probability to be complaint initially and do not change from the initially set value. Baselines of 50\% and 100\% are used. The non-strategic minimum 50\% model makes agents compare the benefits of compliance with a fixed cost. Perceived benefit is a combination of the 14 day positive case rate and proportion of high agents who are close contacts. The three strategic models use a strategic Stag Hunt Game where agents consider the cost, benefit and the proportion of agents who need to be compliant for the benefit to occur. The strategic models differ with how the perceived benefit for each agent is calculation. Strategic community size considered how many close contacts an agent has, Strategic local state considers how many agent’s close contacts are in a higher risk state and Strategic global state considers how many agents in the entire network are in a higher risk state.
+We compared six models are which consist of three broad types, these include the two baselines, one non-strategic and three strategic models. The baselines are where agents have a probability to be complaint initially and do not change from the initially set value. Baselines of 50\% and 100\% are used. The non-strategic minimum 50\% model makes agents compare the benefits of compliance with a fixed cost. Perceived benefit is a combination of the 14 day positive case rate and proportion of high agents who are close contacts. The three strategic models use a strategic Stag Hunt Game where agents consider the cost, benefit and the proportion of agents who need to be compliant for the benefit to occur. The strategic models differ with how the perceived benefit for each agent is calculation. Strategic community size considered how many close contacts an agent has, Strategic local state considers how many agent’s close contacts are in a higher risk state and Strategic global state considers how many agents in the entire network are in a higher risk state. A summery of the six models are shown in the table bellow. \newline
+
+\begin{tabular}{|c|c|}
+\hline
+Model & Explaination \\ \hline
+50\% baseline & half of agents are set to always comply \\ \hline
+100\% baselinel & all agents are set to always comply \\ \hline
+Non-Strategic Model & decision to comply is based on\\ 
+ & a global known number of positive cases\\
+ & and a local proportion of higher risk close contacts\\\hline
+Stratgeic community size & number of close contracts\\\hline
+Stratgeic local state & number of higher risk close contacts \\\hline
+Stratgeic global state & number of higher risk agents in network\\ \hline
+\end{tabular}
 
 \newpage
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{5}
-\caption{Test Results over R0 of 2. Stategic Local State interestingly had the greatest overall range in infected agents but also its mean was the lowest.}
+\caption{Test Results over R0 of 2. Strategic Local State had the greatest overall range in infected agents but also its mean was the lowest.}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{4}
-\caption{Test Results over R0 of 3. Interestingly the Non Stategic model achived a lower infected rate than all of the strategic model types.}
+\caption{Test Results over R0 of 3. The Non Strategic model achieved a lower infected rate than all of the strategic model types.}
 \end{figure}
 
 \newpage
@@ -254,7 +267,7 @@ Six models are compared made up of three broad types, these include the two base
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{3}
-\caption{Test Results over R0 of 5.4 (Delta). Interestingly the Stategic Local state performed significantly worse than all other models}
+\caption{Test Results over R0 of 5.4 (Delta). The Strategic Local state performed significantly worse than all other models}
 \end{figure}
 
 \begin{figure}[h!]
@@ -267,13 +280,13 @@ Six models are compared made up of three broad types, these include the two base
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{6}
-\caption{Test Results over all R0 values at 100\% Compliance. With everyone complying at a R0 of 9.5 testing and isolation has little effect on stopping disease spread.}
+\caption{Test Results over all R0 values at 100\% Compliance. Testing and isolation has little effect on stopping disease spread with everyone complying at a R0 of 9.5 .}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{1}
-\caption{Test Results Comparing the Results of R0 values. There is an overall trend that the greatest improvments over the baseline are found the lower the R0 value is.}
+\caption{Test Results Comparing the Results of R0 values. There is an overall trend that the greatest improvements over the baseline are found the lower the R0 value is.}
 \end{figure}
 \newpage
 
@@ -282,23 +295,21 @@ Six models are compared made up of three broad types, these include the two base
 
 \subsection{Analysis of total infection size}
 
-Each of the models was run over 4 different R0 virus base reproduction rates. The higher the Disease R0 the more infectious it is. The Improvement the models had over the base 50\% compliance baseline saw an improvement from -5\% at the high R0 values to 17\% at the low R0 values. The non-strategic model was found to be the most effective in reducing the number of infected agents throughout the R0 values of 2 (16\%), 3 (6\%) and 5.4 (0\%) but by 9.5, the strategic community size model was found to be more effective with a 4\% reduction of disease spread (figure 11). This could be a result of the non-strategic model taking into account both the global spread of the disease in the network as well as the current compartment / state of close contacts impacting compliance. In the case of an extremely high R0 values the strategic community size model was most effective.  This model only considers the number of close contacts an agent has when deciding if they are compliant or not. This could be the case as it forces those most central agents to be compliant. Therefore, they are not able to spread the disease far across the network, forcing it to stay more localised where it has the opportunity to die out before it becomes an epidemic in the network.\newline 
+In this section, we analyse the total percentage of agents that became infected in a run of the disease. Each of the models was run over 4 different R0 virus base reproduction rates. The higher the Disease R0 the more infectious it is. Inspection of figure 11 shows the base 50\% compliance baseline saw an improvement from -5\% at the high R0 values to 17\% at the low R0 values. The non-strategic model was found to be the most effective in reducing the number of infected agents throughout the R0 values of 2 (16\%), 3 (6\%) and 5.4 (0\%) but by 9.5, the strategic community size model was found to be more effective with a 4\% reduction of disease spread (figure 11). This could be a result of the non-strategic model taking into account both the global spread of the disease in the network as well as the current compartment / state of close contacts impacting compliance. In the case of an extremely high R0 values the strategic community size model was most effective.  This model only considers the number of close contacts an agent has when deciding if they are compliant or not. This could be the case as it forces those most central agents to be compliant. Therefore, they are not able to spread the disease far across the network, forcing it to stay more localised where it has the opportunity to die out before it becomes an epidemic in the network.\newline 
 
 The models were likely more effective on the lower R0 values as the agents have more time to choose to be compliant. As the disease spreads slower though the system, there is more time for compliant agents to go through a run of surveillance testing and potentially isolate before they have infected many other individuals. With extremely high R0 numbers it is observed that the non-strategic and strategic behavioural model have little effect on the total number infected (i.e. all having $< 5$\% improvement). \newline 
 
-The models which allow agents compliance to change had the most improvement when the R0 was 2. Specifically the baseline had a median of 16.5\% infected and Strategic Local State had a median of 9\%infected (figure 6). In comparison the model which used a baseline of 100\% saw the greatest difference with an R0 of 3. The 50\% baseline had a median of 73\% infected (figure 7) while with the 100\% baseline it was 13.5\% (figure 10). This suggests that with a R0 of 3 and greater, agents do not have enough time to choose to be compliant and see the maximum benefits of surveillance and symptomatic case testing. However of the methods of voluntary compliance with the R0 of 3, the best at reducing infected agents was the non strategic minimum 50\%. This suggests with moderate disease spread levels, agents that rely on a combination of the local and global situation are better at lowering the spread of the disease in the network. \newline
+The models which allow agents compliance to change had the most improvement when the R0 was 2. Specifically as seen in figure 6, the baseline had a median of 16.5\% infected and Strategic Local State had a median of 9\%infected. In comparison the model which used a baseline of 100\% saw the greatest difference with an R0 of 3. Figure 7 shows the 50\% baseline had a median of 73\% infected while with the 100\% baseline it was 13.5\% as seen in figure 10. This suggests that with a R0 of 3 and greater, agents do not have enough time to choose to be compliant and see the maximum benefits of surveillance and symptomatic case testing. However of the methods of voluntary compliance with the R0 of 3, the best at reducing infected agents was the non strategic minimum 50\%. This suggests with moderate disease spread levels, agents that rely on a combination of the local and global situation are better at lowering the spread of the disease in the network. \newline
 \newpage
 
 \subsection{Analysis of Epidemic Duration}
+In this section, we analysse the number of days the disease took to stop spreading in the network when no agents are infectious. We found that the strategic models particularly at the lower R0 values of 2 and 3 saw significant improvement over the 50\% baseline tests, Regarding the days the simulation took before disease spread stopped. This is interesting as while similar percentages of agents were infected, the time it took for the disease to die out was less, suggesting the disease spread through the network faster but ultimately had about the same proportion of agents who ended up getting the disease.\newline 
 
-Regarding the days the simulation took before disease spread stopped, it was found that the strategic models particularly at the lower R0 values of 2 and 3 saw significant improvement over the 50\% baseline tests. This is interesting as while similar percentages of agents were infected, the time it took for the disease to die out was less, suggesting the disease spread through the network faster but ultimately had about the same proportion of agents who ended up getting the disease.\newline 
-
-Notably the case of Strategic Local State where agents use the number of agents around them who are in a high risk state to decide if they are compliant fared the worst at a disease R0 value of 9.5 having a 2\% increase in infected agents and it taking 6\% longer for the disease to stop spreading (figure 11). This would suggest that agents who based decisions about if to test based solely on how their close contacts are faring is not a good approach at reducing the spread of disease and more global measures or measures that rely on how central a person is in their network of close contacts are more effective. \newline 
+Notably the case of Strategic Local State where agents use the number of agents around them who are in a high risk state to decide if they are compliant fared the worst at a disease R0 value of 9.5 as can be seen in figure 11, having a 2\% increase in infected agents and it taking 6\% longer for the disease to stop spreading. This would suggest that agents who based decisions about if to test based solely on how their close contacts are faring is not a good approach at reducing the spread of disease and more global measures or measures that rely on how central a person is in their network of close contacts are more effective. \newline 
 
 
 \subsection{Future Work and Conclusion}
-
-There are a few areas in which future work could be conducted, some areas would include; Modifying the model to allow for vaccinated agents, as this would more accurately mirror the real world situation we now have with a vaccinated population. Creating a network which assigns the agents ages which would have an impact on various parts of the model such as disease test false negative rates, hospitalisation and fatality rates as well as potentially R0 values for the specific agents. This would create a more accurate simulation as the false negative rate for rapid tests varies significantly with age and for the purposes of this paper the disease and testing parameters for infants / young children were applied to everyone. Furthermore, the models could be expanded by forcing all or sections of the network to enter quarantine for a period of time under certain conditions, to control spread in the network. This would be able to simulate the day-care closing for a period of time due to a very high spread of the disease. \newline 
+In this section we disucss potential areas of future work and conclude this paper. There are a few areas in which future work could be conducted, some areas would include; Modifying the model to allow for vaccinated agents, as this would more accurately mirror the real world situation we now have with a vaccinated population. Creating a network which assigns the agents ages which would have an impact on various parts of the model such as disease test false negative rates, hospitalisation and fatality rates as well as potentially R0 values for the specific agents. This would create a more accurate simulation as the false negative rate for rapid tests varies significantly with age and for the purposes of this paper the disease and testing parameters for infants / young children were applied to everyone. Furthermore, the models could be expanded by forcing all or sections of the network to enter quarantine for a period of time under certain conditions, to control spread in the network. This would be able to simulate the day-care closing for a period of time due to a very high spread of the disease. \newline 
 
 Overall, the faster the disease spreads though the network the less effective non pharmaceutical interventions such as surveillance testing is. Moreover, models which allow agents’ compliance to change over time experience this to a greater effect. This suggests relying on non pharmaceutical  interventions alone is not very effective when a disease spreads rapidly. Other non pharmaceutical  interventions which do not rely on voluntary compliance may have to be relied on. For the childcare setting of this network it may involve closing off an entire cohort of the network preventing agents in that cohort from visiting the childcare and potentially spreading the disease to others. Interventions such as this could be explored in future work and its effectiveness compared to purely voluntary non pharmaceutical interventions.
 
