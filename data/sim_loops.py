@@ -865,8 +865,7 @@ def run_tti_sim(model, T, max_dt=None,
     matplotlib.pyplot.fill_between(day_list, yes, total, color='red')
     matplotlib.pyplot.ylabel("agents")
     matplotlib.pyplot.xlabel("day")
-
-    matplotlib.pyplot.savefig(save_folder + "/compliance_regular_testing.png")
+    matplotlib.pyplot.savefig(save_folder + "/compliance_regular_testing.png", dpi = 600)
 
     #matplotlib.pyplot.show()
     #matplotlib.pyplot.clear()
@@ -919,7 +918,7 @@ def record_model(model, time, save_folder):
     G = 1
 
     matplotlib.pyplot.legend(scatterpoints=1)
-    matplotlib.pyplot.savefig(save_folder + "/" + str(time) + ".png")
+    matplotlib.pyplot.savefig(save_folder + "/" + str(time) + ".png", dpi = 600)
     matplotlib.pyplot.cla()
     # matplotlib.pyplot.show()
     # print(model.G.nodes)

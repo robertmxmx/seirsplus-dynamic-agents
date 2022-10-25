@@ -55,7 +55,7 @@ for i in range(1):
     PCT_HOSPITALIZED = 0.035
     PCT_FATALITY = 0.001
 
-    R0_mean     = 9.5 # 9.5 is omicron  , 5.4 is delta,
+    R0_mean     = 3 # 9.5 is omicron  , 5.4 is delta,
     R0_coeffvar = 0.2
     R0 = gamma_dist(R0_mean, R0_coeffvar, N)
 
@@ -90,8 +90,8 @@ for i in range(1):
     ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACT           = -10
     ISOLATION_COMPLIANCE_RATE_POSITIVE_CONTACTGROUPMATE  = -10
 
-    Use_Behavioural_Model_Bool = False
-    Use_Structural_Strategic_Bool = True
+    Use_Behavioural_Model_Bool = True
+    Use_Structural_Strategic_Bool = False
     Use_Global_Rate_Strategic_Bool = False
     Use_Local_State_Strategic_Bool = False
     Use_Global_State_Strategic_Bool = False
@@ -109,7 +109,7 @@ for i in range(1):
     T = 500
     isolation_groups = list(teams.values())
 
-    bool_produce_image = False
+    bool_produce_image = True
 
     date_time = str(datetime.datetime.today())
     date_time = date_time.replace(" ","-")

@@ -291,7 +291,6 @@ class SEIRSModel():
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if(not ax):
             fig, ax = pyplot.subplots()
-
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Prepare data series to be plotted:
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -430,12 +429,12 @@ class SEIRSModel():
             ax.set_yticklabels(['{:,.0%}'.format(y) for y in ax.get_yticks()])
         if(legend):
             legend_handles, legend_labels = ax.get_legend_handles_labels()
-            ax.legend(legend_handles[::-1], legend_labels[::-1], loc='upper right', facecolor='white', edgecolor='none', framealpha=0.9, prop={'size': 8})
+            ax.legend(legend_handles[::-1], legend_labels[::-1], loc='upper right', facecolor='white', edgecolor='none', framealpha=0.9, prop={'size': 20})
         if(title):
-            ax.set_title(title, size=12)
+            ax.set_title(title, size=20)
         if(side_title):
             ax.annotate(side_title, (0, 0.5), xytext=(-45, 0), ha='right', va='center',
-                size=12, rotation=90, xycoords='axes fraction', textcoords='offset points')
+                size=30, rotation=90, xycoords='axes fraction', textcoords='offset points')
        
         return ax
 
@@ -3217,7 +3216,7 @@ class ExtSEIRSNetworkModel():
                         ylim=ylim, xlim=xlim, legend=legend, title=title, side_title=side_title, plot_percentages=plot_percentages)
 
         if(show):
-            pyplot.savefig(save_folder + "\chart6.png") #saves the chart in the output folder
+            pyplot.savefig(save_folder + "\chart6.png",  dpi = 600) #saves the chart in the output folder
             pyplot.show()
 
         return fig, ax
