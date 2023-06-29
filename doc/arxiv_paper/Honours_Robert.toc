@@ -1,0 +1,13 @@
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {section}{\numberline {2}Description of the Base Model }{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Network Based Model}{5}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Compliance}{6}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Benchmark Baseline Model}{7}{section.3}%
+\contentsline {section}{\numberline {4}A Non-Strategic Behavioural Model}{10}{section.4}%
+\contentsline {section}{\numberline {5}A Strategic Behavioural Model}{11}{section.5}%
+\contentsline {section}{\numberline {6}Results}{12}{section.6}%
+\contentsline {section}{\numberline {7}Discussion}{16}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Analysis of total infection size}{16}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Analysis of Epidemic Duration}{17}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Future Work and Conclusion}{17}{subsection.7.3}%
+\contentsline {section}{\numberline {A}Appendix}{19}{appendix.A}%
